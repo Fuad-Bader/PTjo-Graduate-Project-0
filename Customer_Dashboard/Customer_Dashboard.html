@@ -69,77 +69,96 @@
     <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
         <div class="container flex justify-between items-center h-20">
             <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
-
-                <div class="relative">
-                    <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                        <span data-i18n="nav.products">Products</span>
-                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            <div class="hidden md:flex items-center space-x-4">
+                <div class="relative z-[60]" id="customer-notif-wrap">
+                    <button type="button" onclick="toggleCustomerNotifs()"
+                      class="relative flex items-center justify-center w-9 h-9 rounded-xl
+                             bg-gray-700/50 border border-gray-600/40 hover:bg-gray-700
+                             text-gray-400 hover:text-white transition-all duration-200">
+                      <i class="fas fa-bell text-sm"></i>
+                      <span id="customer-notif-badge"
+                        class="hidden absolute -top-1 -right-1 min-w-[1rem] h-4 px-0.5 bg-red-500
+                               rounded-full text-white text-[9px] font-bold
+                               flex items-center justify-center">0</span>
                     </button>
-                    <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                        <a href="Customer_Dashboard.html?service=network" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span class="dropdown-title" data-i18n="nav.network">Network Testing</span></a>
-                        <a href="Customer_Dashboard.html?service=ad" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span class="dropdown-title" data-i18n="nav.ad">Active Directory</span></a>
-                        <a href="Customer_Dashboard.html?service=cloud" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span class="dropdown-title" data-i18n="nav.cloud">Cloud Testing</span></a>
-                        <div class="h-px bg-gray-700 my-1"></div>
-                        <a href="Customer_Dashboard.html?service=webapp" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span class="dropdown-title" data-i18n="nav.webapp">Web App</span></a>
-                        <a href="Customer_Dashboard.html?service=mobile" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span class="dropdown-title" data-i18n="nav.mobile">Mobile App</span></a>
-                        <a href="Customer_Dashboard.html?service=api" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span class="dropdown-title" data-i18n="nav.api">API Testing</span></a>
-                        <a href="Customer_Dashboard.html?service=iot" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span class="dropdown-title" data-i18n="nav.iot">IoT Testing</span></a>
+                    <div id="customer-notif-dropdown"
+                      class="hidden absolute right-0 mt-2 w-80 bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl z-50 overflow-hidden">
+                      <div class="px-4 py-3 border-b border-gray-700 flex items-center justify-between">
+                        <span class="font-bold text-white text-sm">Notifications</span>
+                        <button type="button" onclick="markCustomerNotifsRead()" class="text-xs text-teal-400 hover:text-teal-300 font-semibold">Mark all read</button>
+                      </div>
+                      <div id="customer-notif-list" class="max-h-72 overflow-y-auto"></div>
                     </div>
                 </div>
-
-                <div class="relative">
-                    <button id="dropdown-toggle-industries" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                        Industries
-                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                        <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span class="dropdown-title">All Industries</span></a>
-                        <div class="h-px bg-gray-700 my-1"></div>
-                        <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span class="dropdown-title">Finance</span></a>
-                        <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span class="dropdown-title">Healthcare</span></a>
-                        <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span class="dropdown-title">Retail</span></a>
-                        <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span class="dropdown-title">Technology</span></a>
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-4 ml-4">
-                    <div class="relative z-[60]" id="customer-notif-wrap">
-                        <button type="button" onclick="toggleCustomerNotifs()"
-                          class="relative flex items-center justify-center w-9 h-9 rounded-xl
-                                 bg-gray-700/50 border border-gray-600/40 hover:bg-gray-700
-                                 text-gray-400 hover:text-white transition-all duration-200">
-                          <i class="fas fa-bell text-sm"></i>
-                          <span id="customer-notif-badge"
-                            class="hidden absolute -top-1 -right-1 min-w-[1rem] h-4 px-0.5 bg-red-500
-                                   rounded-full text-white text-[9px] font-bold
-                                   flex items-center justify-center">0</span>
-                        </button>
-                        <div id="customer-notif-dropdown"
-                          class="hidden absolute right-0 mt-2 w-80 bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl z-50 overflow-hidden">
-                          <div class="px-4 py-3 border-b border-gray-700 flex items-center justify-between">
-                            <span class="font-bold text-white text-sm">Notifications</span>
-                            <button type="button" onclick="markCustomerNotifsRead()" class="text-xs text-teal-400 hover:text-teal-300 font-semibold">Mark all read</button>
-                          </div>
-                          <div id="customer-notif-list" class="max-h-72 overflow-y-auto"></div>
-                        </div>
-                    </div>
-                    <a href="../Settings/Settings.html"
-                       class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
-                       title="Settings">
-                        <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
-                        <span data-i18n="nav.settings">Settings</span>
-                    </a>
-                    <a id="nav-hacker-btn" href="../SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.hacker-login">Log In as Hacker</span></a>
-                    <a href="../My_ProfileCustomer/MyProfileC.html" class="flex items-center gap-2.5 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl px-4 py-2 font-semibold text-sm group">
-                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=Abdulrahman&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
-                        <span data-i18n="nav.my-profile">My Profile</span>
-                    </a>
-                </div>
+                <a href="../Settings/Settings.html"
+                   class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
+                   title="Settings">
+                    <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
+                    <span data-i18n="nav.settings">Settings</span>
+                </a>
+                <a id="nav-profile-btn" href="../My_ProfileCustomer/MyProfileC.html" class="flex items-center gap-2.5 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl px-4 py-2 font-semibold text-sm group">
+                    <img id="nav-customer-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=C&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
+                    <span data-i18n="nav.my-profile">My Profile</span>
+                </a>
+                <button id="nav-logout-btn" onclick="PTJO.logout()" class="text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5"><i class="fas fa-sign-out-alt"></i>Log Out</button>
             </div>
         </div>
     </nav>
+
+    <!-- ─── My Bounties View (default) ─────────────────────────────────────── -->
+    <section id="my-bounties-section" class="py-12">
+        <div class="container">
+            <div class="flex items-center justify-between gap-4 mb-8 flex-wrap">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-white">My Security Bounties</h1>
+                    <p class="text-gray-400 mt-1 text-sm">Track your active engagements and posted bounties.</p>
+                </div>
+                <button onclick="showNewBountyForm()" class="btn btn-primary flex items-center gap-2">
+                    <i class="fas fa-plus"></i> Post New Bounty
+                </button>
+            </div>
+            <!-- Loading -->
+            <div id="my-bounties-loading" class="text-center py-16">
+                <div class="spin inline-block w-8 h-8 border-2 border-teal-500 border-t-transparent rounded-full mb-3"></div>
+                <p class="text-gray-500 text-sm">Loading your bounties…</p>
+            </div>
+            <!-- Empty state -->
+            <div id="my-bounties-empty" class="hidden text-center py-16">
+                <div class="w-16 h-16 bg-teal-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-teal-500/20">
+                    <i class="fas fa-shield-halved text-2xl text-teal-400"></i>
+                </div>
+                <h3 class="text-white font-bold text-lg mb-2">No bounties yet</h3>
+                <p class="text-gray-400 text-sm mb-6">Post your first security bounty to get matched with a certified pentester.</p>
+                <button onclick="showNewBountyForm()" class="btn btn-primary">
+                    <i class="fas fa-plus mr-2"></i>Post New Bounty
+                </button>
+            </div>
+            <!-- Bounty cards -->
+            <div id="my-bounties-list" class="hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+        </div>
+    </section>
+
+    <!-- Vulnerability reports from hackers -->
+    <section id="customer-reports-section" class="py-10 border-b border-gray-800 hidden">
+        <div class="container">
+            <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+                <h2 class="text-xl font-extrabold text-white">Vulnerability Reports</h2>
+                <p class="text-xs text-gray-500">Reports submitted by your assigned pentesters appear here.</p>
+            </div>
+            <div id="customer-reports-list" class="flex flex-col gap-4"></div>
+        </div>
+    </section>
+
+    <!-- ─── New Bounty Wrapper (hidden by default) ───────────────────────────── -->
+    <div id="new-bounty-wrapper" class="hidden">
+
+    <div class="bg-gray-900 border-b border-gray-800 py-3">
+        <div class="container">
+            <button onclick="showMyBounties()" class="text-sm text-gray-400 hover:text-teal-400 transition-colors flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Back to My Bounties
+            </button>
+        </div>
+    </div>
 
     <!-- Page Header -->
     <header class="bg-gray-900 pt-14 pb-10 border-b border-gray-800">
@@ -172,17 +191,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Submitted vulnerability reports (localStorage demo) -->
-    <section id="customer-reports-section" class="py-10 border-b border-gray-800 hidden">
-        <div class="container">
-            <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-                <h2 class="text-xl font-extrabold text-white">Your vulnerability reports</h2>
-                <p class="text-xs text-gray-500">Reports submitted by your assigned pentesters appear here.</p>
-            </div>
-            <div id="customer-reports-list" class="flex flex-col gap-4"></div>
-        </div>
-    </section>
 
     <!-- ─────────────────────────── STEP 1: Configure ─────────────────────────── -->
     <section id="step1-section" class="py-16">
@@ -424,9 +432,9 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="../index.html" class="btn btn-secondary flex-1 text-center flex items-center justify-center gap-2">
-                        <i class="fas fa-home"></i> <span data-i18n="dash.back-home">Back to Home</span>
-                    </a>
+                    <button onclick="showMyBounties()" class="btn btn-secondary flex-1 flex items-center justify-center gap-2">
+                        <i class="fas fa-list"></i> <span>View My Bounties</span>
+                    </button>
                     <button onclick="postAnother()" class="btn btn-primary flex-1 flex items-center justify-center gap-2">
                         <i class="fas fa-plus"></i> <span data-i18n="dash.post-another">Post Another Bounty</span>
                     </button>
@@ -435,11 +443,118 @@
         </div>
     </section>
 
+    </div><!-- /#new-bounty-wrapper -->
+
     <!-- ─────────────────────────── Pentester Profile Modal ─────────────────────────── -->
     <div id="profile-modal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-gray-900 border border-gray-700 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
             <div id="profile-content"></div>
         </div>
+    </div>
+
+    <!-- ─── Bounty Detail / Applicants / Edit Modal ─────────────────────────── -->
+    <div id="bounty-detail-modal" class="hidden fixed inset-0 z-[300] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gray-900 px-6 py-4 border-b border-gray-700 flex items-center justify-between flex-shrink-0">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center flex-shrink-0">
+              <i id="bd-icon" class="fas fa-shield-halved text-teal-400"></i>
+            </div>
+            <div class="min-w-0">
+              <h2 id="bd-title" class="text-white font-extrabold text-sm leading-tight truncate">Bounty</h2>
+              <p id="bd-id" class="text-gray-500 text-xs font-mono mt-0.5 truncate"></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <span id="bd-status" class="text-[10px] px-2.5 py-1 rounded-full font-bold border"></span>
+            <button type="button" onclick="closeBountyDetail()" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-white hover:bg-gray-700 transition-all"><i class="fas fa-xmark text-sm"></i></button>
+          </div>
+        </div>
+
+        <div class="overflow-y-auto flex-1">
+          <!-- VIEW MODE -->
+          <div id="bd-view" class="px-6 py-6 space-y-6">
+            <div>
+              <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Job Description</p>
+              <div id="bd-scope" class="bg-gray-900/50 border border-gray-700 rounded-xl px-4 py-3 text-gray-300 text-sm leading-relaxed whitespace-pre-wrap"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div class="bg-gray-900/50 rounded-xl p-3">
+                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-1">Budget</p>
+                <p id="bd-budget" class="text-white font-bold text-sm"></p>
+              </div>
+              <div class="bg-gray-900/50 rounded-xl p-3">
+                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-1">Deadline</p>
+                <p id="bd-deadline" class="text-white font-bold text-sm"></p>
+              </div>
+              <div class="bg-gray-900/50 rounded-xl p-3">
+                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-1">Priority</p>
+                <p id="bd-priority" class="text-white font-bold text-sm"></p>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3"><i class="fas fa-users mr-1.5"></i>Applicants (<span id="bd-applicant-count">0</span>)</p>
+              <div id="bd-applicants-loading" class="text-center py-8 text-gray-500 text-sm">
+                <div class="spin inline-block w-6 h-6 border-2 border-teal-500 border-t-transparent rounded-full mb-2"></div>
+                <p>Loading applicants…</p>
+              </div>
+              <div id="bd-applicants-empty" class="hidden text-center py-8 text-gray-600 text-sm">
+                <i class="fas fa-user-slash text-2xl mb-2 block opacity-40"></i>
+                No pentesters have applied to this bounty yet.
+              </div>
+              <div id="bd-applicants-list" class="space-y-3"></div>
+            </div>
+          </div>
+
+          <!-- EDIT MODE -->
+          <div id="bd-edit" class="hidden px-6 py-6 space-y-5">
+            <div>
+              <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Service Type</label>
+              <select id="bd-edit-service" class="w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all"></select>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Budget (USD)</label>
+                <input id="bd-edit-budget" type="number" min="0" step="50" class="w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Deadline</label>
+                <input id="bd-edit-deadline" type="date" lang="en" class="w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Priority</label>
+              <select id="bd-edit-priority" class="w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all">
+                <option value="Standard — 5–10 business days">Standard — 5–10 business days</option>
+                <option value="Expedited — 2–4 business days (+25%)">Expedited — 2–4 business days (+25%)</option>
+                <option value="Critical / Emergency — 24–48 hrs (+60%)">Critical / Emergency — 24–48 hrs (+60%)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Job Description &amp; Rules of Engagement</label>
+              <textarea id="bd-edit-scope" rows="5" class="w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all resize-y"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="px-6 py-4 border-t border-gray-700 flex items-center justify-end gap-3 flex-shrink-0 bg-gray-900">
+          <div id="bd-view-actions" class="flex gap-3 flex-wrap justify-end">
+            <button type="button" onclick="closeBountyDetail()" class="px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm font-semibold transition-all">Close</button>
+            <button type="button" id="bd-fail-btn" onclick="markBountyFailed()" class="hidden px-5 py-2.5 rounded-xl bg-red-600/20 hover:bg-red-600 border border-red-600/40 text-red-300 hover:text-white text-sm font-semibold transition-all flex items-center gap-2"><i class="fas fa-ban"></i> Mark Failed</button>
+            <button type="button" id="bd-complete-btn" onclick="completeBountyPay()" class="hidden px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold transition-all flex items-center gap-2"><i class="fas fa-circle-check"></i> Complete &amp; Pay</button>
+            <button type="button" id="bd-view-hacker-btn" onclick="openPentesterFromBounty()" class="hidden px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm font-semibold transition-all flex items-center gap-2"><i class="fas fa-user-shield"></i> View Pentester</button>
+            <button type="button" id="bd-review-btn" onclick="reviewFromBounty()" class="hidden px-5 py-2.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-gray-900 text-sm font-extrabold transition-all flex items-center gap-2"><i class="fas fa-star"></i> Leave a Review</button>
+            <button type="button" id="bd-edit-btn" onclick="showBountyEdit()" class="px-5 py-2.5 rounded-xl bg-teal-600/20 hover:bg-teal-600 border border-teal-600/40 text-teal-300 hover:text-white text-sm font-semibold transition-all flex items-center gap-2"><i class="fas fa-pen-to-square"></i> Edit Bounty</button>
+          </div>
+          <div id="bd-edit-actions" class="hidden gap-3">
+            <button type="button" onclick="cancelBountyEdit()" class="px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm font-semibold transition-all">Cancel</button>
+            <button type="button" onclick="saveBountyEdit()" class="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold transition-all flex items-center gap-2"><i class="fas fa-floppy-disk"></i> Save Changes</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Toast (report workflow) -->
@@ -857,101 +972,98 @@
             }
         };
 
-        // ── Mock Pentesters ──────────────────────────────────────────────────────
-        const mockPentesters = [
-            {
-                id: 1,
-                name: 'NullPointer',
-                rating: 4.9,
-                reviews: 37,
-                jobs: 42,
-                responseTime: '< 1 hour',
-                availability: 'Available Now',
-                certs: ['OSCP', 'CRT', 'CEH'],
-                specialties: ['Network Pivoting', 'Domain Takeover', 'Lateral Movement'],
-                bio: 'Senior infrastructure specialist with 6 years of offensive security experience. Known for uncovering complex multi-hop attack paths in enterprise environments.',
-                pfp: 'https://api.dicebear.com/7.x/avataaars/svg?seed=NullPointer&backgroundColor=0d9488'
-            },
-            {
-                id: 2,
-                name: 'ShadowScript',
-                rating: 4.8,
-                reviews: 112,
-                jobs: 128,
-                responseTime: '< 3 hours',
-                availability: 'Available Now',
-                certs: ['OSWP', 'Pentest+', 'BSCP'],
-                specialties: ['Web App Hacking', 'Business Logic Flaws', 'API Security'],
-                bio: 'Expert web application and API penetration tester. Specializes in complex multi-step logic vulnerabilities and authentication bypass chains that automated scanners miss.',
-                pfp: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ShadowScript&backgroundColor=0f766e'
-            },
-            {
-                id: 3,
-                name: 'RootAccess',
-                rating: 5.0,
-                reviews: 14,
-                jobs: 15,
-                responseTime: '< 2 hours',
-                availability: 'Finishing Job',
-                certs: ['OSEP', 'OSCE3', 'OSED'],
-                specialties: ['Exploit Development', 'Active Directory', 'Custom C2 Payloads'],
-                bio: 'Elite-tier pentester with deep expertise in Active Directory attacks and custom payload development. Background in red teaming Fortune 500 financial institutions.',
-                pfp: 'https://api.dicebear.com/7.x/avataaars/svg?seed=RootAccess&backgroundColor=134e4a'
-            },
-            {
-                id: 4,
-                name: 'CloudBreaker',
-                rating: 4.7,
-                reviews: 29,
-                jobs: 34,
-                responseTime: '< 4 hours',
-                availability: 'Available Now',
-                certs: ['AWS Security', 'CCSP', 'OSCP'],
-                specialties: ['Cloud IAM Abuse', 'Container Security', 'Serverless Attacks'],
-                bio: 'Cloud-native offensive security specialist focusing on AWS, Azure, and GCP misconfigurations. Has discovered critical IAM privilege escalation paths in three major cloud providers.',
-                pfp: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CloudBreaker&backgroundColor=1e3a5f'
-            },
-            {
-                id: 5,
-                name: 'FirmwareFox',
-                rating: 4.6,
-                reviews: 18,
-                jobs: 21,
-                responseTime: '< 6 hours',
-                availability: 'Available Now',
-                certs: ['OSCP', 'GREM', 'eWPTX'],
-                specialties: ['IoT Firmware Analysis', 'Hardware Hacking', 'Protocol Fuzzing'],
-                bio: 'Embedded systems security pentester with hands-on experience in hardware reverse engineering, firmware extraction, and radio protocol attacks on IoT/OT devices.',
-                pfp: 'https://api.dicebear.com/7.x/avataaars/svg?seed=FirmwareFox&backgroundColor=5c3d11'
-            },
-            {
-                id: 6,
-                name: 'MobilePhantom',
-                rating: 4.8,
-                reviews: 43,
-                jobs: 51,
-                responseTime: '< 2 hours',
-                availability: 'Available Now',
-                certs: ['eMAPT', 'OSCP', 'GWAPT'],
-                specialties: ['Android Reversing', 'iOS Jailbreak Testing', 'MitM Interception'],
-                bio: 'Mobile application security expert with deep experience in reverse engineering both Android and iOS applications. Focuses on data leakage, insecure storage, and backend API abuse.',
-                pfp: 'https://api.dicebear.com/7.x/avataaars/svg?seed=MobilePhantom&backgroundColor=3b1f6e'
-            }
-        ];
-
         // ── State ─────────────────────────────────────────────────────────────────
         let selectedService = 'network';
         let selectedPentester = null;
         let submittedData = {};
-        let currentPentesters = [...mockPentesters];
+        let currentPentesters = [];
         let currentRequestId = null;
+
+        // ── View helpers ──────────────────────────────────────────────────────────
+        function showMyBounties() {
+            document.getElementById('my-bounties-section').classList.remove('hidden');
+            document.getElementById('new-bounty-wrapper').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showNewBountyForm(svc) {
+            document.getElementById('my-bounties-section').classList.add('hidden');
+            document.getElementById('new-bounty-wrapper').classList.remove('hidden');
+            if (svc && serviceData[svc]) selectService(svc);
+            setStep(1);
+            document.getElementById('step1-section').classList.remove('hidden');
+            document.getElementById('step2-section').classList.add('hidden');
+            document.getElementById('step3-section').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderCustomerRequests() {
+            var list = document.getElementById('my-bounties-list');
+            var empty = document.getElementById('my-bounties-empty');
+            var loading = document.getElementById('my-bounties-loading');
+            if (!list) return;
+            var reqs = JSON.parse(localStorage.getItem('ptjo_customer_requests') || '[]');
+            if (loading) loading.classList.add('hidden');
+            if (!reqs.length) {
+                list.classList.add('hidden');
+                if (empty) empty.classList.remove('hidden');
+                return;
+            }
+            if (empty) empty.classList.add('hidden');
+            list.classList.remove('hidden');
+            var statusConfig = {
+                open:      { label: 'Open',      color: 'bg-blue-500/15 text-blue-400 border-blue-500/30' },
+                assigned:  { label: 'Active',     color: 'bg-teal-500/15 text-teal-400 border-teal-500/30' },
+                completed: { label: 'Completed',  color: 'bg-green-500/15 text-green-400 border-green-500/30' },
+                cancelled: { label: 'Cancelled',  color: 'bg-red-500/15 text-red-400 border-red-500/30' }
+            };
+            list.innerHTML = reqs.slice().reverse().map(function(r) {
+                var sc = statusConfig[r.status] || statusConfig.open;
+                var icon = (serviceData[r.serviceType || r.serviceKey] || {}).icon || 'fa-shield-halved';
+                var label = r.serviceLabel || r.service || r.title || 'Security Bounty';
+                var budget = r.budget != null ? r.budget : r.price;
+                var budgetFmt = budget ? ('$' + parseFloat(budget).toLocaleString()) : '—';
+                var deadline = r.deadline ? new Date(r.deadline).toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) : '—';
+                var scope = (r.scope_details || r.description || r.scope || '').slice(0, 100);
+                return '<div onclick="openBountyDetail(\'' + (r.id || '') + '\')" class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 flex flex-col gap-4 hover:border-teal-500/40 transition-all duration-300 cursor-pointer">' +
+                    '<div class="flex items-start justify-between gap-3">' +
+                        '<div class="flex items-center gap-3">' +
+                            '<div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center flex-shrink-0">' +
+                                '<i class="fas ' + icon + ' text-teal-400"></i>' +
+                            '</div>' +
+                            '<div>' +
+                                '<h3 class="text-white font-bold text-sm leading-tight">' + label + '</h3>' +
+                                '<p class="text-xs text-gray-500 mt-0.5">ID: ' + (r.id || '—') + '</p>' +
+                            '</div>' +
+                        '</div>' +
+                        '<span class="text-[10px] px-2.5 py-1 rounded-full font-bold border ' + sc.color + ' flex-shrink-0">' + sc.label + '</span>' +
+                    '</div>' +
+                    (scope ? '<p class="text-xs text-gray-400 line-clamp-2 leading-relaxed">' + scope + '</p>' : '') +
+                    '<div class="grid grid-cols-2 gap-3">' +
+                        '<div class="bg-gray-900/50 rounded-xl p-3">' +
+                            '<p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-1">Budget</p>' +
+                            '<p class="text-white font-bold text-sm">' + budgetFmt + '</p>' +
+                        '</div>' +
+                        '<div class="bg-gray-900/50 rounded-xl p-3">' +
+                            '<p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-1">Deadline</p>' +
+                            '<p class="text-white font-bold text-sm">' + deadline + '</p>' +
+                        '</div>' +
+                    '</div>' +
+                    (r.assignedHacker || r.assignedHackerId ? '<p class="text-xs text-teal-400"><i class="fas fa-user-shield mr-1.5"></i>Pentester assigned</p>' : '') +
+                    '<div class="flex items-center justify-between pt-3 mt-auto border-t border-gray-700/60">' +
+                        '<span class="text-xs text-teal-400 font-semibold"><i class="fas fa-users mr-1.5"></i>View applicants</span>' +
+                        '<span class="text-xs text-gray-500"><i class="fas fa-pen-to-square mr-1"></i>Manage</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
 
         // ── Init: read ?service= URL param ───────────────────────────────────────
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const svc = params.get('service');
             if (svc && serviceData[svc]) {
-                selectService(svc);
+                showNewBountyForm(svc);
             } else {
                 selectService('network');
             }
@@ -1065,34 +1177,32 @@
         }
 
         function loadAndRenderApplicants() {
-            // Load hacker applications for this specific request
+            // Real applicants are loaded by the API bridge (see PTJO bridge below).
+            // The bridge writes results to ptjo_hacker_applications and then calls this
+            // function, so we read from there.
             const allApps = JSON.parse(localStorage.getItem('ptjo_hacker_applications') || '[]');
-            const myApps = allApps.filter(a => a.requestId === currentRequestId);
+            const myApps = allApps.filter(a =>
+                String(a.requestId) === String(currentRequestId) ||
+                String(a.bountyId)  === String(currentRequestId)
+            );
 
-            // Convert applications to pentester card format
-            const appPentesters = myApps.map(a => ({
-                id: a.hackerId,
-                name: a.hackerName,
-                pfp: a.hackerPfp || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + a.hackerName + '&backgroundColor=0d9488',
-                rating: a.hackerRating || 4.8,
-                reviews: a.hackerReviews || 12,
-                jobs: a.hackerJobs || 8,
-                responseTime: a.hackerResponseTime || '< 2 hours',
+            currentPentesters = myApps.map(a => ({
+                id:           a.hackerId   || a.id,
+                applicationId:a.applicationId || a.id,
+                name:         a.hackerName || a.handle || a.display_name || 'Hacker',
+                pfp:          a.hackerPfp  || a.avatarUrl || ('https://api.dicebear.com/7.x/avataaars/svg?seed=' + encodeURIComponent(a.hackerName || 'hacker') + '&backgroundColor=0d9488'),
+                rating:       a.hackerRating  || a.rating   || 0,
+                reviews:      a.hackerReviews || 0,
+                jobs:         a.hackerJobs    || a.jobsDone || 0,
+                responseTime: a.hackerResponseTime || '< 24 hours',
                 availability: a.availability || 'Available Now',
-                certs: a.hackerCerts || ['OSCP'],
-                bio: a.hackerBio || 'Certified security pentester.',
-                specialties: a.hackerSpecialties || [],
+                certs:        a.hackerCerts  || (a.skills || []).map(s => s.skill_code || s),
+                bio:          a.hackerBio    || a.bio || 'Certified security pentester.',
+                specialties:  a.hackerSpecialties || [],
                 fromApplication: true
             }));
 
-            // Merge: applications first (they applied to THIS request), then mock pentesters
-            const merged = [...appPentesters];
-            mockPentesters.forEach(m => {
-                if (!merged.find(p => p.id === m.id)) merged.push(m);
-            });
-            currentPentesters = merged;
-
-            document.getElementById('display-count').textContent = merged.length;
+            document.getElementById('display-count').textContent = currentPentesters.length;
             renderPentesters(currentPentesters);
         }
 
@@ -1138,10 +1248,10 @@
                     </div>
 
                     <div class="flex gap-3 mt-auto pt-2">
-                        <button onclick="showProfile(${r.id})" class="btn btn-secondary px-4 py-2 text-sm flex-1">
+                        <button onclick="showProfile('${r.id}')" class="btn btn-secondary px-4 py-2 text-sm flex-1">
                             <i class="fas fa-user mr-1.5"></i> View Profile
                         </button>
-                        <button onclick="hirePentester(${r.id})" class="btn btn-primary px-4 py-2 text-sm flex-1">
+                        <button onclick="hirePentester('${r.id}', '${currentRequestId}')" class="btn btn-primary px-4 py-2 text-sm flex-1">
                             <i class="fas fa-handshake mr-1.5"></i> Hire Expert
                         </button>
                     </div>
@@ -1215,7 +1325,7 @@
                         </div>
                     </div>
 
-                    <button onclick="hirePentester(${r.id})" class="btn btn-primary w-full py-4 text-base">
+                    <button onclick="hirePentester('${r.id}', '${currentRequestId}')" class="btn btn-primary w-full py-4 text-base">
                         <i class="fas fa-handshake mr-2"></i> Confirm & Hire ${r.name}
                     </button>
                 </div>
@@ -1297,7 +1407,7 @@
             document.getElementById('step1-section').classList.remove('hidden');
             selectService('network');
             setStep(1);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showNewBountyForm();
         }
 
         // ── Step Indicator ────────────────────────────────────────────────────────
@@ -2076,9 +2186,234 @@
             });
         })();
     </script>
+    <!-- ── Complete & Pay (engagement) Modal ── -->
+    <div id="eng-pay-modal" class="hidden fixed inset-0 z-[470] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+        <div class="bg-gray-900 px-6 py-4 border-b border-gray-700 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-teal-500/15 flex items-center justify-center"><i class="fas fa-circle-check text-teal-400 text-sm"></i></div>
+            <div><h3 class="text-white font-bold text-sm">Complete &amp; Pay</h3><p id="ep-amount-label" class="text-teal-400 font-bold text-sm"></p></div>
+          </div>
+          <button type="button" onclick="closeEngPay()" class="text-gray-500 hover:text-white transition-colors"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="px-6 py-5 space-y-3">
+          <p class="text-gray-400 text-sm">Releasing payment marks the engagement complete and credits the pentester's wallet.</p>
+          <div id="ep-opt-wallet" onclick="selectEngPay('wallet')" class="ep-opt flex items-center gap-4 p-4 rounded-xl border-2 border-teal-500 bg-gray-900/50 cursor-pointer transition-all">
+            <div class="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center flex-shrink-0"><i class="fas fa-wallet text-teal-400"></i></div>
+            <div class="flex-1"><p class="text-white font-semibold text-sm">My Wallet</p><p class="text-gray-500 text-xs">Balance: <span id="ep-wallet-balance" class="text-teal-400 font-bold">—</span></p></div>
+            <i class="fas fa-circle-check text-teal-400 ep-check"></i>
+          </div>
+          <div id="ep-opt-card" onclick="selectEngPay('card')" class="ep-opt flex items-center gap-4 p-4 rounded-xl border-2 border-gray-700 bg-gray-900/50 cursor-pointer hover:border-teal-500/50 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center flex-shrink-0"><i class="fas fa-credit-card text-teal-400"></i></div>
+            <div class="flex-1"><p class="text-white font-semibold text-sm">Credit / Debit Card</p><p class="text-gray-500 text-xs">Simulated external charge</p></div>
+            <i class="fas fa-circle-check text-teal-400 ep-check hidden"></i>
+          </div>
+          <input type="hidden" id="ep-method" value="wallet">
+        </div>
+        <div class="px-6 pb-5 flex gap-3">
+          <button type="button" onclick="closeEngPay()" class="flex-1 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm font-semibold transition-all">Cancel</button>
+          <button type="button" onclick="confirmEngPay()" class="flex-1 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold transition-all flex items-center justify-center gap-2"><i class="fas fa-lock text-xs"></i> Pay <span id="ep-pay-amount"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Leave a Review (engagement) Modal ── -->
+    <div id="eng-review-modal" class="hidden fixed inset-0 z-[490] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+        <div class="bg-gray-900 px-6 py-4 border-b border-gray-700 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-yellow-500/15 flex items-center justify-center"><i class="fas fa-star text-yellow-400 text-sm"></i></div>
+            <div><h3 class="text-white font-bold text-sm">Rate your pentester</h3><p class="text-gray-500 text-xs">Your review is public and helps other clients.</p></div>
+          </div>
+          <button type="button" onclick="closeEngReview()" class="text-gray-500 hover:text-white transition-colors"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="px-6 py-5 space-y-5">
+          <div class="flex items-center gap-3">
+            <img id="er-hacker-avatar" src="" alt="" class="w-12 h-12 rounded-xl object-cover ring-2 ring-teal-500/30">
+            <div><p id="er-hacker-name" class="text-white font-bold text-sm"></p><p id="er-service" class="text-gray-500 text-xs"></p></div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-2">Your rating</label>
+            <div id="er-star-row" class="flex items-center gap-1.5">
+              <button type="button" data-value="1" onclick="erSelectStar(1)" class="er-star text-3xl text-gray-600 hover:text-yellow-400 transition-colors"><i class="fas fa-star"></i></button>
+              <button type="button" data-value="2" onclick="erSelectStar(2)" class="er-star text-3xl text-gray-600 hover:text-yellow-400 transition-colors"><i class="fas fa-star"></i></button>
+              <button type="button" data-value="3" onclick="erSelectStar(3)" class="er-star text-3xl text-gray-600 hover:text-yellow-400 transition-colors"><i class="fas fa-star"></i></button>
+              <button type="button" data-value="4" onclick="erSelectStar(4)" class="er-star text-3xl text-gray-600 hover:text-yellow-400 transition-colors"><i class="fas fa-star"></i></button>
+              <button type="button" data-value="5" onclick="erSelectStar(5)" class="er-star text-3xl text-gray-600 hover:text-yellow-400 transition-colors"><i class="fas fa-star"></i></button>
+              <span id="er-star-label" class="ml-2 text-sm text-gray-400"></span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-2">Would you recommend this pentester?</label>
+            <div class="flex gap-3">
+              <button type="button" id="er-rec-yes" onclick="erSetRecommend(true)" class="flex-1 py-2.5 rounded-xl border-2 border-teal-500 bg-teal-500/10 text-teal-300 text-sm font-bold transition-all flex items-center justify-center gap-2"><i class="fas fa-thumbs-up"></i> Yes</button>
+              <button type="button" id="er-rec-no" onclick="erSetRecommend(false)" class="flex-1 py-2.5 rounded-xl border-2 border-gray-700 bg-gray-900/50 text-gray-400 text-sm font-bold transition-all flex items-center justify-center gap-2"><i class="fas fa-thumbs-down"></i> No</button>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-2">Comment <span class="text-gray-600 font-normal">(optional)</span></label>
+            <textarea id="er-comment" rows="3" maxlength="2000" placeholder="Share details about the work, communication, and results…" class="w-full bg-gray-900 border border-gray-700 rounded-xl py-2.5 px-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-teal-500 resize-none"></textarea>
+          </div>
+          <div id="er-error" class="hidden text-red-400 text-xs font-semibold"><i class="fas fa-circle-exclamation mr-1"></i><span id="er-error-msg"></span></div>
+        </div>
+        <div class="px-6 pb-5 flex gap-3">
+          <button type="button" onclick="closeEngReview()" class="flex-1 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm font-semibold transition-all">Maybe later</button>
+          <button type="button" id="er-submit-btn" onclick="submitEngReview()" class="flex-1 py-2.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-gray-900 text-sm font-extrabold transition-all flex items-center justify-center gap-2"><i class="fas fa-paper-plane text-xs"></i> Submit Review</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Pentester Public Profile Modal ── -->
+    <div id="pentester-modal" class="hidden fixed inset-0 z-[480] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-2xl max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+        <div class="bg-gray-900 px-6 py-4 border-b border-gray-700 flex items-center justify-between flex-shrink-0">
+          <h3 class="text-white font-bold text-sm flex items-center gap-2"><i class="fas fa-user-shield text-teal-400"></i> Pentester Profile</h3>
+          <button type="button" onclick="closePentesterProfile()" class="text-gray-500 hover:text-white transition-colors"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="overflow-y-auto px-6 py-5">
+          <div id="pm-loading" class="text-center text-gray-500 text-sm py-10"><i class="fas fa-spinner fa-spin mr-2"></i>Loading…</div>
+          <div id="pm-body" class="hidden">
+            <div class="flex items-start gap-4">
+              <img id="pm-avatar" src="" alt="" class="w-20 h-20 rounded-2xl object-cover ring-2 ring-teal-500/30 flex-shrink-0">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h4 id="pm-name" class="text-white font-extrabold text-lg"></h4>
+                  <span id="pm-handle" class="text-teal-400 text-sm font-semibold"></span>
+                </div>
+                <p id="pm-title" class="text-gray-400 text-sm"></p>
+                <p id="pm-meta" class="text-gray-500 text-xs mt-1"></p>
+                <div id="pm-stars" class="flex items-center gap-1 mt-2 text-yellow-400 text-sm"></div>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-3 mt-5">
+              <div class="bg-gray-900/50 border border-gray-700 rounded-xl p-3 text-center"><p id="pm-stat-rating" class="text-white font-extrabold text-lg">—</p><p class="text-gray-500 text-[11px] font-semibold mt-0.5">Avg Rating</p></div>
+              <div class="bg-gray-900/50 border border-gray-700 rounded-xl p-3 text-center"><p id="pm-stat-jobs" class="text-white font-extrabold text-lg">0</p><p class="text-gray-500 text-[11px] font-semibold mt-0.5">Jobs Done</p></div>
+              <div class="bg-gray-900/50 border border-gray-700 rounded-xl p-3 text-center"><p id="pm-stat-rec" class="text-white font-extrabold text-lg">—</p><p class="text-gray-500 text-[11px] font-semibold mt-0.5">Recommend</p></div>
+            </div>
+            <div id="pm-bio-wrap" class="hidden mt-5"><p class="text-xs font-semibold text-gray-400 mb-1">About</p><p id="pm-bio" class="text-gray-300 text-sm leading-relaxed"></p></div>
+            <div id="pm-skills-wrap" class="hidden mt-5"><p class="text-xs font-semibold text-gray-400 mb-2">Skills</p><div id="pm-skills" class="flex flex-wrap gap-1.5"></div></div>
+            <div class="mt-6">
+              <p class="text-xs font-semibold text-gray-400 mb-3">Reviews (<span id="pm-review-count">0</span>)</p>
+              <div id="pm-reviews" class="space-y-3"></div>
+              <div id="pm-reviews-empty" class="hidden text-center text-gray-600 text-sm py-8"><i class="fas fa-comment-slash text-xl mb-2 block opacity-40"></i>No reviews yet.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Chat Modal ── -->
+    <div id="chat-modal" class="hidden fixed inset-0 z-[460] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-lg h-[70vh] flex flex-col shadow-2xl overflow-hidden">
+        <div class="bg-gray-900 px-5 py-3 border-b border-gray-700 flex items-center justify-between flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-teal-500/15 flex items-center justify-center"><i class="fas fa-comments text-teal-400 text-sm"></i></div>
+            <div><h3 class="text-white font-bold text-sm">Chat</h3><p id="chat-with" class="text-gray-500 text-xs"></p></div>
+          </div>
+          <button type="button" onclick="closeChat()" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-white hover:bg-gray-700 transition-all"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-900/40">
+          <div id="chat-empty" class="hidden text-center text-gray-600 text-sm py-10"><i class="fas fa-comment-dots text-2xl mb-2 block opacity-40"></i>No messages yet. Say hello!</div>
+        </div>
+        <form id="chat-form" onsubmit="sendChat(event)" class="flex items-center gap-2 px-3 py-3 border-t border-gray-700 bg-gray-900 flex-shrink-0">
+          <input id="chat-input" type="text" autocomplete="off" placeholder="Type a message…" class="flex-1 bg-gray-800 border border-gray-700 rounded-xl py-2.5 px-4 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-teal-500">
+          <button type="submit" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold transition-all"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+
     <script>
-        (function(){var r=localStorage.getItem('ptjo_role');if(r==='hacker'){var h=document.getElementById('nav-hacker-btn');if(h)h.style.display='none';}if(r==='customer'){var c=document.getElementById('nav-customer-btn');if(c)c.style.display='none';}})();
+    /* ── PTjo — Engagement chat (customer side) ────────────────────────────── */
+    (function () {
+        'use strict';
+        var engId = null, poll = null, lastCount = -1;
+        function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+        function fmtTime(s){ if(!s) return ''; try { return new Date(String(s).replace(' ','T') + 'Z').toLocaleString(); } catch(e){ return s; } }
+        function chatToast(msg, type){ if (typeof window.showToast === 'function') window.showToast(msg, type); else if (window.PTJO && PTJO.toast) PTJO.toast(msg, type === 'warn' ? 'warning' : 'info'); }
+
+        window.openEngagementChat = function (id, name) {
+            if (!id) return;
+            engId = id;
+            document.getElementById('chat-with').textContent = name ? ('with ' + name) : '';
+            document.getElementById('chat-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lastCount = -1;
+            loadChat();
+            clearInterval(poll); poll = setInterval(loadChat, 4000);
+            setTimeout(function(){ var i = document.getElementById('chat-input'); if (i) i.focus(); }, 60);
+        };
+
+        // Customers reach chat from a bounty; resolve its engagement first.
+        window.openCustomerChatForBounty = async function (bountyId, name) {
+            try {
+                var res = await PTJO.customer.getEngagements();
+                var eng = (res && res.engagements || []).find(function (e) {
+                    return String(e.bounty_request_id) === String(bountyId);
+                });
+                if (!eng) { chatToast('No active engagement to chat about yet.', 'warn'); return; }
+                openEngagementChat(eng.id, name);
+            } catch (e) { console.warn('[Chat] resolve:', e); chatToast('Could not open chat.', 'warn'); }
+        };
+
+        window.closeChat = function () {
+            document.getElementById('chat-modal').classList.add('hidden');
+            clearInterval(poll); poll = null; engId = null;
+            var bd = document.getElementById('bounty-detail-modal');
+            document.body.style.overflow = (bd && !bd.classList.contains('hidden')) ? 'hidden' : '';
+        };
+
+        async function loadChat() {
+            if (!engId) return;
+            try {
+                var res = await PTJO.customer.getMessages(engId);
+                if (!res || !res.ok) return;
+                var msgs = res.messages || [];
+                if (msgs.length === lastCount) return;
+                lastCount = msgs.length;
+                var box = document.getElementById('chat-messages');
+                var empty = document.getElementById('chat-empty');
+                box.querySelectorAll('.chat-bubble-row').forEach(function(n){ n.remove(); });
+                if (!msgs.length) { empty.classList.remove('hidden'); return; }
+                empty.classList.add('hidden');
+                msgs.forEach(function(m){
+                    var mine = !!m.mine;
+                    var row = document.createElement('div');
+                    row.className = 'chat-bubble-row flex ' + (mine ? 'justify-end' : 'justify-start');
+                    row.innerHTML = '<div class="max-w-[75%]">' +
+                        '<div class="' + (mine ? 'bg-teal-600 text-white' : 'bg-gray-700 text-gray-100') + ' rounded-2xl px-4 py-2 text-sm whitespace-pre-wrap break-words">' + esc(m.body) + '</div>' +
+                        '<div class="text-[10px] text-gray-500 mt-1 ' + (mine ? 'text-right' : '') + '">' + (mine ? 'You' : esc(m.sender_name || '')) + ' · ' + fmtTime(m.created_at) + '</div>' +
+                        '</div>';
+                    box.appendChild(row);
+                });
+                box.scrollTop = box.scrollHeight;
+            } catch (e) { console.warn('[Chat] load:', e); }
+        }
+
+        window.sendChat = async function (ev) {
+            if (ev) ev.preventDefault();
+            var input = document.getElementById('chat-input');
+            var text = input.value.trim();
+            if (!text || !engId) return;
+            input.value = '';
+            try {
+                var res = await PTJO.customer.sendMessage(engId, text);
+                if (res && res.ok) { lastCount = -1; loadChat(); }
+                else { input.value = text; chatToast((res && res.error) || 'Could not send.', 'warn'); }
+            } catch (e) { input.value = text; console.warn('[Chat] send:', e); }
+        };
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            var m = document.getElementById('chat-modal');
+            if (m && !m.classList.contains('hidden')) { e.stopPropagation(); closeChat(); }
+        }, true);
+        document.addEventListener('click', function (e) {
+            var m = document.getElementById('chat-modal');
+            if (m && e.target === m) closeChat();
+        });
+    })();
     </script>
+
     <script src="../assets/lang.js"></script>
     <script src="../assets/settings-panel.js"></script>
 <script src="../assets/api.js"></script>
@@ -2099,10 +2434,18 @@
         var session = await PTJO.init('customer');
         if (!session) return; // redirected to login
 
+        /* Nav logout is already visible */
+
         /* Nav hydration */
         var p = session.profile, u = session.user;
         document.querySelectorAll('[data-user-name]').forEach(function(el){ el.textContent = p.display_name || u.email; });
         document.querySelectorAll('[data-user-avatar]').forEach(function(el){ if(p.avatar_url) el.src = p.avatar_url; });
+        var navAvatar = document.getElementById('nav-customer-avatar');
+        if (navAvatar) {
+            navAvatar.src = p.avatar_url ||
+                'https://api.dicebear.com/7.x/initials/svg?seed=' + encodeURIComponent(p.display_name || u.email || 'C') +
+                '&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700';
+        }
         var walletEl = document.getElementById('customer-wallet-balance');
         if (walletEl && p.wallet_balance !== undefined) walletEl.textContent = PTJO.formatUSD(p.wallet_balance);
 
@@ -2135,6 +2478,7 @@
                     description: b.scope_details || '',
                     budget: parseFloat(b.price_amount) || 0,
                     deadline: b.deadline,
+                    priorityText: b.priority_text || '',
                     status: b.status,
                     createdAt: b.created_at,
                     assignedHacker: b.assigned_hacker_id || null
@@ -2230,28 +2574,41 @@
     /* ── Override loadAndRenderApplicants ───────────────────────────────────── */
     var _origLoadApplicants = window.loadAndRenderApplicants;
     window.loadAndRenderApplicants = async function (bountyId) {
+        var bid = bountyId || _realBountyId || (typeof currentRequestId !== 'undefined' ? currentRequestId : '');
         try {
-            var res = await PTJO.customer.getPentesters({ bounty_id: bountyId || '' });
+            var res = await PTJO.customer.getPentesters(bid ? { bounty_id: bid } : {});
             if (res && res.ok && res.pentesters) {
-                var apps = res.pentesters.map(function(h) {
+                /* Write in the format loadAndRenderApplicants() expects */
+                var mapped = res.pentesters.map(function(h) {
                     return {
-                        id:         h.id,            /* user_id aliased as id in PHP */
-                        hackerId:   h.id,
-                        bountyId:   bountyId,
-                        hackerName: h.display_name || h.handle,
-                        handle:     h.handle,
-                        rating:     parseFloat(h.avg_rating) || 0,
-                        jobsDone:   parseInt(h.jobs_done) || 0,
-                        skills:     h.skills || [],
-                        status:     h.application_status || 'pending',
-                        note:       h.availability_note || '',
-                        avatarUrl:  h.avatar_url || '',
-                        isDirectHire: !h.application_id
+                        requestId:      bid,
+                        bountyId:       bid,
+                        hackerId:       h.id,
+                        applicationId:  h.application_id || null,
+                        hackerName:     h.display_name || h.handle,
+                        handle:         h.handle,
+                        hackerPfp:      h.avatar_url || '',
+                        hackerRating:   parseFloat(h.avg_rating) || 0,
+                        hackerReviews:  parseInt(h.review_count) || 0,
+                        hackerJobs:     parseInt(h.jobs_done) || 0,
+                        hackerCerts:    (h.certifications || []).map(function(c){ return c.name || c; }),
+                        hackerBio:      h.bio || '',
+                        hackerSpecialties: (h.skills || []).map(function(s){ return s.skill_code || s; }),
+                        availability:   h.application_id ? 'Applied' : 'Available Now',
+                        status:         h.application_status || 'pending'
                     };
                 });
-                localStorage.setItem('ptjo_applicants_' + bountyId, JSON.stringify(apps));
+                /* Replace only entries for this bounty; keep others untouched */
+                var all = JSON.parse(localStorage.getItem('ptjo_hacker_applications') || '[]');
+                all = all.filter(function(a){ return String(a.bountyId || a.requestId) !== String(bid); });
+                all = all.concat(mapped);
+                localStorage.setItem('ptjo_hacker_applications', JSON.stringify(all));
             }
         } catch(e) { console.warn('[Bridge] getPentesters:', e); }
+        /* Align currentRequestId with the real bounty we just loaded, so the
+           original render (which filters applicants by currentRequestId) matches
+           the entries we mapped above under requestId = bid. */
+        try { currentRequestId = bid; } catch(e) {}
         if (_origLoadApplicants) _origLoadApplicants(bountyId);
     };
 
@@ -2303,6 +2660,616 @@
         if (_origMarkRead) _origMarkRead();
     };
 
+    /* ── Real customer reports via API ─────────────────────────────────────── */
+    async function loadReportsReal() {
+        try {
+            var res = await PTJO.customer.getReports();
+            if (!res || !res.ok) return;
+            var reports = (res.reports || []).map(function(r) {
+                return {
+                    id:                  r.id,
+                    title:               r.title,
+                    status:              r.status,
+                    severity:            r.severity_label,
+                    serviceType:         r.service_type,
+                    service:             r.service_type,
+                    url:                 r.url,
+                    description:         r.description,
+                    impact:              r.impact,
+                    weakness:            r.weakness,
+                    recommendations:     r.recommendations,
+                    agreedAmount:        parseFloat(r.agreed_amount_usd) || 0,
+                    submittedAt:         r.submitted_at,
+                    submittedBy:         r.hacker_display_name || r.hacker_handle || 'Hacker',
+                    hackerName:          r.hacker_display_name || r.hacker_handle,
+                    hackerAvatar:        r.hacker_avatar_url || '',
+                    editNote:            r.edit_note,
+                    awaitingReviewAfterPayment: !!r.awaiting_review_after_payment,
+                    vulnCategory:        r.vuln_category,
+                    vulnSubcategory:     r.vuln_subcategory,
+                    vulnVariant:         r.vuln_variant,
+                    vulnCategoryFull:    r.vuln_category_full,
+                    vulnSubcategoryFull: r.vuln_subcategory_full,
+                    vulnVariantFull:     r.vuln_variant_full,
+                    vulnerabilityPath:   r.vulnerability_path,
+                    priority:            r.priority,
+                    engagementId:        r.engagement_id,
+                    files:               r.attachments || []
+                };
+            });
+            localStorage.setItem('ptjo_reports', JSON.stringify(reports));
+            if (typeof renderCustomerReports === 'function') renderCustomerReports();
+        } catch(e) { console.warn('[Bridge] getReports:', e); }
+    }
+
+    /* ── Patch openPaymentModal to use real wallet balance ─────────────────── */
+    var _origOpenPaymentModal = window.openPaymentModal;
+    window.openPaymentModal = async function () {
+        try {
+            var wr = await PTJO.customer.getWallet();
+            if (wr && wr.ok) {
+                localStorage.setItem('ptjo_customer_wallet', String(parseFloat(wr.balance) || 0));
+                /* Also populate saved cards */
+                var cards = (wr.payment_methods || []).map(function(c) {
+                    return {
+                        id:     c.id,
+                        label:  (c.brand || 'Card') + ' ···· ' + c.last4,
+                        brand:  (c.brand || 'other').toLowerCase(),
+                        last4:  c.last4,
+                        expiry: (c.exp_month || '??') + '/' + (c.exp_year || '??'),
+                        name:   c.cardholder_name || ''
+                    };
+                });
+                localStorage.setItem('ptjo_customer_cards', JSON.stringify(cards));
+            }
+        } catch(e) {}
+        if (_origOpenPaymentModal) _origOpenPaymentModal();
+    };
+
+    /* Hook reports load into the DOMContentLoaded already registered above */
+    document.addEventListener('DOMContentLoaded', function () {
+        loadReportsReal();
+        setInterval(loadReportsReal, 60000);
+    });
+
+})();
+</script>
+<script>
+/* ── PTjo — Bounty detail: view applicants, hire, and edit ──────────────────
+   Clicking a bounty card opens this modal. Applicants are fetched live from
+   the API; the customer can hire one (creates the engagement) or edit the
+   bounty while it is still open.                                            */
+(function () {
+    'use strict';
+
+    var current = null; // currently-open bounty object (from ptjo_customer_requests)
+
+    var SERVICE_LABELS = {
+        network: 'Network Testing', ad: 'Active Directory', cloud: 'Cloud Testing',
+        webapp: 'Web App Testing', mobile: 'Mobile App Testing', api: 'API Testing', iot: 'IoT Testing'
+    };
+    var SERVICE_ICONS = {
+        network: 'fa-network-wired', ad: 'fa-users-cog', cloud: 'fa-cloud',
+        webapp: 'fa-globe', mobile: 'fa-mobile-alt', api: 'fa-cube', iot: 'fa-wifi'
+    };
+    var STATUS_CFG = {
+        open:      { label: 'Open',      cls: 'bg-blue-500/15 text-blue-400 border-blue-500/30' },
+        assigned:  { label: 'Active',    cls: 'bg-teal-500/15 text-teal-400 border-teal-500/30' },
+        completed: { label: 'Completed', cls: 'bg-green-500/15 text-green-400 border-green-500/30' },
+        cancelled: { label: 'Cancelled', cls: 'bg-red-500/15 text-red-400 border-red-500/30' }
+    };
+
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+    function toast(msg, type) { if (typeof window.showToast === 'function') window.showToast(msg, type); else if (window.PTJO && PTJO.toast) PTJO.toast(msg, type === 'warn' ? 'warning' : 'success'); }
+
+    function getBounty(id) {
+        var list = JSON.parse(localStorage.getItem('ptjo_customer_requests') || '[]');
+        return list.find(function (b) { return String(b.id) === String(id); });
+    }
+    function saveBounty(b) {
+        var list = JSON.parse(localStorage.getItem('ptjo_customer_requests') || '[]');
+        var idx = list.findIndex(function (x) { return String(x.id) === String(b.id); });
+        if (idx !== -1) { list[idx] = b; localStorage.setItem('ptjo_customer_requests', JSON.stringify(list)); }
+        if (typeof window.renderCustomerRequests === 'function') window.renderCustomerRequests();
+    }
+
+    window.openBountyDetail = function (id) {
+        var b = getBounty(id);
+        if (!b) { toast('Bounty not found.', 'warn'); return; }
+        current = b;
+        var key = b.serviceType || b.serviceKey || '';
+        document.getElementById('bd-icon').className = 'fas ' + (SERVICE_ICONS[key] || 'fa-shield-halved') + ' text-teal-400';
+        document.getElementById('bd-title').textContent = b.serviceLabel || SERVICE_LABELS[key] || b.title || 'Security Bounty';
+        document.getElementById('bd-id').textContent = 'ID: ' + (b.id || '—');
+        var sc = STATUS_CFG[b.status] || STATUS_CFG.open;
+        var stEl = document.getElementById('bd-status');
+        stEl.textContent = sc.label;
+        stEl.className = 'text-[10px] px-2.5 py-1 rounded-full font-bold border ' + sc.cls;
+        document.getElementById('bd-scope').textContent = b.description || b.scope || 'No description provided.';
+        document.getElementById('bd-budget').textContent = b.budget ? ('$' + parseFloat(b.budget).toLocaleString()) : '—';
+        document.getElementById('bd-deadline').textContent = b.deadline ? new Date(b.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+        document.getElementById('bd-priority').textContent = b.priorityText || 'Standard';
+        document.getElementById('bd-edit-btn').style.display = (b.status === 'open') ? '' : 'none';
+        var canClose = (b.status === 'assigned' || b.status === 'active');
+        document.getElementById('bd-fail-btn').classList.toggle('hidden', !canClose);
+        document.getElementById('bd-complete-btn').classList.toggle('hidden', !canClose);
+        var isCompleted = (b.status === 'completed');
+        document.getElementById('bd-view-hacker-btn').classList.toggle('hidden', !isCompleted);
+        document.getElementById('bd-review-btn').classList.toggle('hidden', !isCompleted);
+
+        cancelBountyEdit();
+        document.getElementById('bounty-detail-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        loadApplicants(b.id, b.status);
+    };
+
+    window.closeBountyDetail = function () {
+        document.getElementById('bounty-detail-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+        current = null;
+    };
+
+    async function loadApplicants(bountyId, status) {
+        var loading = document.getElementById('bd-applicants-loading');
+        var empty = document.getElementById('bd-applicants-empty');
+        var list = document.getElementById('bd-applicants-list');
+        loading.classList.remove('hidden'); empty.classList.add('hidden'); list.innerHTML = '';
+        try {
+            var res = await PTJO.customer.getApplicants(bountyId);
+            loading.classList.add('hidden');
+            var apps = (res && res.ok && res.applicants) ? res.applicants : [];
+            document.getElementById('bd-applicant-count').textContent = apps.length;
+            if (!apps.length) { empty.classList.remove('hidden'); return; }
+            list.innerHTML = apps.map(function (a) { return applicantCard(a, status, bountyId); }).join('');
+        } catch (e) {
+            loading.classList.add('hidden');
+            console.warn('[BountyDetail] getApplicants:', e);
+            empty.classList.remove('hidden');
+        }
+    }
+
+    function applicantCard(a, status, bountyId) {
+        var name = esc(a.display_name || a.handle || 'Hacker');
+        var nameArg = String(a.display_name || a.handle || 'Hacker').replace(/['"\\]/g, '');
+        var avatar = a.avatar_url || ('https://api.dicebear.com/7.x/initials/svg?seed=' + encodeURIComponent(name) + '&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700');
+        var rating = parseFloat(a.avg_rating) || 0;
+        var reviews = parseInt(a.review_count) || 0;
+        var jobs = parseInt(a.jobs_done) || 0;
+        var skills = (a.skills || []).map(function (s) { return '<span class="bg-teal-500/10 text-teal-400 text-[10px] px-2 py-0.5 rounded font-bold border border-teal-500/20">' + esc(s) + '</span>'; }).join(' ');
+        var stars = '';
+        for (var i = 0; i < 5; i++) { stars += '<i class="fas fa-star ' + (i < Math.floor(rating) ? '' : 'text-gray-700') + '"></i>'; }
+        var note = a.availability_note ? '<p class="text-xs text-gray-400 mt-2 italic">“' + esc(a.availability_note) + '”</p>' : '';
+        var st = a.application_status;
+        var action;
+        if (st === 'accepted') {
+            action = '<div class="flex items-center gap-2">' +
+                '<span class="text-xs font-bold text-green-400 whitespace-nowrap"><i class="fas fa-circle-check mr-1"></i>Hired</span>' +
+                '<button type="button" onclick="openCustomerChatForBounty(\'' + esc(bountyId) + '\', \'' + nameArg + '\')" class="px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap"><i class="fas fa-comments"></i> Chat</button>' +
+            '</div>';
+        } else if (st === 'rejected') {
+            action = '<span class="text-xs font-semibold text-gray-500 px-3 py-2 whitespace-nowrap">Not selected</span>';
+        } else if (status === 'open') {
+            action = '<button type="button" onclick="hireApplicant(\'' + esc(a.application_id) + '\')" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap"><i class="fas fa-handshake"></i> Hire</button>';
+        } else {
+            action = '<span class="text-xs font-semibold text-gray-500 px-3 py-2 whitespace-nowrap">Pending</span>';
+        }
+        return '<div class="bg-gray-900/50 border border-gray-700 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4">' +
+            '<img src="' + avatar + '" alt="' + name + '" class="w-12 h-12 rounded-xl object-cover ring-2 ring-teal-500/30 flex-shrink-0">' +
+            '<div class="flex-1 min-w-0">' +
+                '<div class="flex items-center gap-2 flex-wrap"><p class="text-white font-bold text-sm">' + name + '</p>' +
+                (a.professional_title ? '<span class="text-xs text-gray-500">· ' + esc(a.professional_title) + '</span>' : '') + '</div>' +
+                '<div class="flex items-center gap-1 text-xs text-yellow-400 mt-0.5">' + stars + '<span class="text-gray-400 ml-1">' + rating.toFixed(1) + ' (' + reviews + ') · ' + jobs + ' jobs</span></div>' +
+                (skills ? '<div class="flex flex-wrap gap-1 mt-2">' + skills + '</div>' : '') +
+                note +
+            '</div>' +
+            '<div class="flex-shrink-0 self-start sm:self-center">' + action + '</div>' +
+        '</div>';
+    }
+
+    window.hireApplicant = async function (applicationId) {
+        if (!applicationId) return;
+        if (!window.confirm('Hire this pentester? This assigns the bounty and declines the other applicants.')) return;
+        try {
+            var res = await PTJO.customer.hirePentester(applicationId);
+            if (res && res.ok) {
+                toast('Pentester hired!', 'success');
+                if (current) {
+                    current.status = 'assigned';
+                    saveBounty(current);
+                }
+                closeBountyDetail();
+            } else {
+                toast((res && res.error) || 'Could not hire pentester.', 'warn');
+            }
+        } catch (e) {
+            console.error('[BountyDetail] hire:', e);
+            toast('Network error. Please try again.', 'warn');
+        }
+    };
+
+    // ── Edit mode ──────────────────────────────────────────────────────────
+    window.showBountyEdit = function () {
+        if (!current) return;
+        var sel = document.getElementById('bd-edit-service');
+        sel.innerHTML = Object.keys(SERVICE_LABELS).map(function (k) { return '<option value="' + k + '">' + SERVICE_LABELS[k] + '</option>'; }).join('');
+        sel.value = current.serviceType || current.serviceKey || 'network';
+        document.getElementById('bd-edit-budget').value = current.budget || '';
+        document.getElementById('bd-edit-deadline').value = current.deadline ? String(current.deadline).slice(0, 10) : '';
+        var prioSel = document.getElementById('bd-edit-priority');
+        var pv = current.priorityText || '';
+        var matched = false;
+        Array.prototype.forEach.call(prioSel.options, function (o) { if (o.value === pv) matched = true; });
+        prioSel.value = matched ? pv : prioSel.options[0].value;
+        document.getElementById('bd-edit-scope').value = current.description || current.scope || '';
+
+        document.getElementById('bd-view').classList.add('hidden');
+        document.getElementById('bd-edit').classList.remove('hidden');
+        document.getElementById('bd-view-actions').classList.add('hidden');
+        var ea = document.getElementById('bd-edit-actions');
+        ea.classList.remove('hidden'); ea.classList.add('flex');
+    };
+
+    window.cancelBountyEdit = function () {
+        document.getElementById('bd-edit').classList.add('hidden');
+        document.getElementById('bd-view').classList.remove('hidden');
+        var ea = document.getElementById('bd-edit-actions');
+        ea.classList.add('hidden'); ea.classList.remove('flex');
+        document.getElementById('bd-view-actions').classList.remove('hidden');
+    };
+
+    window.saveBountyEdit = async function () {
+        if (!current) return;
+        var key = document.getElementById('bd-edit-service').value;
+        var budget = parseFloat(document.getElementById('bd-edit-budget').value) || 0;
+        var deadline = document.getElementById('bd-edit-deadline').value;
+        var priority = document.getElementById('bd-edit-priority').value;
+        var scope = document.getElementById('bd-edit-scope').value.trim();
+        if (scope.length < 10) { toast('Description must be at least 10 characters.', 'warn'); return; }
+        var data = {
+            bounty_id: current.id,
+            service_key: key,
+            service_label: SERVICE_LABELS[key] || key,
+            price_amount: budget,
+            priority_text: priority,
+            deadline: deadline,
+            scope_details: scope
+        };
+        try {
+            var res = await PTJO.customer.updateBounty(data);
+            if (res && res.ok) {
+                toast('Bounty updated!', 'success');
+                current.serviceType = key;
+                current.serviceLabel = data.service_label;
+                current.budget = budget;
+                current.deadline = deadline;
+                current.priorityText = priority;
+                current.description = scope;
+                saveBounty(current);
+                cancelBountyEdit();
+                openBountyDetail(current.id);
+            } else {
+                toast((res && res.error) || 'Could not update bounty.', 'warn');
+            }
+        } catch (e) {
+            console.error('[BountyDetail] save:', e);
+            toast('Network error. Please try again.', 'warn');
+        }
+    };
+
+    // ── Close bounty: failed / cancelled vs complete-and-pay ─────────────────
+    var _payEngId = null;
+    var _payEng   = null;
+
+    async function resolveEngagement(bountyId) {
+        var res = await PTJO.customer.getEngagements();
+        return (res && res.engagements || []).find(function (e) {
+            return String(e.bounty_request_id) === String(bountyId);
+        });
+    }
+
+    window.markBountyFailed = async function () {
+        if (!current) return;
+        if (!window.confirm('Close this bounty as FAILED / cancelled? The pentester will be notified and no payment is made.')) return;
+        try {
+            var eng = await resolveEngagement(current.id);
+            if (!eng) { toast('No active engagement found for this bounty.', 'warn'); return; }
+            var res = await PTJO.customer.cancelEngagement(eng.id);
+            if (res && res.ok) {
+                toast('Bounty closed as failed.', 'success');
+                current.status = 'cancelled'; saveBounty(current);
+                closeBountyDetail();
+            } else { toast((res && res.error) || 'Could not close bounty.', 'warn'); }
+        } catch (e) { console.error('[Bounty] fail:', e); toast('Network error. Please try again.', 'warn'); }
+    };
+
+    window.completeBountyPay = async function () {
+        if (!current) return;
+        try {
+            var eng = await resolveEngagement(current.id);
+            if (!eng) { toast('No active engagement found for this bounty.', 'warn'); return; }
+            _payEngId = eng.id;
+            _payEng   = eng;
+            var amount = parseFloat(eng.agreed_price_usd != null ? eng.agreed_price_usd : current.budget) || 0;
+            var amtStr = '$' + amount.toLocaleString();
+            document.getElementById('ep-amount-label').textContent = 'Amount due: ' + amtStr;
+            document.getElementById('ep-pay-amount').textContent = amtStr;
+            selectEngPay('wallet');
+            try {
+                var wr = await PTJO.customer.getWallet();
+                var wbal = (wr && wr.ok) ? (parseFloat((wr.wallet && wr.wallet.balance != null) ? wr.wallet.balance : wr.balance) || 0) : 0;
+                document.getElementById('ep-wallet-balance').textContent = '$' + wbal.toLocaleString();
+            } catch (e) {}
+            document.getElementById('eng-pay-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } catch (e) { console.error('[Bounty] complete:', e); toast('Network error. Please try again.', 'warn'); }
+    };
+
+    window.selectEngPay = function (method) {
+        document.getElementById('ep-method').value = method;
+        var w = document.getElementById('ep-opt-wallet'), c = document.getElementById('ep-opt-card');
+        [w, c].forEach(function (el) { el.style.borderColor = '#374151'; var ch = el.querySelector('.ep-check'); if (ch) ch.classList.add('hidden'); });
+        var sel = (method === 'card') ? c : w;
+        sel.style.borderColor = '#0d9488';
+        var chk = sel.querySelector('.ep-check'); if (chk) chk.classList.remove('hidden');
+    };
+
+    window.closeEngPay = function () {
+        document.getElementById('eng-pay-modal').classList.add('hidden');
+        var bd = document.getElementById('bounty-detail-modal');
+        document.body.style.overflow = (bd && !bd.classList.contains('hidden')) ? 'hidden' : '';
+    };
+
+    window.confirmEngPay = async function () {
+        if (!_payEngId) return;
+        var method = document.getElementById('ep-method').value || 'wallet';
+        try {
+            var res = await PTJO.customer.completeEngagement(_payEngId, method);
+            if (res && res.ok) {
+                toast('Payment complete — the pentester has been paid.', 'success');
+                if (current) { current.status = 'completed'; saveBounty(current); }
+                closeEngPay();
+                closeBountyDetail();
+                // Invite the customer to rate the pentester right away.
+                openEngReview(_payEngId, {
+                    name:    _payEng && (_payEng.hacker_name || _payEng.hacker_handle),
+                    avatar:  _payEng && _payEng.hacker_avatar,
+                    service: _payEng && _payEng.service_type
+                });
+            } else { toast((res && res.error) || 'Payment failed.', 'warn'); }
+        } catch (e) { console.error('[Bounty] pay:', e); toast('Network error. Please try again.', 'warn'); }
+    };
+
+    // ── Reviews & pentester profile ──────────────────────────────────────────
+    var STAR_LABELS_C = { 1: 'Poor', 2: 'Fair', 3: 'Good', 4: 'Very good', 5: 'Excellent' };
+    var _erEngId = null, _erRating = 0, _erRecommend = true;
+
+    function avatarFor(url, seed) {
+        if (url) return url;
+        return 'https://api.dicebear.com/7.x/initials/svg?seed=' + encodeURIComponent(seed || 'P') +
+               '&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700';
+    }
+    function svcLabel(code) { return SERVICE_LABELS[code] || code || ''; }
+    function revDate(s) {
+        if (!s) return '';
+        var d = new Date(String(s).replace(' ', 'T'));
+        return isNaN(d) ? '' : d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    window.erSelectStar = function (value) {
+        _erRating = value;
+        document.querySelectorAll('#er-star-row .er-star').forEach(function (b) {
+            var v = parseInt(b.getAttribute('data-value'), 10);
+            b.classList.toggle('text-yellow-400', v <= value);
+            b.classList.toggle('text-gray-600', v > value);
+        });
+        document.getElementById('er-star-label').textContent = STAR_LABELS_C[value] || '';
+        if (value) document.getElementById('er-error').classList.add('hidden');
+    };
+
+    window.erSetRecommend = function (yes) {
+        _erRecommend = !!yes;
+        var y = document.getElementById('er-rec-yes'), n = document.getElementById('er-rec-no');
+        y.className = 'flex-1 py-2.5 rounded-xl border-2 text-sm font-bold transition-all flex items-center justify-center gap-2 ' +
+            (yes ? 'border-teal-500 bg-teal-500/10 text-teal-300' : 'border-gray-700 bg-gray-900/50 text-gray-400');
+        n.className = 'flex-1 py-2.5 rounded-xl border-2 text-sm font-bold transition-all flex items-center justify-center gap-2 ' +
+            (!yes ? 'border-red-500 bg-red-500/10 text-red-300' : 'border-gray-700 bg-gray-900/50 text-gray-400');
+        y.innerHTML = '<i class="fas fa-thumbs-up"></i> Yes';
+        n.innerHTML = '<i class="fas fa-thumbs-down"></i> No';
+    };
+
+    window.openEngReview = async function (engId, meta) {
+        if (!engId) return;
+        _erEngId = engId;
+        erSelectStar(0);
+        erSetRecommend(true);
+        document.getElementById('er-comment').value = '';
+        document.getElementById('er-error').classList.add('hidden');
+        meta = meta || {};
+        document.getElementById('er-hacker-name').textContent = meta.name || 'Pentester';
+        document.getElementById('er-service').textContent = meta.service ? svcLabel(meta.service) : '';
+        document.getElementById('er-hacker-avatar').src = avatarFor(meta.avatar, meta.name);
+        document.getElementById('eng-review-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        // Enrich + guard against double reviews.
+        try {
+            var res = await PTJO.customer.getHackerPublic({ engagement_id: engId });
+            if (res && res.ok) {
+                var p = res.profile || {};
+                if (!meta.name)   document.getElementById('er-hacker-name').textContent = p.display_name || p.handle || 'Pentester';
+                if (!meta.avatar) document.getElementById('er-hacker-avatar').src = avatarFor(p.avatar_url, p.display_name || p.handle);
+                if (res.already_reviewed) {
+                    closeEngReview();
+                    toast('You have already reviewed this engagement.', 'warn');
+                    renderPentester(res);
+                    document.getElementById('pentester-modal').classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        } catch (e) { /* non-fatal */ }
+    };
+
+    window.closeEngReview = function () {
+        document.getElementById('eng-review-modal').classList.add('hidden');
+        var pm = document.getElementById('pentester-modal');
+        document.body.style.overflow = (pm && !pm.classList.contains('hidden')) ? 'hidden' : '';
+    };
+
+    window.submitEngReview = async function () {
+        if (!_erEngId) return;
+        var err = document.getElementById('er-error'), msg = document.getElementById('er-error-msg');
+        if (!_erRating || _erRating < 1) {
+            msg.textContent = 'Please select a star rating.';
+            err.classList.remove('hidden');
+            return;
+        }
+        var btn = document.getElementById('er-submit-btn');
+        btn.disabled = true; btn.classList.add('opacity-60');
+        try {
+            var res = await PTJO.customer.submitReview(_erEngId, {
+                rating: _erRating,
+                recommended: _erRecommend,
+                comment: document.getElementById('er-comment').value.trim()
+            });
+            if (res && res.ok) {
+                closeEngReview();
+                toast('Thanks! Your review is now public on the pentester’s profile.', 'success');
+            } else {
+                msg.textContent = (res && res.error) || 'Could not submit review.';
+                err.classList.remove('hidden');
+            }
+        } catch (e) {
+            msg.textContent = 'Network error. Please try again.';
+            err.classList.remove('hidden');
+        } finally {
+            btn.disabled = false; btn.classList.remove('opacity-60');
+        }
+    };
+
+    // Open the review modal from a completed bounty's detail view.
+    window.reviewFromBounty = async function () {
+        if (!current) return;
+        try {
+            var eng = await resolveEngagement(current.id);
+            if (!eng) { toast('No engagement found for this bounty.', 'warn'); return; }
+            openEngReview(eng.id, {
+                name: eng.hacker_name || eng.hacker_handle,
+                avatar: eng.hacker_avatar,
+                service: eng.service_type || current.serviceType
+            });
+        } catch (e) { toast('Network error. Please try again.', 'warn'); }
+    };
+
+    window.openPentesterFromBounty = async function () {
+        if (!current) return;
+        try {
+            var eng = await resolveEngagement(current.id);
+            if (!eng) { toast('No engagement found for this bounty.', 'warn'); return; }
+            openPentesterProfile({ engagement_id: eng.id });
+        } catch (e) { toast('Network error. Please try again.', 'warn'); }
+    };
+
+    window.openPentesterProfile = async function (params) {
+        document.getElementById('pm-loading').classList.remove('hidden');
+        document.getElementById('pm-body').classList.add('hidden');
+        document.getElementById('pentester-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        try {
+            var res = await PTJO.customer.getHackerPublic(params || {});
+            if (res && res.ok) { renderPentester(res); }
+            else { toast((res && res.error) || 'Could not load profile.', 'warn'); closePentesterProfile(); }
+        } catch (e) { toast('Network error. Please try again.', 'warn'); closePentesterProfile(); }
+    };
+
+    function renderPentester(res) {
+        var p = res.profile || {}, reviews = res.reviews || [];
+        document.getElementById('pm-loading').classList.add('hidden');
+        document.getElementById('pm-body').classList.remove('hidden');
+        var name = p.display_name || p.handle || 'Pentester';
+        document.getElementById('pm-avatar').src = avatarFor(p.avatar_url, name);
+        document.getElementById('pm-name').textContent = name;
+        document.getElementById('pm-handle').textContent = p.handle ? '@' + p.handle : '';
+        document.getElementById('pm-title').textContent = p.professional_title || '';
+        var metaBits = [];
+        if (p.location) metaBits.push(p.location);
+        if (p.years_experience) metaBits.push(p.years_experience + ' yrs exp');
+        document.getElementById('pm-meta').textContent = metaBits.join('  ·  ');
+
+        var avg = parseFloat(p.avg_rating) || 0;
+        var starHtml = '';
+        for (var i = 1; i <= 5; i++) starHtml += '<i class="fas fa-star ' + (i <= Math.round(avg) ? '' : 'text-gray-700') + '"></i>';
+        document.getElementById('pm-stars').innerHTML = starHtml +
+            '<span class="text-gray-400 ml-1 text-xs">' + (avg > 0 ? avg.toFixed(1) : '—') + ' (' + (p.review_count || 0) + ')</span>';
+        document.getElementById('pm-stat-rating').textContent = avg > 0 ? avg.toFixed(1) + '★' : '—';
+        document.getElementById('pm-stat-jobs').textContent = p.jobs_done || 0;
+        document.getElementById('pm-stat-rec').textContent = (p.review_count > 0) ? ((p.recommend_pct || 0) + '%') : '—';
+
+        var bioWrap = document.getElementById('pm-bio-wrap');
+        if (p.bio) { document.getElementById('pm-bio').textContent = p.bio; bioWrap.classList.remove('hidden'); }
+        else bioWrap.classList.add('hidden');
+
+        var skillsWrap = document.getElementById('pm-skills-wrap');
+        var skills = p.skills || [];
+        if (skills.length) {
+            document.getElementById('pm-skills').innerHTML = skills.map(function (s) {
+                return '<span class="bg-teal-500/10 text-teal-400 text-[11px] px-2 py-0.5 rounded font-bold border border-teal-500/20">' + esc(s) + '</span>';
+            }).join('');
+            skillsWrap.classList.remove('hidden');
+        } else skillsWrap.classList.add('hidden');
+
+        document.getElementById('pm-review-count').textContent = reviews.length;
+        var listEl = document.getElementById('pm-reviews'), emptyEl = document.getElementById('pm-reviews-empty');
+        if (!reviews.length) { listEl.innerHTML = ''; emptyEl.classList.remove('hidden'); return; }
+        emptyEl.classList.add('hidden');
+        listEl.innerHTML = reviews.map(function (rev) {
+            var rating = parseInt(rev.rating) || 0;
+            var stars = '';
+            for (var i = 1; i <= 5; i++) stars += '<i class="fas fa-star text-xs ' + (i <= rating ? 'text-yellow-400' : 'text-gray-700') + '"></i>';
+            var who = esc(rev.client_company || rev.client_display_name || 'Verified Client');
+            var rec = (String(rev.recommended) === '1' || rev.recommended === true)
+                ? '<span class="text-[10px] bg-teal-500/10 border border-teal-500/20 text-teal-300 px-1.5 py-0.5 rounded-full font-semibold ml-1"><i class="fas fa-thumbs-up text-[9px]"></i> Recommends</span>' : '';
+            var body = rev.comment
+                ? '<p class="text-gray-300 text-sm mt-2 leading-relaxed">"' + esc(rev.comment) + '"</p>'
+                : '<p class="text-gray-500 text-xs italic mt-2">No written comment.</p>';
+            return '<div class="bg-gray-900/50 border border-gray-700 rounded-xl p-4">' +
+                '<div class="flex items-center justify-between gap-2 flex-wrap">' +
+                    '<p class="text-white font-bold text-sm">' + who + rec + '</p>' +
+                    '<div class="flex items-center gap-0.5">' + stars + '</div>' +
+                '</div>' +
+                '<p class="text-gray-500 text-[11px] mt-0.5">' + esc(svcLabel(rev.service_label)) + ' · ' + esc(revDate(rev.created_at)) + '</p>' +
+                body +
+            '</div>';
+        }).join('');
+    }
+
+    window.closePentesterProfile = function () {
+        document.getElementById('pentester-modal').classList.add('hidden');
+        var bd = document.getElementById('bounty-detail-modal');
+        var er = document.getElementById('eng-review-modal');
+        document.body.style.overflow = ((bd && !bd.classList.contains('hidden')) || (er && !er.classList.contains('hidden'))) ? 'hidden' : '';
+    };
+
+    // Close on Escape / backdrop click
+    document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var er = document.getElementById('eng-review-modal');
+        if (er && !er.classList.contains('hidden')) { closeEngReview(); return; }
+        var pm = document.getElementById('pentester-modal');
+        if (pm && !pm.classList.contains('hidden')) { closePentesterProfile(); return; }
+        var ep = document.getElementById('eng-pay-modal');
+        if (ep && !ep.classList.contains('hidden')) { closeEngPay(); return; }
+        var m = document.getElementById('bounty-detail-modal');
+        if (m && !m.classList.contains('hidden')) closeBountyDetail();
+    });
+    document.addEventListener('click', function (e) {
+        var er = document.getElementById('eng-review-modal');
+        if (er && e.target === er) { closeEngReview(); return; }
+        var pm = document.getElementById('pentester-modal');
+        if (pm && e.target === pm) { closePentesterProfile(); return; }
+        var ep = document.getElementById('eng-pay-modal');
+        if (ep && e.target === ep) { closeEngPay(); return; }
+        var m = document.getElementById('bounty-detail-modal');
+        if (m && e.target === m) closeBountyDetail();
+    });
 })();
 </script>
 </body>

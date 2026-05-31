@@ -30,7 +30,13 @@ if ($user['role'] === 'customer') {
 } elseif ($user['role'] === 'hacker') {
     $st = $pdo->prepare(
         'SELECT hp.handle, hp.display_name, hp.avatar_url, hp.professional_title,
-                w.balance AS wallet_balance
+                w.balance AS wallet_balance,
+                (SELECT COUNT(*) FROM engagements e
+                   WHERE e.hacker_id = hp.user_id AND e.status = "completed") AS jobs_done,
+                (SELECT ROUND(AVG(r.rating), 2) FROM reviews r
+                   WHERE r.hacker_id = hp.user_id) AS avg_rating,
+                (SELECT COUNT(*) FROM reviews r
+                   WHERE r.hacker_id = hp.user_id) AS review_count
          FROM hacker_profiles hp
          LEFT JOIN wallets w ON w.user_id = hp.user_id AND w.type = "hacker"
          WHERE hp.user_id = ?'

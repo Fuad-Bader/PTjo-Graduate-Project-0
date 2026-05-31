@@ -164,6 +164,18 @@ CREATE INDEX idx_engagements_customer ON engagements(customer_id);
 CREATE INDEX idx_engagements_hacker ON engagements(hacker_id);
 CREATE INDEX idx_engagements_status ON engagements(status);
 
+CREATE TABLE engagement_messages (
+  id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+  engagement_id CHAR(36) NOT NULL,
+  sender_id CHAR(36) NOT NULL,
+  body TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  read_at TIMESTAMP NULL,
+  CONSTRAINT fk_msg_engagement FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE,
+  CONSTRAINT fk_msg_sender FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE INDEX idx_eng_messages_engagement ON engagement_messages(engagement_id, created_at);
+
 CREATE TABLE vulnerability_reports (
   id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
   public_id VARCHAR(80) NOT NULL UNIQUE,
@@ -223,20 +235,22 @@ CREATE INDEX idx_attachments_report ON report_attachments(report_id);
 CREATE TABLE reviews (
   id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
   public_id VARCHAR(80) NOT NULL UNIQUE,
-  report_id CHAR(36) NOT NULL,
+  report_id CHAR(36) NULL,
   engagement_id CHAR(36) NOT NULL,
   hacker_id CHAR(36) NOT NULL,
   customer_id CHAR(36) NOT NULL,
   client_display_name VARCHAR(255) NOT NULL DEFAULT 'Customer',
   client_company VARCHAR(255),
   rating SMALLINT NOT NULL,
-  comment TEXT NOT NULL,
+  recommended TINYINT(1) NOT NULL DEFAULT 1,
+  comment TEXT NULL,
   service_label VARCHAR(255),
   vuln_title VARCHAR(255),
   severity_label VARCHAR(64),
   verified BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT uq_one_review_per_report UNIQUE (report_id),
+  CONSTRAINT uq_one_review_per_engagement UNIQUE (engagement_id),
   CONSTRAINT chk_review_rating CHECK (rating BETWEEN 1 AND 5),
   CONSTRAINT fk_review_report FOREIGN KEY (report_id) REFERENCES vulnerability_reports(id) ON DELETE CASCADE,
   CONSTRAINT fk_review_engagement FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE,

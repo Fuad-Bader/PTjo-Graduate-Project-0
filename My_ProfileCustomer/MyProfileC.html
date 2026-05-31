@@ -92,54 +92,22 @@
     <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
         <div class="container flex justify-between items-center h-20">
             <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
-
-                <div class="relative">
-                    <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                        <span data-i18n="nav.products">Products</span>
-                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span class="dropdown-title" data-i18n="nav.network">Network Testing</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span class="dropdown-title" data-i18n="nav.ad">Active Directory</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span class="dropdown-title" data-i18n="nav.cloud">Cloud Testing</span></a>
-                        <div class="h-px bg-gray-700 my-1"></div>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span class="dropdown-title" data-i18n="nav.webapp">Web App</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span class="dropdown-title" data-i18n="nav.mobile">Mobile App</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span class="dropdown-title" data-i18n="nav.api">API Testing</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span class="dropdown-title" data-i18n="nav.iot">IoT Testing</span></a>
-                    </div>
-                </div>
-
-                <div class="relative">
-                    <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                        <span data-i18n="nav.industries">Industries</span>
-                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                        <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span class="dropdown-title" data-i18n="nav.industries.all">All Industries</span></a>
-                        <div class="h-px bg-gray-700 my-1"></div>
-                        <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span class="dropdown-title" data-i18n="nav.finance">Finance</span></a>
-                        <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span class="dropdown-title" data-i18n="nav.healthcare">Healthcare</span></a>
-                        <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span class="dropdown-title" data-i18n="nav.retail">Retail</span></a>
-                        <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span class="dropdown-title" data-i18n="nav.technology">Technology</span></a>
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-4 ml-4">
-                    <a href="../Settings/Settings.html"
-                       class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
-                       title="Settings">
-                        <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
-                        <span data-i18n="nav.settings">Settings</span>
-                    </a>
-                    <a id="nav-hacker-btn" href="../SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.hacker-login">Log In as Hacker</span></a>
-                    <a href="MyProfileC.html" class="flex items-center gap-2.5 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl px-4 py-2 font-semibold text-sm group">
-                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=Abdulrahman&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
-                        <span data-i18n="nav.my-profile">My Profile</span>
-                    </a>
-                </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="../Customer_Dashboard/Customer_Dashboard.html"
+                   class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium flex items-center gap-2">
+                    <i class="fas fa-gauge-high text-sm"></i> Dashboard
+                </a>
+                <a href="../Settings/Settings.html"
+                   class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
+                   title="Settings">
+                    <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
+                    <span data-i18n="nav.settings">Settings</span>
+                </a>
+                <a href="MyProfileC.html" class="flex items-center gap-2.5 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl px-4 py-2 font-semibold text-sm group">
+                    <img id="nav-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=CU&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
+                    <span data-i18n="nav.my-profile">My Profile</span>
+                </a>
+                <button id="nav-logout-btn" class="text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5"><i class="fas fa-sign-out-alt"></i>Log Out</button>
             </div>
         </div>
     </nav>
@@ -168,7 +136,7 @@
                     <!-- Avatar -->
                     <div class="avatar-wrap relative mb-4 cursor-pointer" onclick="document.getElementById('avatar-input').click()">
                         <img id="avatar-img"
-                             src="https://api.dicebear.com/7.x/initials/svg?seed=Abdulrahman&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700"
+                             src="https://api.dicebear.com/7.x/initials/svg?seed=CU&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700"
                              alt="Profile"
                              class="w-24 h-24 rounded-full object-cover avatar-ring" />
                         <div class="avatar-overlay absolute inset-0 rounded-full bg-black/60 flex flex-col items-center justify-center">
@@ -181,21 +149,21 @@
                     </div>
                     <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="handleAvatarChange(event)">
 
-                    <h2 id="sidebar-name" class="text-lg font-bold text-white">Abdulrahman</h2>
-                    <p id="sidebar-company" class="text-xs text-teal-400 font-semibold mt-0.5">PTjo Systems Co.</p>
-                    <p id="sidebar-email" class="text-xs text-gray-500 mt-1">abdulrahman@ptjo.io</p>
+                    <h2 id="sidebar-name" class="text-lg font-bold text-white">—</h2>
+                    <p id="sidebar-company" class="text-xs text-teal-400 font-semibold mt-0.5">—</p>
+                    <p id="sidebar-email" class="text-xs text-gray-500 mt-1">—</p>
 
                     <div class="w-full mt-4 pt-4 border-t border-gray-700 grid grid-cols-3 gap-2 text-center">
                         <div>
-                            <div class="text-lg font-extrabold text-white" id="stat-total">5</div>
+                            <div class="text-lg font-extrabold text-white" id="stat-total">—</div>
                             <div class="text-xs text-gray-500">Total</div>
                         </div>
                         <div>
-                            <div class="text-lg font-extrabold text-yellow-400" id="stat-pending">2</div>
+                            <div class="text-lg font-extrabold text-yellow-400" id="stat-pending">—</div>
                             <div class="text-xs text-gray-500">Pending</div>
                         </div>
                         <div>
-                            <div class="text-lg font-extrabold text-teal-400" id="stat-done">3</div>
+                            <div class="text-lg font-extrabold text-teal-400" id="stat-done">—</div>
                             <div class="text-xs text-gray-500">Done</div>
                         </div>
                     </div>
@@ -211,7 +179,7 @@
                     </div>
                     <div class="sidebar-tab" onclick="switchTab('orders', this)">
                         <i class="fas fa-clipboard-list"></i> <span data-i18n="profile.tab.orders">My Orders</span>
-                        <span class="ml-auto text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded-full font-bold">2</span>
+                        <span id="orders-badge" class="ml-auto text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded-full font-bold">—</span>
                     </div>
                     <div class="sidebar-tab" onclick="switchTab('payment', this)">
                         <i class="fas fa-wallet"></i> <span>Payment & Wallet</span>
@@ -243,21 +211,21 @@
                                     <label class="form-label" data-i18n="profile.label.name">Full Name</label>
                                     <div class="relative">
                                         <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-user text-sm"></i></span>
-                                        <input type="text" id="prof-name" class="form-input pl-10" value="Abdulrahman" placeholder="Your full name">
+                                        <input type="text" id="prof-name" class="form-input pl-10" value="" placeholder="Your full name">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="form-label">Company Name</label>
                                     <div class="relative">
                                         <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-building text-sm"></i></span>
-                                        <input type="text" id="prof-company" class="form-input pl-10" value="PTjo Systems Co." placeholder="Your company">
+                                        <input type="text" id="prof-company" class="form-input pl-10" value="" placeholder="Your company">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="form-label" data-i18n="profile.label.phone">Phone Number</label>
                                     <div class="relative">
                                         <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-phone text-sm"></i></span>
-                                        <input type="tel" id="prof-phone" class="form-input pl-10" value="+962 79 123 4567" placeholder="+962 ...">
+                                        <input type="tel" id="prof-phone" class="form-input pl-10" value="" placeholder="+962 ...">
                                     </div>
                                 </div>
                                 <div>
@@ -278,7 +246,7 @@
                             </div>
                             <div class="mb-6">
                                 <label class="form-label">Company Bio / Notes</label>
-                                <textarea id="prof-bio" class="form-input resize-none" rows="3" placeholder="Brief description of your company or security needs...">We specialize in fintech solutions and require regular penetration testing to maintain compliance.</textarea>
+                                <textarea id="prof-bio" class="form-input resize-none" rows="3" placeholder="Brief description of your company or security needs..."></textarea>
                             </div>
                             <div class="flex justify-end gap-3">
                                 <button type="button" onclick="resetProfileForm()" class="btn bg-gray-700 hover:bg-gray-600 text-sm" data-i18n="profile.btn.discard">Discard</button>
@@ -312,7 +280,7 @@
                             </div>
                             <div>
                                 <h3 class="text-lg font-bold text-white">Change Email Address</h3>
-                                <p class="text-gray-500 text-xs mt-0.5">Current: <span class="text-teal-400" id="display-current-email">abdulrahman@ptjo.io</span></p>
+                                <p class="text-gray-500 text-xs mt-0.5">Current: <span class="text-teal-400" id="display-current-email">—</span></p>
                             </div>
                         </div>
                         <form onsubmit="changeEmail(event)">
@@ -435,11 +403,11 @@
 
                         <!-- Filter Tabs -->
                         <div class="flex flex-wrap gap-2 mb-6">
-                            <button class="order-filter-btn active" onclick="filterOrders('all', this)">All <span class="ml-1 opacity-60">5</span></button>
-                            <button class="order-filter-btn" onclick="filterOrders('pending', this)">Pending <span class="ml-1 opacity-60">2</span></button>
-                            <button class="order-filter-btn" onclick="filterOrders('inprogress', this)">In Progress <span class="ml-1 opacity-60">1</span></button>
-                            <button class="order-filter-btn" onclick="filterOrders('completed', this)">Completed <span class="ml-1 opacity-60">1</span></button>
-                            <button class="order-filter-btn" onclick="filterOrders('failed', this)">Failed <span class="ml-1 opacity-60">1</span></button>
+                            <button class="order-filter-btn active" onclick="filterOrders('all', this)">All <span id="cnt-all" class="ml-1 opacity-60">0</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('pending', this)">Pending <span id="cnt-pending" class="ml-1 opacity-60">0</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('inprogress', this)">In Progress <span id="cnt-inprogress" class="ml-1 opacity-60">0</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('completed', this)">Completed <span id="cnt-completed" class="ml-1 opacity-60">0</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('failed', this)">Failed <span id="cnt-failed" class="ml-1 opacity-60">0</span></button>
                         </div>
 
                         <!-- Order List -->
@@ -472,7 +440,7 @@
                             </button>
                             <button type="button" onclick="document.getElementById('c-tx-section').scrollIntoView({behavior:'smooth'})"
                                 class="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-semibold transition-all flex items-center justify-center gap-2 border border-gray-600 text-sm">
-                                <i class="fas fa-list"></i> View sample transactions
+                                <i class="fas fa-list"></i> View transactions
                             </button>
                         </div>
 
@@ -528,40 +496,8 @@
                                 <h4 class="text-white font-bold">Recent Transactions</h4>
                                 <span class="text-xs text-gray-500">Last 30 days</span>
                             </div>
-                            <div class="flex flex-col gap-2">
-                                <div class="flex items-center gap-4 p-3.5 bg-gray-900/60 rounded-xl border border-gray-700/60">
-                                    <div class="w-9 h-9 rounded-xl bg-red-600/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-arrow-up text-red-400 text-sm"></i></div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-white text-sm font-semibold">Payment Sent</p>
-                                        <p class="text-gray-500 text-xs">Network Pentest · Order #NP-0042</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-red-400 font-bold text-sm">−$1,200.00</p>
-                                        <p class="text-gray-600 text-xs">Apr 1, 2026</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 p-3.5 bg-gray-900/60 rounded-xl border border-gray-700/60">
-                                    <div class="w-9 h-9 rounded-xl bg-teal-600/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-arrow-down text-teal-400 text-sm"></i></div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-white text-sm font-semibold">Wallet Top Up</p>
-                                        <p class="text-gray-500 text-xs">Via Visa ···1234 · Ref #TU-0882</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-teal-400 font-bold text-sm">+$2,000.00</p>
-                                        <p class="text-gray-600 text-xs">Mar 28, 2026</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 p-3.5 bg-gray-900/60 rounded-xl border border-gray-700/60">
-                                    <div class="w-9 h-9 rounded-xl bg-red-600/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-arrow-up text-red-400 text-sm"></i></div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-white text-sm font-semibold">Payment Sent</p>
-                                        <p class="text-gray-500 text-xs">Cloud Security · Order #CL-0019</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-red-400 font-bold text-sm">−$3,500.00</p>
-                                        <p class="text-gray-600 text-xs">Mar 20, 2026</p>
-                                    </div>
-                                </div>
+                            <div id="cust-tx-list" class="flex flex-col gap-2">
+                                <p class="text-gray-600 text-sm text-center py-4">Loading transactions…</p>
                             </div>
                         </div>
                     </div>
@@ -829,12 +765,34 @@
         function handleAvatarChange(e) {
             const file = e.target.files[0];
             if (!file || !file.type.startsWith('image/')) return;
+            if (file.size > 3 * 1024 * 1024) { showToast('Image too large (max 3MB).', 'warn'); return; }
+            // Instant local preview while the upload runs.
             const reader = new FileReader();
             reader.onload = ev => {
-                document.getElementById('avatar-img').src = ev.target.result;
-                showToast('Profile picture updated!');
+                ['avatar-img', 'nav-avatar'].forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) el.src = ev.target.result;
+                });
             };
             reader.readAsDataURL(file);
+            // Upload to the server so it persists in the database (and shows everywhere).
+            if (window.PTJO && PTJO.uploadAvatar) {
+                PTJO.uploadAvatar(file).then(function (res) {
+                    if (res && res.ok && res.avatar_url) {
+                        if (window._customerProfileData) window._customerProfileData.avatar_url = res.avatar_url;
+                        try { localStorage.setItem('ptjo_customer_avatar', res.avatar_url); } catch (_) {}
+                        ['avatar-img', 'nav-avatar'].forEach(function (id) {
+                            var el = document.getElementById(id);
+                            if (el) el.src = res.avatar_url;
+                        });
+                        showToast('Profile picture updated!');
+                    } else {
+                        showToast((res && res.error) || 'Upload failed. Please try again.', 'warn');
+                    }
+                }).catch(function () { showToast('Upload failed. Please try again.', 'warn'); });
+            } else {
+                showToast('Profile picture updated!');
+            }
         }
 
         // ── Toggle Password Visibility ─────────────────────────────
@@ -851,26 +809,20 @@
         }
 
         // ── Save Profile ───────────────────────────────────────────
-        const originalProfile = {
-            name: 'Abdulrahman',
-            company: 'PTjo Systems Co.',
-            phone: '+962 79 123 4567',
-            industry: 'Technology',
-            bio: 'We specialize in fintech solutions and require regular penetration testing to maintain compliance.'
-        };
         function saveProfile(e) {
             e.preventDefault();
             const name = document.getElementById('prof-name').value.trim();
             const company = document.getElementById('prof-company').value.trim();
-            document.getElementById('sidebar-name').textContent = name || 'Abdulrahman';
-            document.getElementById('sidebar-company').textContent = company || '—';
+            if (name)    document.getElementById('sidebar-name').textContent    = name;
+            if (company) document.getElementById('sidebar-company').textContent = company;
             showToast('Profile saved successfully!');
         }
         function resetProfileForm() {
-            document.getElementById('prof-name').value = originalProfile.name;
-            document.getElementById('prof-company').value = originalProfile.company;
-            document.getElementById('prof-phone').value = originalProfile.phone;
-            document.getElementById('prof-bio').value = originalProfile.bio;
+            var p = window._customerProfileData || {};
+            document.getElementById('prof-name').value    = p.display_name || '';
+            document.getElementById('prof-company').value = p.company_name || '';
+            document.getElementById('prof-phone').value   = p.phone        || '';
+            document.getElementById('prof-bio').value     = p.bio          || '';
             showToast('Changes discarded.', 'warn');
         }
 
@@ -1154,144 +1106,16 @@
             window.openFullReportViewer(report, 'customer');
         };
 
-        // ── Orders Data ────────────────────────────────────────────
-        const orders = [
-            {
-                id: 'ENG-4F2A9B',
-                service: 'Web App Testing',
-                icon: 'fa-globe',
-                pentester: 'Khalid Al-Rashidi',
-                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Khalid&backgroundColor=0d9488',
-                date: 'Mar 10, 2025',
-                deadline: 'Mar 24, 2025',
-                price: '$1,200',
-                status: 'completed',
-                statusLabel: 'Completed',
-                rating: 5,
-                note: 'Reflected XSS documented in the checkout flow — open View Report for full (display sample) details.'
-            },
-            {
-                id: 'ENG-7C1D3E',
-                service: 'Network Testing',
-                icon: 'fa-network-wired',
-                pentester: 'Sara Al-Mansoori',
-                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Sara&backgroundColor=7c3aed',
-                date: 'Mar 18, 2025',
-                deadline: 'Apr 1, 2025',
-                price: '$850',
-                status: 'inprogress',
-                statusLabel: 'In Progress',
-                rating: null,
-                note: 'Assessment underway — external perimeter scan complete, internal phase starting.'
-            },
-            {
-                id: 'ENG-2B8F5A',
-                service: 'Cloud Testing',
-                icon: 'fa-cloud',
-                pentester: 'Pending Assignment',
-                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=PA&backgroundColor=374151',
-                date: 'Mar 22, 2025',
-                deadline: 'Apr 5, 2025',
-                price: '$950',
-                status: 'pending',
-                statusLabel: 'Awaiting Pentester',
-                rating: null,
-                note: 'Waiting for a certified AWS/Azure pentester to accept the engagement.'
-            },
-            {
-                id: 'ENG-9E6C1D',
-                service: 'API Testing',
-                icon: 'fa-cube',
-                pentester: 'Omar Qasim',
-                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Omar&backgroundColor=dc2626',
-                date: 'Mar 20, 2025',
-                deadline: 'Apr 3, 2025',
-                price: '$700',
-                status: 'pending',
-                statusLabel: 'Awaiting Start',
-                rating: null,
-                note: 'Pentester accepted. Engagement scheduled to begin Mar 28, 2025.'
-            },
-            {
-                id: 'ENG-0A3F7C',
-                service: 'Mobile App Testing',
-                icon: 'fa-mobile-alt',
-                pentester: 'Aisha Nour',
-                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Aisha&backgroundColor=b45309',
-                date: 'Feb 5, 2025',
-                deadline: 'Feb 19, 2025',
-                price: '$600',
-                status: 'failed',
-                statusLabel: 'Failed',
-                rating: null,
-                note: 'Engagement cancelled — scope was out of bounds for the agreed budget. Refund issued.'
-            }
-        ];
+        // ── Orders Data (loaded from API) ──────────────────────────
+        let orders = [];
 
         function parseOrderPrice(str) {
             const n = parseFloat(String(str || '').replace(/[^0-9.]/g, ''));
             return isNaN(n) ? 0 : n;
         }
 
-        /** Fills localStorage for any completed order missing a linked report (UI demo only; not a real pentester submission). */
-        function buildDisplayOnlyReport(order) {
-            const loremP1 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
-            const loremP2 = 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-            const loremImpact = 'Integer nec odio praesent libero sed cursus ante dapibus diam. Sed nisi nulla quis sem at nibh elementum imperdiet. ' + loremP1;
-            const engSuffix = order.id.replace(/^ENG-/i, '');
-            return {
-                id: 'RPT-' + engSuffix,
-                engagementId: order.id,
-                service: order.service,
-                hackerName: order.pentester,
-                client: 'Al-Rashidi Corp',
-                submittedAt: '2025-03-23T16:00:00.000Z',
-                status: 'submitted',
-                severity: 'High',
-                priority: 2,
-                serviceType: order.service + ' — scoped web assessment',
-                vulnCategory: 'Cross-Site Scripting',
-                vulnSubcategory: 'Reflected XSS',
-                vulnVariant: 'HTML context',
-                vulnCategoryFull: 'A03:2021 — Injection (Cross-Site Scripting)',
-                vulnSubcategoryFull: 'Reflected cross-site scripting',
-                vulnVariantFull: 'Reflected — HTML sink',
-                vulnerabilityPath: 'XSS · Reflected · HTML context (checkout)',
-                title: 'Reflected XSS via unencoded query parameter on checkout review',
-                url: 'https://shop.example.com/checkout/review?q=',
-                description:
-                    "The `q` parameter is reflected into the page HTML without output encoding. Proof-of-concept: `https://shop.example.com/checkout/review?q=%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E` (escaped here for documentation).\n\n" +
-                    loremP1 + '\n\n' + loremP2,
-                impact:
-                    loremImpact + ' Attackers may execute scripts in victims\' browsers, steal session cookies where flags allow, deface the payment step, or redirect users to malicious sites.',
-                weakness: 'CWE-79: Improper neutralization of input during web page generation (cross-site scripting).',
-                recommendations:
-                    '1. Lorem ipsum — encode all dynamic output in HTML context (entity encoding or framework escapers).\n2. Dolor sit amet — deploy a strict Content-Security Policy (default-src, script-src) to mitigate inline abuse.\n3. Consectetur adipiscing — migrate the template to context-aware auto-escaping and add XSS regression tests on `q`.\n4. Sed do eiusmod — validate query length and character classes; reject markup on the server.',
-                agreedAmount: parseOrderPrice(order.price),
-                editNote: '',
-                paymentMethod: '',
-                paymentCard: '',
-                files: [],
-                submittedBy: order.pentester,
-                hackerAvatar: order.avatar || '',
-                isDisplaySeed: true
-            };
-        }
-
         function ensureReportsForCompletedOrders() {
-            let reports = JSON.parse(localStorage.getItem('ptjo_reports') || '[]');
-            let changed = false;
-            const pruned = reports.filter(function (r) { return r.id !== 'RPT-DEMO01'; });
-            if (pruned.length !== reports.length) {
-                reports = pruned;
-                changed = true;
-            }
-            orders.filter(function (o) { return o.status === 'completed'; }).forEach(function (o) {
-                if (reports.some(function (r) { return r.engagementId === o.id; })) return;
-                reports.push(buildDisplayOnlyReport(o));
-                changed = true;
-            });
-            if (changed) localStorage.setItem('ptjo_reports', JSON.stringify(reports));
+            /* No-op: reports are loaded from the API, not seeded from mock orders */
         }
 
         const badgeClass = { pending: 'badge-pending', inprogress: 'badge-inprogress', completed: 'badge-completed', failed: 'badge-failed' };
@@ -1365,22 +1189,6 @@
             showToast('Order cancelled.', 'warn');
         }
 
-        // ── Dropdown ───────────────────────────────────────────────
-        ['products', 'industries'].forEach(id => {
-            const toggle = document.getElementById('dropdown-toggle-' + id);
-            const menu   = document.getElementById('dropdown-menu-' + id);
-            const arrow  = toggle.querySelector('.dropdown-toggle-svg');
-            toggle.addEventListener('click', e => {
-                e.stopPropagation();
-                const open = menu.classList.contains('dropdown-active');
-                document.querySelectorAll('.dropdown-menu').forEach(m => { m.classList.remove('dropdown-active'); m.previousElementSibling?.querySelector('.dropdown-toggle-svg')?.classList.remove('active'); });
-                if (!open) { menu.classList.add('dropdown-active'); arrow.classList.add('active'); }
-            });
-        });
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('dropdown-active'));
-            document.querySelectorAll('.dropdown-toggle-svg').forEach(a => a.classList.remove('active'));
-        });
 
         // ── Init ───────────────────────────────────────────────────
         renderOrders('all');
@@ -1498,15 +1306,31 @@
             });
         }
 
-        function processTopup() {
+        async function processTopup() {
             if (!selectedTopupAmount || selectedTopupAmount < 10) {
                 showToast('Please select or enter a minimum amount of $10.', 'warn');
                 return;
             }
             const added = selectedTopupAmount;
-            const bal = parseFloat(localStorage.getItem('ptjo_customer_wallet') || '0') || 0;
-            const newBal = bal + added;
-            localStorage.setItem('ptjo_customer_wallet', newBal.toFixed(2));
+            // Persist to the real wallet via the API so the balance is usable
+            // for paying pentesters (not just a local display value).
+            try {
+                if (window.PTJO && PTJO.customer && PTJO.customer.topupWallet) {
+                    const res = await PTJO.customer.topupWallet(added);
+                    if (!res || !res.ok) {
+                        showToast((res && res.error) || 'Top-up failed. Please try again.', 'warn');
+                        return;
+                    }
+                    localStorage.setItem('ptjo_customer_wallet', (parseFloat(res.balance) || 0).toFixed(2));
+                } else {
+                    const bal = parseFloat(localStorage.getItem('ptjo_customer_wallet') || '0') || 0;
+                    localStorage.setItem('ptjo_customer_wallet', (bal + added).toFixed(2));
+                }
+            } catch (e) {
+                console.warn('[Topup] error:', e);
+                showToast('Network error. Please try again.', 'warn');
+                return;
+            }
             selectedTopupAmount = 0;
             const custom = document.getElementById('topup-custom');
             if (custom) custom.value = '';
@@ -1667,35 +1491,36 @@
     <script src="../assets/lang.js"></script>
     <script src="../assets/settings-panel.js"></script>
     <script src="../assets/api.js"></script>
+    <script>
     /* ── PTjo API Bridge — Customer Profile ─────────────────────────────────── */
     (function () {
         'use strict';
 
         window.PTJO_API_BASE = '../api/';
 
+        /* ── Helpers ─────────────────────────────────────────────────────────── */
+        function _set(id, val) {
+            var el = document.getElementById(id);
+            if (!el || val == null) return;
+            if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' || el.tagName === 'SELECT') el.value = val;
+            else el.textContent = val;
+        }
+        function _gv(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+        function _fmtUSD(n) {
+            return '$' + parseFloat(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
         /* ── Bootstrap ───────────────────────────────────────────────────────── */
         document.addEventListener('DOMContentLoaded', async function () {
             var session = await PTJO.init('customer');
             if (!session) return;
 
-            var p = session.profile, u = session.user;
-
-            /* Hydrate profile fields */
-            _setVal('profileDisplayName', p.display_name);
-            _setVal('profileCompanyName', p.company_name);
-            _setVal('profileEmail', u.email);
-            _setVal('profilePhone', p.phone_e164 || p.phone);
-
-            /* Avatar */
-            var avatarEl = document.getElementById('profileAvatar') || document.querySelector('[data-user-avatar]');
-            if (avatarEl && p.avatar_url) avatarEl.src = p.avatar_url;
-
-            /* Wallet balance */
-            var walletEl = document.getElementById('walletBalance') || document.getElementById('customer-wallet-balance');
-            if (walletEl && p.wallet_balance !== undefined) walletEl.textContent = PTJO.formatUSD(p.wallet_balance);
+            /* Wire nav logout button */
+            var _lBtn = document.getElementById('nav-logout-btn');
+            if (_lBtn) _lBtn.onclick = function(){ PTJO.logout(); };
 
             /* Fix logout buttons */
-            document.querySelectorAll('button, a').forEach(function(el){
+            document.querySelectorAll('button, a').forEach(function(el) {
                 var oc = el.getAttribute('onclick') || '';
                 if (/logout|signOut|sign.out/i.test(oc) || el.id === 'logout-btn') {
                     el.removeAttribute('onclick');
@@ -1703,143 +1528,287 @@
                 }
             });
 
-            await loadPaymentMethodsReal();
-            await loadReportsReal();
+            await loadFullProfile();
+            await loadWalletFromAPI();
+            await loadEngagementsFromAPI();
+            await loadReportsFromAPI();
         });
 
-        function _setVal(id, val) {
-            var el = document.getElementById(id);
-            if (el && val !== undefined && val !== null) el.value = val;
-        }
-
-        /* ── Payment Methods ─────────────────────────────────────────────────── */
-        async function loadPaymentMethodsReal() {
+        /* ── Full profile hydration ──────────────────────────────────────────── */
+        async function loadFullProfile() {
             try {
                 var res = await PTJO.customer.getProfile();
                 if (!res || !res.ok) return;
-                var p = res.profile || {};   /* PHP returns {ok, profile:{...}, user:{...}} */
-                var cards = (p.payment_methods || []).map(function(pm) {
+                var p = res.profile || {};
+                var u = res.user    || {};
+
+                window._customerProfileData = p;
+
+                /* Avatar — server value (DB) wins; fall back to a local cache, then default */
+                var seed = encodeURIComponent(p.display_name || 'CU');
+                var localAvatar = null;
+                try { localAvatar = localStorage.getItem('ptjo_customer_avatar'); } catch (_) {}
+                var avatarSrc = p.avatar_url || localAvatar ||
+                    'https://api.dicebear.com/7.x/initials/svg?seed=' + seed +
+                    '&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700';
+                ['nav-avatar','avatar-img'].forEach(function(id){
+                    var el = document.getElementById(id);
+                    if (el) el.src = avatarSrc;
+                });
+
+                /* Sidebar */
+                _set('sidebar-name',    p.display_name || '—');
+                _set('sidebar-company', p.company_name || '—');
+                _set('sidebar-email',   u.email        || '—');
+                _set('display-current-email', u.email  || '—');
+
+                /* Stats */
+                _set('stat-done', p.completed_engagements || 0);
+
+                /* Profile form */
+                _set('prof-name',    p.display_name || '');
+                _set('prof-company', p.company_name || '');
+                _set('prof-phone',   p.phone        || '');
+                _set('prof-bio',     p.bio          || '');
+                if (p.industry) {
+                    var indSel = document.getElementById('prof-industry');
+                    if (indSel) {
+                        Array.from(indSel.options).forEach(function(o){
+                            if (o.value === p.industry || o.textContent === p.industry) o.selected = true;
+                        });
+                    }
+                }
+
+                /* Payment methods */
+                renderPaymentMethodsFromAPI(p.payment_methods || []);
+
+                /* Wallet balance from profile */
+                if (p.wallet_balance != null) {
+                    _set('cust-wallet-balance', _fmtUSD(p.wallet_balance));
+                    localStorage.setItem('ptjo_customer_wallet', parseFloat(p.wallet_balance || 0).toFixed(2));
+                }
+            } catch(e) { console.warn('[Bridge] getProfile:', e); }
+        }
+
+        /* ── Wallet ──────────────────────────────────────────────────────────── */
+        async function loadWalletFromAPI() {
+            try {
+                var res = await PTJO.customer.getWallet();
+                if (!res || !res.ok) return;
+                var w = res.wallet || {};
+                var bal = parseFloat(w.balance || 0);
+                localStorage.setItem('ptjo_customer_wallet', bal.toFixed(2));
+                _set('cust-wallet-balance', _fmtUSD(bal));
+
+                /* Render transaction list if present */
+                var txList = document.getElementById('cust-tx-list');
+                if (txList) {
+                    var l = res.ledger || [];
+                    if (!l.length) {
+                        txList.innerHTML = '<p class="text-gray-600 text-sm text-center py-4">No transactions yet.</p>';
+                    } else {
+                        txList.innerHTML = l.map(function(tx, idx) {
+                            var isCredit = tx.direction === 'credit';
+                            var amtSign  = isCredit ? '+' : '−';
+                            var amtColor = isCredit ? 'text-teal-400' : 'text-red-400';
+                            var iconBg   = isCredit ? 'bg-teal-500/10' : 'bg-red-500/10';
+                            var iconCls  = isCredit ? 'fa-arrow-down text-teal-400' : 'fa-arrow-up text-red-400';
+                            var border   = idx < l.length - 1 ? 'border-b border-gray-700/50' : '';
+                            var dateStr  = tx.created_at ? new Date(tx.created_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}) : '';
+                            return '<div class="flex items-center gap-4 py-3 ' + border + '">' +
+                                '<div class="w-9 h-9 rounded-xl ' + iconBg + ' flex items-center justify-center flex-shrink-0">' +
+                                '<i class="fas ' + iconCls + ' text-sm"></i></div>' +
+                                '<div class="flex-1 min-w-0">' +
+                                '<p class="text-white font-semibold text-sm">' + (tx.description || (isCredit ? 'Payment' : 'Withdrawal')) + '</p>' +
+                                '<p class="text-gray-500 text-xs">' + (tx.reference_id || '') + '</p></div>' +
+                                '<div class="text-right">' +
+                                '<p class="' + amtColor + ' font-bold text-sm">' + amtSign + _fmtUSD(tx.amount) + '</p>' +
+                                '<p class="text-gray-600 text-xs">' + dateStr + '</p></div></div>';
+                        }).join('');
+                    }
+                }
+            } catch(e) { console.warn('[Bridge] getWallet:', e); }
+        }
+
+        /* ── Engagements ─────────────────────────────────────────────────────── */
+        async function loadEngagementsFromAPI() {
+            try {
+                var res = await PTJO.customer.getEngagements();
+                if (!res || !res.ok) return;
+                var apiEngs = res.engagements || [];
+
+                var STATUS_MAP = {
+                    'in_progress': { status:'inprogress', label:'In Progress' },
+                    'accepted':    { status:'inprogress', label:'In Progress' },
+                    'completed':   { status:'completed',  label:'Completed'   },
+                    'pending':     { status:'pending',    label:'Awaiting Pentester' },
+                    'declined':    { status:'failed',     label:'Failed'      },
+                    'cancelled':   { status:'failed',     label:'Cancelled'   },
+                };
+                var SVC_ICONS = {
+                    'web_app': 'fa-globe', 'network': 'fa-network-wired',
+                    'cloud': 'fa-cloud',   'api': 'fa-cube',
+                    'mobile': 'fa-mobile-alt', 'iot': 'fa-wifi',
+                    'active_directory': 'fa-server'
+                };
+
+                orders = apiEngs.map(function(eng) {
+                    var sm   = STATUS_MAP[eng.status] || { status: eng.status, label: eng.status };
+                    var sType = (eng.service_type || '').toLowerCase().replace(/\s+/g,'_').replace(/[^a-z_]/g,'');
+                    var icon  = SVC_ICONS[sType] || 'fa-globe';
+                    var label = (eng.service_type || '').replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+                    var price = parseFloat(eng.agreed_price_usd || 0);
+                    var due   = eng.deadline
+                        ? new Date(eng.deadline).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+                    var created = eng.created_at
+                        ? new Date(eng.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+                    var hackerSeed = encodeURIComponent(eng.hacker_name || eng.hacker_handle || 'HP');
                     return {
-                        id: pm.id,
-                        brand: pm.brand,
-                        last4: pm.last4,
-                        exp_month: pm.exp_month,
-                        exp_year: pm.exp_year,
-                        cardholder_name: pm.cardholder_name,
-                        label: pm.label,
-                        is_default: !!pm.is_default
+                        id:          eng.id,
+                        service:     label || 'Security Assessment',
+                        icon:        icon,
+                        pentester:   eng.hacker_name || eng.hacker_handle || 'Pending Assignment',
+                        avatar:      eng.hacker_avatar ||
+                            'https://api.dicebear.com/7.x/initials/svg?seed=' + hackerSeed + '&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700',
+                        date:        created,
+                        deadline:    due,
+                        price:       '$' + price.toLocaleString('en-US',{minimumFractionDigits:2}),
+                        status:      sm.status,
+                        statusLabel: sm.label,
+                        rating:      null,
+                        note:        eng.status_note || ''
                     };
                 });
-                localStorage.setItem('ptjo_customer_cards', JSON.stringify(cards));
-                if (typeof renderPaymentMethods === 'function') renderPaymentMethods();
-                /* Also update wallet balance from full profile */
-                var walletEl = document.getElementById('walletBalance') || document.getElementById('customer-wallet-balance');
-                if (walletEl && p.wallet_balance !== undefined) walletEl.textContent = PTJO.formatUSD(p.wallet_balance);
-            } catch(e) { console.warn('[Bridge] getProfile (payment):', e); }
+
+                /* Update sidebar stats */
+                var total   = orders.length;
+                var pending = orders.filter(function(o){ return o.status === 'pending' || o.status === 'inprogress'; }).length;
+                var done    = orders.filter(function(o){ return o.status === 'completed'; }).length;
+                _set('stat-total',   total);
+                _set('stat-pending', pending);
+                _set('stat-done',    done);
+                _set('orders-badge', pending || total || '—');
+
+                /* Update filter tab counts */
+                var cntAll       = orders.length;
+                var cntPending   = orders.filter(function(o){ return o.status === 'pending'; }).length;
+                var cntProgress  = orders.filter(function(o){ return o.status === 'inprogress'; }).length;
+                var cntCompleted = orders.filter(function(o){ return o.status === 'completed'; }).length;
+                var cntFailed    = orders.filter(function(o){ return o.status === 'failed'; }).length;
+                _set('cnt-all',       cntAll);
+                _set('cnt-pending',   cntPending);
+                _set('cnt-inprogress',cntProgress);
+                _set('cnt-completed', cntCompleted);
+                _set('cnt-failed',    cntFailed);
+
+                renderOrders('all');
+                /* Reset filter buttons */
+                document.querySelectorAll('.order-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+                var firstBtn = document.querySelector('.order-filter-btn');
+                if (firstBtn) firstBtn.classList.add('active');
+            } catch(e) { console.warn('[Bridge] getEngagements:', e); }
         }
 
         /* ── Reports ─────────────────────────────────────────────────────────── */
-        async function loadReportsReal() {
+        async function loadReportsFromAPI() {
             try {
                 var res = await PTJO.customer.getReports();
                 if (!res || !res.ok) return;
                 var reports = (res.reports || []).map(function(r) {
                     return {
-                        id: r.id,
+                        id:           r.id,
                         engagementId: r.engagement_id,
-                        title: r.title,
-                        severity: r.severity,
-                        status: r.status,
-                        description: r.description || '',
-                        submittedBy: r.hacker_display || r.hacker_handle || 'Hacker',
-                        createdAt: r.created_at,
-                        attachments: r.attachments || []
+                        service:      r.service_type || '',
+                        title:        r.title || '',
+                        severity:     r.severity || '',
+                        status:       r.status || '',
+                        description:  r.description || '',
+                        impact:       r.impact || '',
+                        recommendation: r.recommendation || '',
+                        submittedBy:  r.hacker_name || r.hacker_handle || 'Hacker',
+                        hackerAvatar: r.hacker_avatar || '',
+                        createdAt:    r.created_at || '',
+                        agreedAmount: parseFloat(r.agreed_price_usd || 0)
                     };
                 });
                 localStorage.setItem('ptjo_reports', JSON.stringify(reports));
-                if (typeof renderCustomerReports === 'function') renderCustomerReports();
             } catch(e) { console.warn('[Bridge] getReports:', e); }
         }
 
-        /* ── Override saveCardC (add payment method) ──────────────────────────── */
-        var _origSaveCard = window.saveCardC;
-        window.saveCardC = async function () {
-            /* Run original first (local UI) */
-            if (_origSaveCard) _origSaveCard();
-            /* Then persist to API */
-            var brand  = document.getElementById('cardBrand')  || document.getElementById('cardType');
-            var last4  = document.getElementById('cardLast4')  || document.getElementById('cardNumber');
-            var expM   = document.getElementById('cardExpMonth')|| document.getElementById('expMonth');
-            var expY   = document.getElementById('cardExpYear') || document.getElementById('expYear');
-            var nameEl = document.getElementById('cardHolderName') || document.getElementById('cardName');
-            var labelEl= document.getElementById('cardLabel');
-            if (!brand && !last4) return;
-            var last4val = (last4 && last4.value) ? last4.value.replace(/\s/g,'').slice(-4) : '';
+        /* ── Payment methods renderer ────────────────────────────────────────── */
+        function renderPaymentMethodsFromAPI(methods) {
+            var cardList = document.getElementById('c-card-list');
+            if (!cardList) return;
+            cardList.innerHTML = '';
+            methods.forEach(function(m) {
+                var brand   = (m.brand || 'Card').charAt(0).toUpperCase() + (m.brand || 'Card').slice(1);
+                var last4   = m.last4 || '••••';
+                var isVisa  = brand.toLowerCase() === 'visa';
+                var isMC    = brand.toLowerCase() === 'mastercard';
+                var gradC   = isVisa ? 'from-blue-600 to-blue-800' : isMC ? 'from-red-600 to-orange-700' : 'from-gray-600 to-gray-800';
+                var faIcon  = isVisa ? 'fa-cc-visa' : isMC ? 'fa-cc-mastercard' : 'fa-credit-card far';
+                var expiry  = m.exp_month && m.exp_year ? m.exp_month + ' / ' + String(m.exp_year).slice(-2) : '';
+                var item = document.createElement('div');
+                item.className = 'flex items-center gap-4 p-4 bg-gray-900/60 border border-gray-700 rounded-2xl';
+                item.innerHTML =
+                    '<div class="w-12 h-8 rounded-md bg-gradient-to-br ' + gradC + ' flex items-center justify-center flex-shrink-0">' +
+                    '<i class="fab ' + faIcon + ' text-white text-lg"></i></div>' +
+                    '<div class="flex-1"><p class="text-white font-semibold text-sm">' + brand + ' ···· ' + last4 + '</p>' +
+                    '<p class="text-gray-500 text-xs">' + (expiry ? 'Expires ' + expiry + ' · ' : '') + (m.cardholder_name || '') + '</p></div>' +
+                    (m.is_default ? '<span class="text-xs bg-teal-500/15 text-teal-400 border border-teal-500/30 px-2.5 py-1 rounded-full font-bold">Default</span>' : '') +
+                    '<button type="button" onclick="removeCCard(this)" class="text-gray-600 hover:text-red-400 transition-colors"><i class="fas fa-trash-can text-sm"></i></button>';
+                cardList.appendChild(item);
+            });
+        }
+
+        /* ── Override saveProfile to also call API ────────────────────────────── */
+        var _origSaveProfile = window.saveProfile;
+        window.saveProfile = async function (e) {
+            if (e) e.preventDefault();
+            if (_origSaveProfile) _origSaveProfile(e || { preventDefault: function(){} });
             try {
-                await PTJO.customer.addPaymentMethod({
-                    brand:           (brand   && brand.value)   || 'Visa',
-                    last4:           last4val,
-                    exp_month:       parseInt((expM   && expM.value)   || 0),
-                    exp_year:        parseInt((expY   && expY.value)   || 0),
-                    cardholder_name: (nameEl  && nameEl.value)  || '',
-                    label:           (labelEl && labelEl.value) || ''
+                var res = await PTJO.customer.updateProfile({
+                    display_name: _gv('prof-name'),
+                    company_name: _gv('prof-company'),
+                    phone:        _gv('prof-phone'),
+                    bio:          _gv('prof-bio'),
+                    industry:     _gv('prof-industry')
                 });
-                await loadPaymentMethodsReal();
-            } catch(e) { console.warn('[Bridge] addPaymentMethod:', e); }
+                if (res && res.ok) {
+                    if (window._customerProfileData) {
+                        window._customerProfileData.display_name = _gv('prof-name');
+                        window._customerProfileData.company_name = _gv('prof-company');
+                    }
+                } else {
+                    if (typeof showToast === 'function') showToast((res && res.error) || 'Server save failed.', 'warn');
+                }
+            } catch(err) { console.warn('[Bridge] saveProfile:', err); }
         };
 
-        /* ── Override doTopupWallet ───────────────────────────────────────────── */
+        /* ── Override doTopupWallet ──────────────────────────────────────────── */
         var _origTopup = window.doTopupWallet;
         window.doTopupWallet = async function (amount) {
+            if (_origTopup) _origTopup(amount);
             try {
                 var res = await PTJO.customer.topupWallet(parseFloat(amount) || 0);
                 if (res && res.ok) {
-                    PTJO.toast('Wallet topped up!', 'success');
-                    var walletEl = document.getElementById('walletBalance') || document.getElementById('customer-wallet-balance');
-                    if (walletEl && res.balance !== undefined) walletEl.textContent = PTJO.formatUSD(res.balance);
-                } else {
-                    PTJO.toast((res && res.error) || 'Top-up failed.', 'error');
+                    var bal = parseFloat(res.balance || 0);
+                    localStorage.setItem('ptjo_customer_wallet', bal.toFixed(2));
+                    _set('cust-wallet-balance', _fmtUSD(bal));
                 }
             } catch(e) { console.warn('[Bridge] topupWallet:', e); }
-            if (_origTopup) _origTopup(amount);
         };
 
-        /* ── Override updateCustomerProfile (save profile) ────────────────────── */
-        var _origSaveProfile = window.saveCustomerProfile || window.updateCustomerProfile;
-        var _profileSaveKey = window.saveCustomerProfile ? 'saveCustomerProfile' : 'updateCustomerProfile';
-        window[_profileSaveKey] = async function () {
-            var nameEl = document.getElementById('profileDisplayName');
-            var compEl = document.getElementById('profileCompanyName');
-            var phoneEl= document.getElementById('profilePhone');
-            var avatarEl= document.getElementById('profileAvatarUrl') || document.getElementById('avatarUrl');
-            try {
-                var res = await PTJO.customer.updateProfile({
-                    display_name: (nameEl  && nameEl.value)  || '',
-                    company_name: (compEl  && compEl.value)  || '',
-                    phone_e164:   (phoneEl && phoneEl.value) || '',
-                    avatar_url:   (avatarEl&& avatarEl.value)|| ''
-                });
-                if (res && res.ok) PTJO.toast('Profile saved!', 'success');
-                else PTJO.toast((res && res.error) || 'Save failed.', 'error');
-            } catch(e) { console.warn('[Bridge] updateProfile:', e); }
-            if (_origSaveProfile) _origSaveProfile();
-        };
-
-        /* ── Override customerApproveReport ──────────────────────────────────── */
+        /* ── Override customerApproveReport ─────────────────────────────────── */
         var _origApprove = window.customerApproveReport;
         window.customerApproveReport = async function (reportId, approved) {
-            if (/^[0-9a-f]{8}-/.test(String(reportId))) {
+            if (_origApprove) _origApprove(reportId, approved);
+            if (/^[0-9a-f]{8}-/i.test(String(reportId))) {
                 try {
-                    var res = await PTJO.customer.approveReport({ report_id: reportId, approved: !!approved });
-                    if (res && res.ok) {
-                        PTJO.toast(approved ? 'Report approved!' : 'Edits requested.', 'success');
-                        await loadReportsReal();
-                    } else {
-                        PTJO.toast((res && res.error) || 'Action failed.', 'error');
-                    }
+                    await PTJO.customer.approveReport({ report_id: reportId, approved: !!approved });
+                    await loadReportsFromAPI();
                 } catch(e) { console.warn('[Bridge] approveReport:', e); }
             }
-            if (_origApprove) _origApprove(reportId, approved);
         };
 
     })();

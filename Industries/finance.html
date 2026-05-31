@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -68,8 +68,11 @@
         </div>
         <div class="flex items-center space-x-4 ml-4">
           <a href="../Settings/Settings.html" class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 text-gray-300 hover:text-white transition-all rounded-xl font-semibold text-sm">Settings</a>
-          <a href="../SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white text-sm font-medium">Log In as Hacker</a>
-          <a href="../SignUp_Customer/SignupC.html" class="text-teal-400 hover:text-white text-sm font-medium">Log In as Customer</a>
+          <a id="nav-login-btn" href="../LogIn/Login.html" class="text-teal-400 hover:text-white text-sm font-medium flex items-center gap-1.5"><i class="fas fa-sign-in-alt"></i> Log In</a>
+          <a id="nav-signup-btn" href="../SignUp_Customer/SignupC.html" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 px-4 rounded-xl transition-all text-sm">Sign Up</a>
+          <a id="nav-dashboard-btn" href="#" class="hidden text-gray-300 hover:text-teal-400 transition font-medium text-sm flex items-center gap-2"><i class="fas fa-gauge-high text-sm"></i> Dashboard</a>
+          <a id="nav-profile-btn" href="#" class="hidden flex items-center gap-2 px-4 py-2 bg-teal-600/20 border border-teal-600/40 hover:bg-teal-600 text-teal-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm"><i class="fas fa-user-circle mr-1"></i>My Profile</a>
+          <button id="nav-logout-btn" onclick="ptjoNavLogout()" class="hidden text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5"><i class="fas fa-sign-out-alt"></i> Log Out</button>
         </div>
       </div>
     </div>
@@ -231,7 +234,7 @@
       <p class="text-gray-400 max-w-2xl mx-auto mb-8">Join hundreds of companies that trust PTjo to find vulnerabilities before attackers do.</p>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
         <a href="../SignUp_Customer/SignupC.html" class="btn btn-primary">Start as Customer</a>
-        <a href="../SignUp_Hacker/SignUpH.html" class="px-6 py-3 font-semibold rounded-xl bg-gray-700 hover:bg-gray-600 text-white transition-all duration-200">Join as Hacker</a>
+        <a href="../SignUp_Customer/SignupC.html?role=hacker" class="px-6 py-3 font-semibold rounded-xl bg-gray-700 hover:bg-gray-600 text-white transition-all duration-200">Join as Hacker</a>
       </div>
     </div>
   </section>
@@ -270,5 +273,7 @@
     });
   });
   </script>
+<script src="../assets/nav-auth.js"></script>
 </body>
 </html>
+

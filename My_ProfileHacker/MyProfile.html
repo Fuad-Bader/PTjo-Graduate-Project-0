@@ -179,40 +179,13 @@
 <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
     <div class="container flex justify-between items-center h-20">
         <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
-        <div class="hidden md:flex items-center space-x-8">
-            <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
-            <div class="relative">
-                <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                    <span data-i18n="nav.products">Products</span>
-                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network"  class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span data-i18n="nav.network">Network Testing</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad"       class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span data-i18n="nav.ad">Active Directory</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud"    class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span data-i18n="nav.cloud">Cloud Testing</span></a>
-                    <div class="h-px bg-gray-700 my-1"></div>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp"   class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span data-i18n="nav.webapp">Web App</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile"   class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span data-i18n="nav.mobile">Mobile App</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span data-i18n="nav.api">API Testing</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span data-i18n="nav.iot">IoT Testing</span></a>
-                </div>
-            </div>
-            <div class="relative">
-                <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                    <span data-i18n="nav.industries">Industries</span>
-                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                    <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span data-i18n="nav.industries.all">All Industries</span></a>
-                    <div class="h-px bg-gray-700 my-1"></div>
-                    <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span data-i18n="nav.finance">Finance</span></a>
-                    <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span data-i18n="nav.healthcare">Healthcare</span></a>
-                    <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span data-i18n="nav.retail">Retail</span></a>
-                    <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span data-i18n="nav.technology">Technology</span></a>
-                </div>
-            </div>
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="../Hacker_Dashboard/HackerDashboard.html"
+               class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium flex items-center gap-2">
+                <i class="fas fa-gauge-high text-sm"></i> Dashboard
+            </a>
             <div class="flex items-center space-x-4 ml-4">
-                <div class="relative z-[60]" id="hacker-notif-wrap">
+            <div class="relative z-[60]" id="hacker-notif-wrap">
                     <button type="button" onclick="toggleHackerNotifs()"
                       class="relative flex items-center justify-center w-9 h-9 rounded-xl
                              bg-gray-700/50 border border-gray-600/40 hover:bg-gray-700
@@ -243,12 +216,11 @@
                     <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
                     <span data-i18n="nav.settings">Settings</span>
                 </a>
-                <a href="../Hacker_Dashboard/HackerDashboard.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.dashboard">Dashboard</a>
-                <a id="nav-customer-btn" href="../SignUp_Customer/SignupC.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.customer-login">Log In as Customer</span></a>
                 <a href="MyProfile.html" class="flex items-center gap-2.5 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl px-4 py-2 font-semibold text-sm group">
-                    <img id="nav-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=Abdulrahman&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
+                    <img id="nav-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=HK&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
                     <span data-i18n="nav.my-profile">My Profile</span>
                 </a>
+                <button id="nav-logout-btn" class="text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5"><i class="fas fa-sign-out-alt"></i>Log Out</button>
             </div>
         </div>
     </div>
@@ -279,7 +251,7 @@
                 <!-- Avatar -->
                 <div class="avatar-wrap relative mb-4 cursor-pointer" onclick="document.getElementById('avatar-input').click()">
                     <img id="avatar-img"
-                         src="https://api.dicebear.com/7.x/initials/svg?seed=Abdulrahman&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700"
+                         src="https://api.dicebear.com/7.x/initials/svg?seed=HK&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700"
                          alt="Profile"
                          class="w-24 h-24 rounded-full object-cover avatar-ring" />
                     <div class="avatar-overlay absolute inset-0 rounded-full bg-black/60 flex flex-col items-center justify-center">
@@ -292,32 +264,27 @@
                 </div>
                 <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="handleAvatarChange(event)">
 
-                <h2 id="sidebar-name" class="text-lg font-bold text-white">Abdulrahman</h2>
-                <p id="sidebar-handle" class="text-xs text-teal-400 font-mono font-semibold mt-0.5">@0xAbdul</p>
-                <p id="sidebar-title" class="text-xs text-gray-500 mt-1">Senior Penetration Tester</p>
+                <h2 id="sidebar-name" class="text-lg font-bold text-white">—</h2>
+                <p id="sidebar-handle" class="text-xs text-teal-400 font-mono font-semibold mt-0.5">@—</p>
+                <p id="sidebar-title" class="text-xs text-gray-500 mt-1">—</p>
 
                 <!-- Reputation / Rating -->
-                <div class="flex items-center gap-1 mt-2">
-                    <i class="fas fa-star text-yellow-400" style="font-size:12px;"></i>
-                    <i class="fas fa-star text-yellow-400" style="font-size:12px;"></i>
-                    <i class="fas fa-star text-yellow-400" style="font-size:12px;"></i>
-                    <i class="fas fa-star text-yellow-400" style="font-size:12px;"></i>
-                    <i class="fas fa-star-half-stroke text-yellow-400" style="font-size:12px;"></i>
-                    <span class="text-gray-400 text-xs ml-1">4.8 / 5.0</span>
+                <div id="sidebar-rating-stars" class="flex items-center gap-1 mt-2">
+                    <span class="text-gray-400 text-xs">—</span>
                 </div>
 
                 <!-- Stats -->
                 <div class="w-full mt-4 pt-4 border-t border-gray-700 grid grid-cols-3 gap-2 text-center">
                     <div>
-                        <div class="text-lg font-extrabold text-white">27</div>
+                        <div id="sidebar-jobs" class="text-lg font-extrabold text-white">—</div>
                         <div class="text-xs text-gray-500">Jobs</div>
                     </div>
                     <div>
-                        <div class="text-lg font-extrabold text-teal-400">$18.4K</div>
+                        <div id="sidebar-earned" class="text-lg font-extrabold text-teal-400">—</div>
                         <div class="text-xs text-gray-500">Earned</div>
                     </div>
                     <div>
-                        <div class="text-lg font-extrabold text-yellow-400">3</div>
+                        <div id="sidebar-active" class="text-lg font-extrabold text-yellow-400">—</div>
                         <div class="text-xs text-gray-500">Active</div>
                     </div>
                 </div>
@@ -333,7 +300,7 @@
                 </div>
                 <div class="sidebar-tab" onclick="switchTab('certs',this)">
                     <i class="fas fa-certificate"></i> <span data-i18n="profile.tab.certs">Certifications</span>
-                    <span class="ml-auto text-xs bg-teal-500/20 text-teal-400 border border-teal-500/30 px-2 py-0.5 rounded-full font-bold" id="cert-count-badge">4</span>
+                    <span class="ml-auto text-xs bg-teal-500/20 text-teal-400 border border-teal-500/30 px-2 py-0.5 rounded-full font-bold" id="cert-count-badge">0</span>
                 </div>
                 <div class="sidebar-tab" onclick="switchTab('cv',this)">
                     <i class="fas fa-file-lines"></i> <span data-i18n="profile.tab.resume">Resume / CV</span>
@@ -343,7 +310,7 @@
                 </div>
                 <div class="sidebar-tab" onclick="switchTab('engagements',this)">
                     <i class="fas fa-clipboard-list"></i> <span data-i18n="profile.tab.engage">Engagements</span>
-                    <span class="ml-auto text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded-full font-bold">3</span>
+                    <span id="eng-count-badge" class="ml-auto text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded-full font-bold">—</span>
                 </div>
                 <div class="sidebar-tab" onclick="switchTab('reviews',this)">
                     <i class="fas fa-star"></i>
@@ -379,28 +346,28 @@
                                 <label class="form-label" data-i18n="profile.label.name">Full Name</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-user text-sm"></i></span>
-                                    <input type="text" id="prof-name" class="form-input pl-10" value="Abdulrahman" placeholder="Your full name">
+                                    <input type="text" id="prof-name" class="form-input pl-10" value="" placeholder="Your full name">
                                 </div>
                             </div>
                             <div>
                                 <label class="form-label">Hacker Handle</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-3.5 text-gray-500 font-mono text-sm">@</span>
-                                    <input type="text" id="prof-handle" class="form-input pl-10 font-mono" value="0xAbdul" placeholder="your_handle">
+                                    <input type="text" id="prof-handle" class="form-input pl-10 font-mono" value="" placeholder="your_handle">
                                 </div>
                             </div>
                             <div>
                                 <label class="form-label">Professional Title</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-id-badge text-sm"></i></span>
-                                    <input type="text" id="prof-title" class="form-input pl-10" value="Senior Penetration Tester" placeholder="e.g. Red Team Operator">
+                                    <input type="text" id="prof-title" class="form-input pl-10" value="" placeholder="e.g. Red Team Operator">
                                 </div>
                             </div>
                             <div>
                                 <label class="form-label">Location</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-location-dot text-sm"></i></span>
-                                    <input type="text" id="prof-location" class="form-input pl-10" value="Amman, Jordan" placeholder="City, Country">
+                                    <input type="text" id="prof-location" class="form-input pl-10" value="" placeholder="City, Country">
                                 </div>
                             </div>
                             <div>
@@ -408,9 +375,10 @@
                                 <div class="relative">
                                     <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-clock text-sm"></i></span>
                                     <select id="prof-exp" class="form-input pl-10 appearance-none">
+                                        <option value="">— Select —</option>
                                         <option>Less than 1 year</option>
                                         <option>1 – 2 years</option>
-                                        <option selected>3 – 5 years</option>
+                                        <option>3 – 5 years</option>
                                         <option>5 – 10 years</option>
                                         <option>10+ years</option>
                                     </select>
@@ -420,7 +388,7 @@
                                 <label class="form-label">Hourly Rate (USD)</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-3.5 text-gray-500 font-bold">$</span>
-                                    <input type="number" id="prof-rate" class="form-input pl-10" value="85" placeholder="85" min="10">
+                                    <input type="number" id="prof-rate" class="form-input pl-10" value="" placeholder="85" min="10">
                                 </div>
                             </div>
                         </div>
@@ -428,18 +396,18 @@
                         <!-- About / Bio -->
                         <div class="mb-6">
                             <label class="form-label">About Me</label>
-                            <textarea id="prof-bio" class="form-input resize-none" rows="4" placeholder="Describe your background, expertise, and approach...">Offensive security professional with 4+ years specializing in web application and network penetration testing. OSCP & eWPTX certified. I focus on business-critical vulnerabilities and deliver clear, actionable reports. Open to remote engagements worldwide.</textarea>
+                            <textarea id="prof-bio" class="form-input resize-none" rows="4" placeholder="Describe your background, expertise, and approach..."></textarea>
                         </div>
 
                         <!-- Social / Links -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
                             <div>
                                 <label class="form-label"><i class="fab fa-linkedin mr-1 text-blue-400"></i> LinkedIn</label>
-                                <input type="url" id="prof-linkedin" class="form-input text-sm" value="https://linkedin.com/in/abdulrahman" placeholder="https://linkedin.com/in/...">
+                                <input type="url" id="prof-linkedin" class="form-input text-sm" value="" placeholder="https://linkedin.com/in/...">
                             </div>
                             <div>
                                 <label class="form-label"><i class="fab fa-github mr-1"></i> GitHub</label>
-                                <input type="url" id="prof-github" class="form-input text-sm" value="https://github.com/0xAbdul" placeholder="https://github.com/...">
+                                <input type="url" id="prof-github" class="form-input text-sm" value="" placeholder="https://github.com/...">
                             </div>
                             <div>
                                 <label class="form-label"><i class="fas fa-globe mr-1 text-teal-400"></i> Portfolio / Blog</label>
@@ -647,7 +615,7 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-bold text-white">Change Email Address</h3>
-                            <p class="text-gray-500 text-xs mt-0.5">Current: <span class="text-teal-400" id="display-current-email">abdulrahman@ptjo.io</span></p>
+                            <p class="text-gray-500 text-xs mt-0.5">Current: <span class="text-teal-400" id="display-current-email">—</span></p>
                         </div>
                     </div>
                     <form onsubmit="changeEmail(event)">
@@ -753,7 +721,7 @@
                             <p class="text-gray-500 text-sm mt-0.5">All security assessments you've worked on.</p>
                         </div>
                         <div class="text-right">
-                            <div class="text-2xl font-extrabold text-teal-400">$18,400</div>
+                            <div id="eng-total-earned" class="text-2xl font-extrabold text-teal-400">—</div>
                             <div class="text-xs text-gray-500">Total Earned</div>
                         </div>
                     </div>
@@ -818,11 +786,11 @@
                             </div>
                             <div class="mb-5">
                                 <p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">AVAILABLE BALANCE</p>
-                                <p class="text-5xl font-extrabold text-white tracking-tight" id="h-wallet-balance">$2,340.00</p>
+                                <p class="text-5xl font-extrabold text-white tracking-tight" id="h-wallet-balance">$—</p>
                             </div>
                             <div class="flex items-center justify-between pt-4 border-t border-white/15">
-                                <p class="text-yellow-300 font-bold text-sm">Pending: <span id="h-pending-balance">$650.00</span></p>
-                                <p class="text-white font-bold text-sm text-right">Total Earned: $18,400.00</p>
+                                <p class="text-yellow-300 font-bold text-sm">Pending: <span id="h-pending-balance">$—</span></p>
+                                <p class="text-white font-bold text-sm text-right">Total Earned: <span id="h-total-earned">$—</span></p>
                             </div>
                         </div>
                     </div>
@@ -888,27 +856,7 @@
                         </div>
 
                         <div class="flex flex-col gap-3 mb-5" id="h-card-list">
-                            <div class="flex items-center gap-4 p-4 bg-gray-900/60 border border-gray-700 rounded-2xl">
-                                <div class="w-12 h-8 rounded-md bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center flex-shrink-0">
-                                    <i class="fab fa-cc-visa text-white text-lg"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-white font-semibold text-sm">Visa ···· 4242</p>
-                                    <p class="text-gray-500 text-xs">Expires 12 / 28 · Abdulrahman</p>
-                                </div>
-                                <span class="text-xs bg-teal-500/15 text-teal-400 border border-teal-500/30 px-2.5 py-1 rounded-full font-bold">Default</span>
-                                <button type="button" onclick="removeCard(this)" class="text-gray-600 hover:text-red-400 transition-colors"><i class="fas fa-trash-can text-sm"></i></button>
-                            </div>
-                            <div class="flex items-center gap-4 p-4 bg-gray-900/60 border border-gray-700 rounded-2xl">
-                                <div class="w-12 h-8 rounded-md bg-gradient-to-br from-red-600 to-orange-700 flex items-center justify-center flex-shrink-0">
-                                    <i class="fab fa-cc-mastercard text-white text-lg"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-white font-semibold text-sm">Mastercard ···· 8888</p>
-                                    <p class="text-gray-500 text-xs">Expires 06 / 27 · Abdulrahman</p>
-                                </div>
-                                <button type="button" onclick="removeCard(this)" class="text-gray-600 hover:text-red-400 transition-colors"><i class="fas fa-trash-can text-sm"></i></button>
-                            </div>
+                            <!-- Cards loaded from API -->
                         </div>
 
                     <div id="h-add-card-form" class="hidden border border-teal-600/30 rounded-2xl p-6 bg-gray-900/60">
@@ -990,46 +938,8 @@
                                 <p class="text-gray-500 text-xs mt-0.5">Last 30 days</p>
                             </div>
                         </div>
-                        <div class="space-y-2">
-                            <div class="flex items-center gap-4 py-3 border-b border-gray-700/50">
-                                <div class="w-9 h-9 rounded-xl bg-teal-500/10 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-arrow-down text-teal-400 text-sm"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-white font-semibold text-sm">Payment Received</p>
-                                    <p class="text-gray-500 text-xs">Network Pentest · Order #NP-0042</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-teal-400 font-bold text-sm">+$1,200.00</p>
-                                    <p class="text-gray-600 text-xs">Apr 1, 2026</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4 py-3 border-b border-gray-700/50">
-                                <div class="w-9 h-9 rounded-xl bg-teal-500/10 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-arrow-down text-teal-400 text-sm"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-white font-semibold text-sm">Payment Received</p>
-                                    <p class="text-gray-500 text-xs">AD Assessment · Order #AD-0031</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-teal-400 font-bold text-sm">+$2,500.00</p>
-                                    <p class="text-gray-600 text-xs">Mar 22, 2026</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4 py-3">
-                                <div class="w-9 h-9 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-arrow-up text-red-400 text-sm"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-white font-semibold text-sm">Withdrawal</p>
-                                    <p class="text-gray-500 text-xs">To Visa ···4242 · Ref #WD-1109</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-red-400 font-bold text-sm">−$1,360.00</p>
-                                    <p class="text-gray-600 text-xs">Mar 15, 2026</p>
-                                </div>
-                            </div>
+                        <div id="h-tx-list" class="space-y-2">
+                            <p class="text-gray-600 text-sm text-center py-4">Loading transactions…</p>
                         </div>
                     </div>
                 </div>
@@ -1366,13 +1276,29 @@ function switchTab(name, el) {
 function handleAvatarChange(e) {
     const file = e.target.files[0];
     if (!file || !file.type.startsWith('image/')) return;
+    if (file.size > 3 * 1024 * 1024) { showToast('Image too large (max 3MB).', 'warn'); return; }
+    // Instant local preview while the upload runs.
     const reader = new FileReader();
     reader.onload = ev => {
         document.getElementById('avatar-img').src = ev.target.result;
         document.getElementById('nav-avatar').src  = ev.target.result;
-        showToast('Profile photo updated!');
     };
     reader.readAsDataURL(file);
+    // Upload to the server so it persists in the database (and shows everywhere).
+    if (window.PTJO && PTJO.uploadAvatar) {
+        PTJO.uploadAvatar(file).then(function (res) {
+            if (res && res.ok && res.avatar_url) {
+                if (window._hackerProfileData) window._hackerProfileData.avatar_url = res.avatar_url;
+                document.getElementById('avatar-img').src = res.avatar_url;
+                document.getElementById('nav-avatar').src  = res.avatar_url;
+                showToast('Profile photo updated!');
+            } else {
+                showToast((res && res.error) || 'Upload failed. Please try again.', 'warn');
+            }
+        }).catch(function () { showToast('Upload failed. Please try again.', 'warn'); });
+    } else {
+        showToast('Profile photo updated!');
+    }
 }
 
 // ── Toggle Password Visibility ───────────────────────
@@ -1387,19 +1313,24 @@ function toggleVis(inputId, eyeId) {
 // ── Save Profile ─────────────────────────────────────
 function saveProfile(e) {
     e.preventDefault();
-    const name   = document.getElementById('prof-name').value.trim()   || 'Abdulrahman';
-    const handle = document.getElementById('prof-handle').value.trim() || '0xAbdul';
-    const title  = document.getElementById('prof-title').value.trim()  || 'Penetration Tester';
-    document.getElementById('sidebar-name').textContent   = name;
-    document.getElementById('sidebar-handle').textContent = '@' + handle.replace(/^@/, '');
-    document.getElementById('sidebar-title').textContent  = title;
+    const name   = document.getElementById('prof-name').value.trim();
+    const handle = document.getElementById('prof-handle').value.trim();
+    const title  = document.getElementById('prof-title').value.trim();
+    if (name)   document.getElementById('sidebar-name').textContent   = name;
+    if (handle) document.getElementById('sidebar-handle').textContent = '@' + handle.replace(/^@/, '');
+    if (title)  document.getElementById('sidebar-title').textContent  = title;
     showToast('Profile saved!');
 }
 function resetProfile() {
-    document.getElementById('prof-name').value     = 'Abdulrahman';
-    document.getElementById('prof-handle').value   = '0xAbdul';
-    document.getElementById('prof-title').value    = 'Senior Penetration Tester';
-    document.getElementById('prof-location').value = 'Amman, Jordan';
+    var p = window._hackerProfileData || {};
+    document.getElementById('prof-name').value     = p.display_name        || '';
+    document.getElementById('prof-handle').value   = p.handle              || '';
+    document.getElementById('prof-title').value    = p.professional_title  || '';
+    document.getElementById('prof-location').value = p.location            || '';
+    document.getElementById('prof-bio').value      = p.bio                 || '';
+    document.getElementById('prof-linkedin').value = p.linkedin_url        || '';
+    document.getElementById('prof-github').value   = p.github_url          || '';
+    document.getElementById('prof-rate').value     = p.hourly_rate_usd     || '';
     showToast('Changes discarded.', 'warn');
 }
 
@@ -1409,8 +1340,8 @@ document.querySelectorAll('#skill-grid .skill-btn').forEach(btn => {
 });
 
 // ── Tools Tags ───────────────────────────────────────
-let tools = ['Burp Suite','Metasploit','Nmap','Nessus','BloodHound','Cobalt Strike'];
-let langs  = ['English','Arabic'];
+let tools = [];
+let langs  = [];
 
 function renderTags(arr, wrapperId, removeFunc) {
     const wrap = document.getElementById(wrapperId);
@@ -1440,16 +1371,7 @@ function removeLang(i) { langs.splice(i, 1); renderTags(langs, 'lang-tags-wrap',
 function addLangOnEnter(e) { if (e.key === 'Enter') { e.preventDefault(); addLang(); } }
 
 // ── Certifications ───────────────────────────────────
-let certs = [
-    { name: 'OSCP — Offensive Security Certified Professional', issuer: 'Offensive Security', date: '2023-06', credId: 'OS-1234567',
-      img: 'https://images.credly.com/size/340x340/images/ec81134d-e80b-4eb5-ae07-0eb8e1a60fcd/image.png' },
-    { name: 'eWPTX — Web Application Penetration Tester eXtreme', issuer: 'eLearnSecurity', date: '2022-11', credId: 'ELS-789012',
-      img: 'https://images.credly.com/size/340x340/images/f4f7e2b7-e5b3-4f7e-ae47-9af3c67f5523/image.png' },
-    { name: 'CEH — Certified Ethical Hacker', issuer: 'EC-Council', date: '2021-08', credId: 'ECC-345678',
-      img: 'https://images.credly.com/size/340x340/images/6b924fae-3cd7-4233-b012-97413d1dbd22/image.png' },
-    { name: 'CompTIA Security+', issuer: 'CompTIA', date: '2020-03', credId: 'COMP-901234',
-      img: 'https://images.credly.com/size/340x340/images/74790a75-8451-400a-8536-92d792c5184a/CompTIA_Security_2Bce.png' }
-];
+let certs = [];
 let pendingCertImg = null;
 
 function renderCerts() {
@@ -1762,29 +1684,7 @@ function changePassword(e) {
 }
 
 // ── Engagements ──────────────────────────────────────
-const engagements = [
-    { id:'ENG-4F2A9B', service:'Web App Testing',    icon:'fa-globe',         client:'Al-Rashidi Corp',    date:'Mar 10, 2025', deadline:'Mar 24, 2025', price:'$1,200', status:'completed',  statusLabel:'Completed',  note:'Identified 3 critical SQLi vulnerabilities. Report delivered.', deliverableTitle:'Web application security findings package',
-        submittedReport: {
-            serviceType: 'Web App Testing',
-            categoryLabel: 'Server Side Injection',
-            subcategoryLabel: 'SQL Injection',
-            variantLabel: '',
-            priority: 1,
-            severity: 'Critical',
-            title: 'SQL injection in checkout API',
-            url: 'https://shop.alrashidi.example/api/v1/checkout',
-            description: 'The checkout endpoint concatenates user input into a raw SQL query. A crafted order_id parameter returns arbitrary rows from the orders table.',
-            impact: 'Full read access to customer orders and PII; potential write primitive depending on database privileges.',
-            weakness: 'CWE-89: Improper Neutralization of Special Elements used in an SQL Command',
-            recommendations: 'Use parameterized queries / prepared statements for all database access; add WAF rules as a secondary control; rotate database credentials after fix verification.',
-            attachmentFileName: null
-        }
-    },
-    { id:'ENG-7C1D3E', service:'Network Testing',    icon:'fa-network-wired', client:'Gulf Secure Ltd',    date:'Mar 18, 2025', deadline:'Apr 1, 2025',  price:'$850',   status:'inprogress', statusLabel:'In Progress', note:'External scan done, now in internal phase.' },
-    { id:'ENG-B3E9F1', service:'API Testing',        icon:'fa-cube',          client:'Finova Systems',     date:'Mar 19, 2025', deadline:'Apr 2, 2025',  price:'$700',   status:'inprogress', statusLabel:'In Progress', note:'Auth bypass chain under investigation.' },
-    { id:'ENG-2B8F5A', service:'Cloud Testing',      icon:'fa-cloud',         client:'TechPrime MENA',     date:'Mar 22, 2025', deadline:'Apr 5, 2025',  price:'$950',   status:'accepted',   statusLabel:'Accepted',    note:'Kick-off call scheduled for Mar 27.' },
-    { id:'ENG-0A3F7C', service:'Mobile App Testing', icon:'fa-mobile-alt',    client:'ApexPay Jordan',     date:'Feb 5, 2025',  deadline:'Feb 19, 2025', price:'$600',   status:'pending',    statusLabel:'New Request', note:'Client is awaiting your acceptance.' }
-];
+let engagements = [];
 const engBadge = { pending:'badge-pending', accepted:'badge-accepted', inprogress:'badge-inprogress', completed:'badge-completed', rejected:'badge-rejected' };
 
 function renderEngagements(filter = 'all') {
@@ -1927,7 +1827,6 @@ renderTags(tools, 'tags-wrap', 'removeTool');
 renderTags(langs, 'lang-tags-wrap', 'removeLang');
 renderCerts();
 renderEngagements('all');
-(function(){var r=localStorage.getItem('ptjo_role');if(r==='hacker'){var h=document.getElementById('nav-hacker-btn');if(h)h.style.display='none';}if(r==='customer'){var c=document.getElementById('nav-customer-btn');if(c)c.style.display='none';}})();
 
 // ── Payment & Wallet (Hacker) ─────────────────────────
 function openWithdraw() {
@@ -1941,7 +1840,7 @@ function openWithdraw() {
     }
 }
 function loadHackerWalletBalance() {
-    const bal = parseFloat(localStorage.getItem('ptjo_hacker_wallet') || '2340') || 0;
+    const bal = parseFloat(localStorage.getItem('ptjo_hacker_wallet') || '0') || 0;
     const el = document.getElementById('h-wallet-balance');
     if (el) el.textContent = '$' + bal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -1951,7 +1850,7 @@ function processWithdraw() {
     const dest   = document.getElementById('h-withdraw-dest').value;
     if (!amount || amount < 10) { showToast('Minimum withdrawal is $10.00', 'warn'); return; }
     if (!dest) { showToast('Please select a card or bank account.', 'warn'); return; }
-    const bal = parseFloat(localStorage.getItem('ptjo_hacker_wallet') || '2340') || 0;
+    const bal = parseFloat(localStorage.getItem('ptjo_hacker_wallet') || '0') || 0;
     if (amount > bal) { showToast('Insufficient balance.', 'warn'); return; }
     localStorage.setItem('ptjo_hacker_wallet', (bal - amount).toFixed(2));
     loadHackerWalletBalance();
@@ -1961,22 +1860,35 @@ function processWithdraw() {
 }
 
 function getHackerProfileName() {
+    if (window._hackerProfileData && window._hackerProfileData.display_name)
+        return window._hackerProfileData.display_name;
     const side = document.getElementById('sidebar-name');
-    if (side && side.textContent.trim()) return side.textContent.trim();
+    if (side && side.textContent.trim() && side.textContent.trim() !== '—') return side.textContent.trim();
     const inp = document.getElementById('prof-name');
     if (inp && inp.value.trim()) return inp.value.trim();
-    return 'Abdulrahman';
+    return '';
 }
 
 function escRevHtml(s) {
     return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 
-function loadReviews() {
-    const allReviews = JSON.parse(localStorage.getItem('ptjo_reviews') || '[]');
-    const myName = getHackerProfileName();
-    const reviews = allReviews.filter(r => r.hackerName === myName);
-    const totalCount = reviews.length;
+const REVIEW_SERVICE_LABELS = {
+    network: 'Network Testing', ad: 'Active Directory', cloud: 'Cloud Testing',
+    webapp: 'Web App Testing', mobile: 'Mobile App Testing', api: 'API Testing', iot: 'IoT Testing'
+};
+function revServiceLabel(code) {
+    if (!code) return '';
+    return REVIEW_SERVICE_LABELS[code] || code;
+}
+function revParseDate(s) {
+    if (!s) return '';
+    // MySQL DATETIME ("2026-05-31 12:24:53") → ISO so Safari/Date parses it.
+    const d = new Date(String(s).replace(' ', 'T'));
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+async function loadReviews() {
     const countBadge = document.getElementById('reviews-count-badge');
     const avgNumEl = document.getElementById('avg-rating-number');
     const avgCntEl = document.getElementById('avg-rating-count');
@@ -1985,35 +1897,39 @@ function loadReviews() {
     const listEl = document.getElementById('reviews-list');
     const emptyEl = document.getElementById('reviews-empty');
 
+    let reviews = [];
+    try {
+        const res = await PTJO.hacker.getReviews();
+        if (res && res.ok) reviews = res.reviews || [];
+    } catch (e) { console.warn('[Reviews] load failed:', e); }
+
+    const totalCount = reviews.length;
+
     if (countBadge) {
-        if (totalCount > 0) {
-            countBadge.textContent = String(totalCount);
-            countBadge.classList.remove('hidden');
-        } else {
-            countBadge.classList.add('hidden');
-        }
+        if (totalCount > 0) { countBadge.textContent = String(totalCount); countBadge.classList.remove('hidden'); }
+        else countBadge.classList.add('hidden');
     }
 
     if (!totalCount) {
-        emptyEl.classList.remove('hidden');
-        avgNumEl.textContent = '—';
-        avgCntEl.textContent = 'No reviews yet';
-        avgStarEl.innerHTML = '';
-        breakdownEl.innerHTML = '';
-        listEl.innerHTML = '';
+        if (emptyEl) emptyEl.classList.remove('hidden');
+        if (avgNumEl) avgNumEl.textContent = '—';
+        if (avgCntEl) avgCntEl.textContent = 'No reviews yet';
+        if (avgStarEl) avgStarEl.innerHTML = '';
+        if (breakdownEl) breakdownEl.innerHTML = '';
+        if (listEl) listEl.innerHTML = '';
         return;
     }
 
-    emptyEl.classList.add('hidden');
-    const avg = reviews.reduce((s, r) => s + r.rating, 0) / totalCount;
-    avgNumEl.textContent = avg.toFixed(1);
-    avgCntEl.textContent = totalCount + ' review' + (totalCount !== 1 ? 's' : '');
-    avgStarEl.innerHTML = [1, 2, 3, 4, 5].map(i =>
+    if (emptyEl) emptyEl.classList.add('hidden');
+    const avg = reviews.reduce((s, r) => s + (parseInt(r.rating) || 0), 0) / totalCount;
+    if (avgNumEl) avgNumEl.textContent = avg.toFixed(1);
+    if (avgCntEl) avgCntEl.textContent = totalCount + ' review' + (totalCount !== 1 ? 's' : '');
+    if (avgStarEl) avgStarEl.innerHTML = [1, 2, 3, 4, 5].map(i =>
         `<i class="fas fa-star text-sm ${i <= Math.round(avg) ? 'text-yellow-400' : 'text-gray-700'}"></i>`
     ).join('');
 
-    breakdownEl.innerHTML = [5, 4, 3, 2, 1].map(star => {
-        const count = reviews.filter(r => r.rating === star).length;
+    if (breakdownEl) breakdownEl.innerHTML = [5, 4, 3, 2, 1].map(star => {
+        const count = reviews.filter(r => (parseInt(r.rating) || 0) === star).length;
         const pct = totalCount ? Math.round((count / totalCount) * 100) : 0;
         return `
           <div class="flex items-center gap-3">
@@ -2028,29 +1944,29 @@ function loadReviews() {
           </div>`;
     }).join('');
 
-    const SREV = {
-        Critical: { bg: 'rgba(239,68,68,.15)', color: '#fca5a5' },
-        High: { bg: 'rgba(249,115,22,.15)', color: '#fdba74' },
-        Medium: { bg: 'rgba(234,179,8,.15)', color: '#fde047' },
-        Low: { bg: 'rgba(34,197,94,.15)', color: '#86efac' },
-        Info: { bg: 'rgba(59,130,246,.15)', color: '#93c5fd' },
-    };
-
     listEl.innerHTML = reviews.map(rev => {
-        const sev = SREV[rev.severity] || SREV.Info;
-        const date = new Date(rev.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        const rating = parseInt(rev.rating) || 0;
+        const date = revParseDate(rev.created_at);
         const stars = [1, 2, 3, 4, 5].map(i =>
-            `<i class="fas fa-star text-sm ${i <= rev.rating ? 'text-yellow-400' : 'text-gray-700'}"></i>`
+            `<i class="fas fa-star text-sm ${i <= rating ? 'text-yellow-400' : 'text-gray-700'}"></i>`
         ).join('');
-        const company = escRevHtml(rev.clientCompany || rev.clientName || 'Verified Client');
-        const service = escRevHtml(rev.service || '');
-        const vuln = escRevHtml(rev.vulnTitle || 'Vulnerability');
-        const comment = escRevHtml(rev.comment || '');
-        const sevLabel = escRevHtml(rev.severity || '');
-        const initial = (rev.clientCompany || rev.clientName || 'C').charAt(0).toUpperCase();
-        const sevPill = rev.severity ? `
-              <span style="background:${sev.bg};color:${sev.color};"
-                class="text-xs px-2 py-0.5 rounded-full font-bold">${sevLabel}</span>` : '';
+        const company = escRevHtml(rev.client_company || rev.client_display_name || 'Verified Client');
+        const service = escRevHtml(revServiceLabel(rev.service_label));
+        const vuln = rev.vuln_title ? escRevHtml(rev.vuln_title) : '';
+        const comment = rev.comment ? escRevHtml(rev.comment) : '';
+        const initial = (rev.client_company || rev.client_display_name || 'C').charAt(0).toUpperCase();
+        const recommended = String(rev.recommended) === '1' || rev.recommended === true;
+        const recBadge = recommended
+            ? `<span class="flex items-center gap-1 text-xs bg-teal-500/10 border border-teal-500/20 text-teal-300 px-2 py-0.5 rounded-full font-semibold"><i class="fas fa-thumbs-up text-[10px]"></i> Recommends</span>`
+            : '';
+        const vulnRow = vuln ? `
+            <div class="flex items-center gap-2 mb-3 flex-wrap">
+              <span class="text-xs text-gray-500 font-semibold">Found:</span>
+              <span class="text-xs font-semibold text-gray-300 truncate max-w-[200px]">${vuln}</span>
+            </div>` : '';
+        const body = comment
+            ? `<p class="text-gray-300 text-sm leading-relaxed">"${comment}"</p>`
+            : `<p class="text-gray-500 text-sm italic">${recommended ? 'Recommended this pentester.' : 'No written comment.'}</p>`;
         return `
           <div class="bg-gray-900/50 border border-gray-700 rounded-2xl p-6 transition-all hover:border-gray-600">
             <div class="flex items-start justify-between gap-3 mb-4">
@@ -2062,6 +1978,7 @@ function loadReviews() {
                     <span class="flex items-center gap-1 text-xs bg-teal-500/10 border border-teal-500/20 text-teal-400 px-2 py-0.5 rounded-full font-semibold">
                       <i class="fas fa-circle-check text-[10px]"></i> Verified
                     </span>
+                    ${recBadge}
                   </div>
                   <p class="text-gray-500 text-xs mt-0.5">${service}</p>
                 </div>
@@ -2071,27 +1988,21 @@ function loadReviews() {
                 <p class="text-gray-600 text-xs">${escRevHtml(date)}</p>
               </div>
             </div>
-            <div class="flex items-center gap-2 mb-3 flex-wrap">
-              <span class="text-xs text-gray-500 font-semibold">Found:</span>
-              <span class="text-xs font-semibold text-gray-300 truncate max-w-[200px]">${vuln}</span>
-              ${sevPill}
-            </div>
-            <p class="text-gray-300 text-sm leading-relaxed">"${comment}"</p>
+            ${vulnRow}
+            ${body}
           </div>`;
     }).join('');
 }
 
-function updateReviewsBadgeCount() {
-    const allReviews = JSON.parse(localStorage.getItem('ptjo_reviews') || '[]');
-    const myReviews = allReviews.filter(r => r.hackerName === getHackerProfileName());
+async function updateReviewsBadgeCount() {
     const badge = document.getElementById('reviews-count-badge');
     if (!badge) return;
-    if (myReviews.length > 0) {
-        badge.textContent = String(myReviews.length);
-        badge.classList.remove('hidden');
-    } else {
-        badge.classList.add('hidden');
-    }
+    try {
+        const res = await PTJO.hacker.getReviews();
+        const n = (res && res.ok) ? (res.review_count || (res.reviews || []).length) : 0;
+        if (n > 0) { badge.textContent = String(n); badge.classList.remove('hidden'); }
+        else badge.classList.add('hidden');
+    } catch (e) { badge.classList.add('hidden'); }
 }
 
 function toggleAddCardH() {
@@ -2522,11 +2433,12 @@ async function submitReport() {
         dataUrl: f.dataUrl
     }));
     const navAv = document.getElementById('nav-avatar');
+    const _hackerName = getHackerProfileName() || (window._hackerProfileData && window._hackerProfileData.handle) || 'Hacker';
     reportsLs.push({
         id: reportId,
         engagementId: currentReportEngId,
         service: eng ? eng.service : '',
-        hackerName: 'Abdulrahman',
+        hackerName: _hackerName,
         client: eng ? eng.client : '',
         submittedAt: new Date().toISOString(),
         status: 'submitted',
@@ -2551,7 +2463,7 @@ async function submitReport() {
         paymentMethod: '',
         paymentCard: '',
         files: filesPayload,
-        submittedBy: 'Abdulrahman',
+        submittedBy: _hackerName,
         hackerAvatar: navAv && navAv.src ? navAv.src : '',
     });
     localStorage.setItem('ptjo_reports', JSON.stringify(reportsLs));
@@ -2561,7 +2473,7 @@ async function submitReport() {
         id: 'NOTIF-' + Date.now(),
         reportId: reportId,
         type: 'report_submitted',
-        message: 'New vulnerability report submitted by Abdulrahman for ' + (eng ? eng.service : 'your engagement') + ': ' + titleVal,
+        message: 'New vulnerability report submitted by ' + _hackerName + ' for ' + (eng ? eng.service : 'your engagement') + ': ' + titleVal,
         read: false,
         createdAt: new Date().toISOString(),
     });
@@ -3294,22 +3206,25 @@ document.addEventListener('keydown', e => {
 <script src="../assets/settings-panel.js"></script>
 <script src="../assets/api.js"></script>
 <script>
-/* ── PTjo API Bridge — Hacker Profile ───────────────────────────────────────
-   PTJO_API_BASE overrides auto-detection for correct path on XAMPP.       */
+/* ── PTjo API Bridge — Hacker Profile ─────────────────────────────────────── */
 (function () {
     'use strict';
 
     window.PTJO_API_BASE = '../api/';
 
-    /* ── Bootstrap ─────────────────────────────────────────────────────────── */
+    /* ── Bootstrap ──────────────────────────────────────────────────────────── */
     document.addEventListener('DOMContentLoaded', async function () {
         var session = await PTJO.init('hacker');
         if (!session) return;
 
-        var p = session.profile, u = session.user;
+        /* Nav: hide login button, show logout */
+        var _cBtn = document.getElementById('nav-customer-btn');
+        if (_cBtn) _cBtn.classList.add('hidden');
+        var _lBtn = document.getElementById('nav-logout-btn');
+        if (_lBtn) { _lBtn.classList.remove('hidden'); _lBtn.onclick = function(){ PTJO.logout(); }; }
 
         /* Fix logout buttons */
-        document.querySelectorAll('button, a').forEach(function(el){
+        document.querySelectorAll('button, a').forEach(function(el) {
             var oc = el.getAttribute('onclick') || '';
             if (/logout|signOut|sign.out/i.test(oc) || el.id === 'logout-btn') {
                 el.removeAttribute('onclick');
@@ -3317,249 +3232,413 @@ document.addEventListener('keydown', e => {
             }
         });
 
-        /* Load full profile from API */
         await loadFullProfile();
+        await loadWalletFromAPI();
         await loadEngagementsFromAPI();
         await loadReportsFromAPI();
     });
 
-    /* ── Full profile hydration ─────────────────────────────────────────────── */
+    /* ── Helpers ─────────────────────────────────────────────────────────────── */
+    function _set(id, val) {
+        var el = document.getElementById(id);
+        if (!el || val == null) return;
+        if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') el.value = val;
+        else el.textContent = val;
+    }
+    function _gv(id) {
+        var el = document.getElementById(id);
+        return el ? el.value : '';
+    }
+    function _fmtUSD(n) {
+        return '$' + parseFloat(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    /* ── Full profile hydration ──────────────────────────────────────────────── */
     async function loadFullProfile() {
         try {
             var res = await PTJO.hacker.getProfile();
             if (!res || !res.ok) return;
-            var p = res.profile || {};   /* PHP returns {ok, profile:{...}, user:{...}} */
+            var p = res.profile || {};
+            var u = res.user    || {};
 
-            _setVal('profileHandle',       p.handle);
-            _setVal('profileDisplayName',  p.display_name);
-            _setVal('profileTitle',        p.professional_title);
-            _setVal('profileBio',          p.bio);
-            _setVal('profileLocation',     p.location);
-            _setVal('profileWebsite',      p.website_url);
-            _setVal('profileGithub',       p.github_url);
-            _setVal('profileLinkedin',     p.linkedin_url);
-            _setVal('profileYearsExp',     p.years_experience);
-            _setVal('profileHourlyRate',   p.hourly_rate_usd);
+            window._hackerProfileData = p;
 
             /* Avatar */
-            var avatarEl = document.getElementById('profileAvatar') || document.querySelector('[data-hacker-avatar]');
-            if (avatarEl && p.avatar_url) avatarEl.src = p.avatar_url;
+            var avatarSeed = encodeURIComponent(p.display_name || p.handle || 'HK');
+            var avatarSrc  = p.avatar_url ||
+                'https://api.dicebear.com/7.x/initials/svg?seed=' + avatarSeed +
+                '&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700';
+            ['nav-avatar','avatar-img'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.src = avatarSrc;
+            });
 
-            /* Handle / name in nav */
-            var handleEl = document.getElementById('hackerHandle') || document.querySelector('[data-hacker-handle]');
-            if (handleEl) handleEl.textContent = p.handle || '';
-            var nameEl = document.querySelector('[data-hacker-name]');
-            if (nameEl) nameEl.textContent = p.display_name || p.handle || '';
+            /* Sidebar */
+            _set('sidebar-name',   p.display_name || p.handle || '—');
+            _set('sidebar-handle', '@' + (p.handle || '—'));
+            _set('sidebar-title',  p.professional_title || '—');
 
-            /* Wallet */
-            var walletEl = document.getElementById('walletBalance') || document.getElementById('hacker-wallet-balance');
-            if (walletEl && p.wallet_balance !== undefined) walletEl.textContent = PTJO.formatUSD(p.wallet_balance);
-
-            /* Stats */
-            var ratingEl = document.getElementById('profileRating');
-            if (ratingEl) ratingEl.textContent = parseFloat(p.avg_rating || 0).toFixed(1);
-            var jobsEl = document.getElementById('profileJobsDone');
-            if (jobsEl) jobsEl.textContent = p.jobs_done || 0;
-
-            /* Skills / tools / languages chips */
-            if (p.skills)    _setTags('profileSkills',    p.skills,    'ptjo_hacker_skills');
-            if (p.tools)     _setTags('profileTools',     p.tools,     'ptjo_hacker_tools');
-            if (p.languages) _setTags('profileLanguages', p.languages, 'ptjo_hacker_langs');
-
-            /* Certifications */
-            if (p.certifications) {
-                localStorage.setItem('ptjo_hacker_certs', JSON.stringify(p.certifications));
-                if (typeof renderCertifications === 'function') renderCertifications();
+            /* Rating stars */
+            var avg = parseFloat(p.avg_rating || 0);
+            var starsWrap = document.getElementById('sidebar-rating-stars');
+            if (starsWrap) {
+                var stars = '';
+                for (var i = 1; i <= 5; i++) {
+                    if (avg >= i)        stars += '<i class="fas fa-star text-yellow-400" style="font-size:12px;"></i>';
+                    else if (avg >= i-0.5) stars += '<i class="fas fa-star-half-stroke text-yellow-400" style="font-size:12px;"></i>';
+                    else                 stars += '<i class="fas fa-star text-gray-700" style="font-size:12px;"></i>';
+                }
+                stars += '<span class="text-gray-400 text-xs ml-1">' + (avg > 0 ? avg.toFixed(1) : '—') + ' / 5.0</span>';
+                starsWrap.innerHTML = stars;
             }
 
-            /* Store everything for save-profile use */
-            window._hackerProfileData = p;
+            /* Sidebar stats */
+            _set('sidebar-jobs',   p.jobs_done  || 0);
+            _set('sidebar-earned', p.wallet_balance != null
+                ? _fmtUSD(p.wallet_balance).replace('$','$') : '—');
+            /* Active = engagements with status in_progress (hydrated after engagements load) */
+
+            /* Profile form */
+            _set('prof-name',     p.display_name       || '');
+            _set('prof-handle',   p.handle             || '');
+            _set('prof-title',    p.professional_title || '');
+            _set('prof-location', p.location           || '');
+            _set('prof-bio',      p.bio                || '');
+            _set('prof-linkedin', p.linkedin_url       || '');
+            _set('prof-github',   p.github_url         || '');
+            _set('prof-web',      p.website_url        || '');
+            if (p.hourly_rate_usd) _set('prof-rate', p.hourly_rate_usd);
+            if (p.years_experience) {
+                var expSel = document.getElementById('prof-exp');
+                if (expSel) {
+                    var yrs = String(p.years_experience);
+                    Array.from(expSel.options).forEach(function(opt){
+                        if (opt.value === yrs || opt.textContent.includes(yrs)) opt.selected = true;
+                    });
+                }
+            }
+
+            /* Email */
+            _set('display-current-email', u.email || '—');
+
+            /* Skills: hydrate skill-grid checkboxes */
+            if (p.skills && Array.isArray(p.skills)) {
+                document.querySelectorAll('#skill-grid .skill-btn').forEach(function(btn) {
+                    var sk = btn.dataset.skill || btn.textContent.trim();
+                    var active = p.skills.some(function(s){ return String(s).toLowerCase().includes(sk.toLowerCase()) || sk.toLowerCase().includes(String(s).toLowerCase()); });
+                    btn.classList.toggle('selected', active);
+                });
+            }
+
+            /* Tools */
+            if (p.tools && Array.isArray(p.tools)) {
+                tools = p.tools.slice();
+                renderTags(tools, 'tags-wrap', 'removeTool');
+            }
+
+            /* Languages */
+            if (p.languages && Array.isArray(p.languages)) {
+                langs = p.languages.slice();
+                renderTags(langs, 'lang-tags-wrap', 'removeLang');
+            }
+
+            /* Certifications */
+            if (p.certifications && Array.isArray(p.certifications)) {
+                certs = p.certifications.map(function(c) {
+                    return {
+                        id:     c.id,
+                        name:   c.cert_name || c.name || '',
+                        issuer: c.issuing_org || c.issuer || '',
+                        date:   c.issued_on ? c.issued_on.substring(0,7) : '',
+                        credId: c.credential_id || c.credId || '',
+                        img:    c.badge_image_url || c.img || ''
+                    };
+                });
+                renderCerts();
+            }
         } catch(e) { console.warn('[Bridge] getProfile:', e); }
     }
 
-    function _setVal(id, val) {
-        var el = document.getElementById(id);
-        if (el && val !== undefined && val !== null) {
-            if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') el.value = val;
-            else el.textContent = val;
-        }
+    /* ── Wallet hydration ────────────────────────────────────────────────────── */
+    async function loadWalletFromAPI() {
+        try {
+            var res = await PTJO.hacker.getWallet();
+            if (!res || !res.ok) return;
+            var w = res.wallet  || {};
+            var l = res.ledger  || [];
+
+            /* Store balance for processWithdraw */
+            var bal = parseFloat(w.balance || 0);
+            localStorage.setItem('ptjo_hacker_wallet', bal.toFixed(2));
+
+            _set('h-wallet-balance',  _fmtUSD(bal));
+            _set('h-pending-balance', _fmtUSD(w.pending_balance || 0));
+
+            /* Total earned = sum of all credit entries */
+            var totalEarned = l.reduce(function(s, e){
+                return s + (e.direction === 'credit' ? parseFloat(e.amount || 0) : 0);
+            }, 0);
+            _set('h-total-earned', _fmtUSD(totalEarned));
+            _set('eng-total-earned', '$' + Math.round(totalEarned).toLocaleString('en-US'));
+
+            /* Render transaction list */
+            var txList = document.getElementById('h-tx-list');
+            if (txList) {
+                if (!l.length) {
+                    txList.innerHTML = '<p class="text-gray-600 text-sm text-center py-4">No transactions yet.</p>';
+                } else {
+                    txList.innerHTML = l.map(function(tx, idx) {
+                        var isCredit = tx.direction === 'credit';
+                        var amtSign  = isCredit ? '+' : '−';
+                        var amtColor = isCredit ? 'text-teal-400' : 'text-red-400';
+                        var iconBg   = isCredit ? 'bg-teal-500/10' : 'bg-red-500/10';
+                        var iconCls  = isCredit ? 'fa-arrow-down text-teal-400' : 'fa-arrow-up text-red-400';
+                        var border   = idx < l.length - 1 ? 'border-b border-gray-700/50' : '';
+                        var dateStr  = tx.created_at ? new Date(tx.created_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}) : '';
+                        return '<div class="flex items-center gap-4 py-3 ' + border + '">' +
+                            '<div class="w-9 h-9 rounded-xl ' + iconBg + ' flex items-center justify-center flex-shrink-0">' +
+                            '<i class="fas ' + iconCls + ' text-sm"></i></div>' +
+                            '<div class="flex-1 min-w-0">' +
+                            '<p class="text-white font-semibold text-sm">' + (tx.description || (isCredit ? 'Payment Received' : 'Withdrawal')) + '</p>' +
+                            '<p class="text-gray-500 text-xs">' + (tx.reference_id || '') + '</p></div>' +
+                            '<div class="text-right">' +
+                            '<p class="' + amtColor + ' font-bold text-sm">' + amtSign + _fmtUSD(tx.amount) + '</p>' +
+                            '<p class="text-gray-600 text-xs">' + dateStr + '</p></div></div>';
+                    }).join('');
+                }
+            }
+
+            /* Render payment methods */
+            var cardList = document.getElementById('h-card-list');
+            var withdrawDest = document.getElementById('h-withdraw-dest');
+            if (cardList) cardList.innerHTML = '';
+            if (withdrawDest) {
+                while (withdrawDest.options.length > 1) withdrawDest.remove(1);
+            }
+            var methods = res.payment_methods || [];
+            methods.forEach(function(m) {
+                var brand   = (m.card_brand || 'Card').charAt(0).toUpperCase() + (m.card_brand || 'Card').slice(1);
+                var last4   = m.last_four || '••••';
+                var isVisa  = brand.toLowerCase() === 'visa';
+                var isMC    = brand.toLowerCase() === 'mastercard';
+                var gradC   = isVisa ? 'from-blue-600 to-blue-800' : isMC ? 'from-red-600 to-orange-700' : 'from-gray-600 to-gray-800';
+                var faIcon  = isVisa ? 'fa-cc-visa' : isMC ? 'fa-cc-mastercard' : 'fa-credit-card far';
+                var expiry  = m.expiry_month && m.expiry_year ? m.expiry_month + ' / ' + String(m.expiry_year).slice(-2) : '';
+                var isDefault = !!m.is_default;
+                if (cardList) {
+                    var item = document.createElement('div');
+                    item.className = 'flex items-center gap-4 p-4 bg-gray-900/60 border border-gray-700 rounded-2xl';
+                    item.innerHTML =
+                        '<div class="w-12 h-8 rounded-md bg-gradient-to-br ' + gradC + ' flex items-center justify-center flex-shrink-0">' +
+                        '<i class="fab ' + faIcon + ' text-white text-lg"></i></div>' +
+                        '<div class="flex-1"><p class="text-white font-semibold text-sm">' + brand + ' ···· ' + last4 + '</p>' +
+                        '<p class="text-gray-500 text-xs">' + (expiry ? 'Expires ' + expiry + ' · ' : '') + (m.cardholder_name || '') + '</p></div>' +
+                        (isDefault ? '<span class="text-xs bg-teal-500/15 text-teal-400 border border-teal-500/30 px-2.5 py-1 rounded-full font-bold">Default</span>' : '') +
+                        '<button type="button" onclick="removeCard(this)" class="text-gray-600 hover:text-red-400 transition-colors"><i class="fas fa-trash-can text-sm"></i></button>';
+                    cardList.appendChild(item);
+                }
+                if (withdrawDest) {
+                    var opt = document.createElement('option');
+                    opt.value = m.id || ('card-' + last4);
+                    opt.textContent = brand + ' ending in ' + last4;
+                    withdrawDest.appendChild(opt);
+                }
+            });
+        } catch(e) { console.warn('[Bridge] getWallet:', e); }
     }
 
-    function _setTags(containerId, items, lsKey) {
-        localStorage.setItem(lsKey, JSON.stringify(items));
-        /* Try to invoke existing render if present */
-        var fnName = 'render' + containerId.charAt(0).toUpperCase() + containerId.slice(1);
-        if (typeof window[fnName] === 'function') window[fnName]();
-    }
-
-    /* ── Engagements ────────────────────────────────────────────────────────── */
+    /* ── Engagements ─────────────────────────────────────────────────────────── */
     async function loadEngagementsFromAPI() {
         try {
             var res = await PTJO.hacker.getEngagements();
             if (!res || !res.ok) return;
-            var engs = (res.engagements || []).map(function(eng) {
+            var apiEngs = res.engagements || [];
+
+            var STATUS_MAP = {
+                'in_progress': { status:'inprogress', label:'In Progress', icon:'fa-globe' },
+                'accepted':    { status:'accepted',   label:'Accepted',    icon:'fa-globe' },
+                'completed':   { status:'completed',  label:'Completed',   icon:'fa-globe' },
+                'pending':     { status:'pending',    label:'New Request', icon:'fa-globe' },
+                'declined':    { status:'rejected',   label:'Declined',    icon:'fa-globe' },
+                'cancelled':   { status:'rejected',   label:'Cancelled',   icon:'fa-globe' },
+            };
+            var SVC_ICONS = {
+                'web_app': 'fa-globe', 'network': 'fa-network-wired',
+                'cloud': 'fa-cloud',   'api': 'fa-cube',
+                'mobile': 'fa-mobile-alt', 'iot': 'fa-wifi',
+                'active_directory': 'fa-server'
+            };
+
+            engagements = apiEngs.map(function(eng) {
+                var sm   = STATUS_MAP[eng.status] || { status: eng.status, label: eng.status, icon:'fa-globe' };
+                var sType = (eng.service_type || '').toLowerCase().replace(/\s+/g,'_').replace(/[^a-z_]/g,'');
+                var icon  = SVC_ICONS[sType] || 'fa-globe';
+                var label = (eng.service_type || '').replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+                var price = parseFloat(eng.agreed_price_usd || 0);
+                var due   = eng.deadline
+                    ? new Date(eng.deadline).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+                    : '—';
+                var created = eng.created_at
+                    ? new Date(eng.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+                    : '—';
                 return {
-                    id: eng.id,
-                    publicId: eng.public_id,
-                    bountyId: eng.bounty_request_id,
-                    status: eng.status,
-                    serviceType: eng.service_type,
-                    customerName: eng.customer_name || eng.client_display_name || 'Client',
-                    agreedPrice: parseFloat(eng.agreed_price_usd) || 0,
-                    deadline: eng.deadline,
-                    createdAt: eng.created_at,
-                    reportCount: parseInt(eng.report_count) || 0
+                    id:          eng.id,
+                    service:     label || 'Security Assessment',
+                    icon:        icon,
+                    client:      eng.customer_name || eng.company_name || 'Client',
+                    date:        created,
+                    deadline:    due,
+                    price:       '$' + price.toLocaleString('en-US', {minimumFractionDigits:2}),
+                    status:      sm.status,
+                    statusLabel: sm.label,
+                    note:        eng.status_note || ''
                 };
             });
-            window.engagements = engs;
-            localStorage.setItem('ptjo_hacker_applications', JSON.stringify(engs));
-            if (typeof renderEngagements === 'function') renderEngagements('all');
+
+            /* Update sidebar active count and badge */
+            var activeCount = engagements.filter(function(e){ return e.status === 'inprogress' || e.status === 'accepted'; }).length;
+            _set('sidebar-active', activeCount);
+            _set('eng-count-badge', engagements.length || '—');
+
+            /* Update eng-total-earned from wallet (already set in loadWalletFromAPI) */
+
+            renderEngagements('all');
+            /* Reset filter buttons */
+            document.querySelectorAll('.order-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+            var firstBtn = document.querySelector('.order-filter-btn');
+            if (firstBtn) firstBtn.classList.add('active');
         } catch(e) { console.warn('[Bridge] getEngagements:', e); }
     }
 
-    /* ── Reports ────────────────────────────────────────────────────────────── */
+    /* ── Reports ──────────────────────────────────────────────────────────────── */
     async function loadReportsFromAPI() {
         try {
             var res = await PTJO.hacker.getReports();
             if (!res || !res.ok) return;
             var reports = (res.reports || []).map(function(r) {
                 return {
-                    id: r.id,
+                    id:           r.id,
                     engagementId: r.engagement_id,
-                    title: r.title,
-                    severity: r.severity,
-                    status: r.status,
-                    description: r.description || '',
-                    cvssScore: r.cvss_score,
-                    cvssVector: r.cvss_vector,
-                    affectedComponent: r.affected_component,
-                    stepsToReproduce: r.steps_to_reproduce,
-                    impact: r.impact,
-                    recommendation: r.recommendation,
-                    createdAt: r.created_at,
-                    attachments: r.attachments || []
+                    service:      r.service_type || '',
+                    title:        r.title || '',
+                    severity:     r.severity || '',
+                    status:       r.status || '',
+                    description:  r.description || '',
+                    impact:       r.impact || '',
+                    recommendation: r.recommendation || '',
+                    createdAt:    r.created_at || '',
+                    submittedBy:  getHackerProfileName(),
+                    agreedAmount: parseFloat(r.agreed_price_usd || 0)
                 };
             });
             localStorage.setItem('ptjo_reports', JSON.stringify(reports));
-            if (typeof renderReports === 'function') renderReports();
         } catch(e) { console.warn('[Bridge] getReports:', e); }
     }
 
-    /* ── Override submitReport ──────────────────────────────────────────────── */
+    /* ── Override saveProfile ────────────────────────────────────────────────── */
+    var _origSaveProfile = window.saveProfile;
+    window.saveProfile = async function (e) {
+        if (e) e.preventDefault();
+        /* Call original for local UI update */
+        if (_origSaveProfile) _origSaveProfile(e || { preventDefault: function(){} });
+
+        try {
+            var res = await PTJO.hacker.updateProfile({
+                display_name:       _gv('prof-name'),
+                handle:             _gv('prof-handle').replace(/^@/,''),
+                professional_title: _gv('prof-title'),
+                location:           _gv('prof-location'),
+                bio:                _gv('prof-bio'),
+                linkedin_url:       _gv('prof-linkedin'),
+                github_url:         _gv('prof-github'),
+                website_url:        _gv('prof-web'),
+                hourly_rate_usd:    parseFloat(_gv('prof-rate') || 0),
+                years_experience:   _gv('prof-exp'),
+                skills: Array.from(document.querySelectorAll('#skill-grid .skill-btn.selected')).map(function(b){ return b.dataset.skill; }),
+                tools:  tools,
+                languages: langs
+            });
+            if (res && res.ok) {
+                if (window._hackerProfileData) {
+                    window._hackerProfileData.display_name       = _gv('prof-name');
+                    window._hackerProfileData.handle             = _gv('prof-handle').replace(/^@/,'');
+                    window._hackerProfileData.professional_title = _gv('prof-title');
+                }
+            } else {
+                showToast((res && res.error) || 'Server save failed.', 'warn');
+            }
+        } catch(err) { console.warn('[Bridge] saveProfile:', err); }
+    };
+
+    /* ── Override acceptEng / rejectEng to call API ─────────────────────────── */
+    var _origAcceptEng = window.acceptEng;
+    window.acceptEng = async function (id) {
+        if (_origAcceptEng) _origAcceptEng(id);
+        if (/^[0-9a-f]{8}-/i.test(String(id))) {
+            try { await PTJO.hacker.updateEngagementStatus(id, 'accept', ''); } catch(e){}
+        }
+    };
+    var _origRejectEng = window.rejectEng;
+    window.rejectEng = async function (id) {
+        if (_origRejectEng) _origRejectEng(id);
+        if (/^[0-9a-f]{8}-/i.test(String(id))) {
+            try { await PTJO.hacker.updateEngagementStatus(id, 'decline', ''); } catch(e){}
+        }
+    };
+
+    /* ── Override addCertificate to persist to API ───────────────────────────── */
+    var _origAddCert = window.addCertificate;
+    window.addCertificate = async function () {
+        if (_origAddCert) _origAddCert();
+        var last = certs[certs.length - 1];
+        if (!last) return;
+        try {
+            await PTJO.hacker.addCertification({
+                cert_name:      last.name,
+                issuing_org:    last.issuer,
+                issued_on:      last.date ? last.date + '-01' : null,
+                credential_id:  last.credId || null,
+                badge_image_url: last.img || null
+            });
+        } catch(e) { console.warn('[Bridge] addCertificate:', e); }
+    };
+
+    /* ── Override submitReport to also push to API ───────────────────────────── */
     var _origSubmitReport = window.submitReport;
     window.submitReport = async function () {
-        /* Run original first (closes modal, updates local UI) */
-        if (_origSubmitReport) _origSubmitReport();
+        // Capture selected files before calling the original (which resets the input)
+        var rfi = document.getElementById('report-file-input');
+        var selectedFiles = rfi && rfi.files && rfi.files.length > 0
+            ? Array.from(rfi.files) : [];
 
-        /* Gather the last report that was added to localStorage */
+        if (_origSubmitReport) await _origSubmitReport();
         var reports = JSON.parse(localStorage.getItem('ptjo_reports') || '[]');
         var last = reports[0];
         if (!last) return;
-
-        /* Only push to API if there's a real UUID engagement */
         var engId = last.engagementId || '';
-        if (!/^[0-9a-f]{8}-/.test(engId)) return;
-
+        if (!/^[0-9a-f]{8}-/i.test(engId)) return;
         try {
             var res = await PTJO.hacker.submitReport({
-                engagement_id:      engId,
-                title:              last.title || '',
-                severity:           last.severity || 'Medium',
-                cvss_score:         parseFloat(last.cvssScore) || null,
-                cvss_vector:        last.cvssVector || '',
-                affected_component: last.affectedComponent || '',
-                description:        last.description || '',
-                steps_to_reproduce: last.stepsToReproduce || '',
-                impact:             last.impact || '',
-                recommendation:     last.recommendation || ''
+                engagement_id:   engId,
+                title:           last.title || '',
+                severity:        last.severity || 'Medium',
+                description:     last.description || '',
+                impact:          last.impact || '',
+                recommendation:  last.recommendations || last.recommendation || ''
             });
             if (res && res.ok) {
-                PTJO.toast('Report submitted to server!', 'success');
-                /* Replace mock ID with real UUID in localStorage */
                 reports[0].id = res.report_id || reports[0].id;
                 localStorage.setItem('ptjo_reports', JSON.stringify(reports));
+                // Upload any attached files
+                if (selectedFiles.length > 0 && res.report_id) {
+                    try {
+                        await PTJO.hacker.uploadAttachments(res.report_id, selectedFiles);
+                    } catch(err) { console.warn('[Bridge] attachment upload:', err); }
+                }
                 await loadReportsFromAPI();
                 await loadEngagementsFromAPI();
-            } else {
-                PTJO.toast((res && res.error) || 'Report saved locally but not synced.', 'warning');
             }
-        } catch(err) {
-            console.error('[Bridge] submitReport:', err);
-            PTJO.toast('Report saved locally. Sync failed — check your connection.', 'warning');
-        }
-    };
-
-    /* ── Override saveHackerProfile ─────────────────────────────────────────── */
-    var _origSaveProfile = window.saveHackerProfile || window.updateHackerProfile;
-    var _saveKey = window.saveHackerProfile ? 'saveHackerProfile' : 'updateHackerProfile';
-    window[_saveKey] = async function () {
-        var skills    = JSON.parse(localStorage.getItem('ptjo_hacker_skills')  || '[]');
-        var tools     = JSON.parse(localStorage.getItem('ptjo_hacker_tools')   || '[]');
-        var languages = JSON.parse(localStorage.getItem('ptjo_hacker_langs')   || '[]');
-        try {
-            var res = await PTJO.hacker.updateProfile({
-                display_name:       (_gv('profileDisplayName') || ''),
-                professional_title: (_gv('profileTitle')       || ''),
-                bio:                (_gv('profileBio')         || ''),
-                location:           (_gv('profileLocation')    || ''),
-                website_url:        (_gv('profileWebsite')     || ''),
-                github_url:         (_gv('profileGithub')      || ''),
-                linkedin_url:       (_gv('profileLinkedin')    || ''),
-                years_experience:   parseInt(_gv('profileYearsExp')   || 0),
-                hourly_rate_usd:    parseFloat(_gv('profileHourlyRate') || 0),
-                skills:    skills,
-                tools:     tools,
-                languages: languages
-            });
-            if (res && res.ok) PTJO.toast('Profile saved!', 'success');
-            else PTJO.toast((res && res.error) || 'Save failed.', 'error');
-        } catch(e) { console.warn('[Bridge] updateProfile:', e); }
-        if (_origSaveProfile) _origSaveProfile();
-    };
-
-    function _gv(id) {
-        var el = document.getElementById(id);
-        return el ? el.value : '';
-    }
-
-    /* ── Override updateEngagementStatus ────────────────────────────────────── */
-    var _origUpdateStatus = window.updateEngagementStatus;
-    window.updateEngagementStatus = async function (engId, action, note) {
-        if (/^[0-9a-f]{8}-/.test(String(engId))) {
-            try {
-                var res = await PTJO.hacker.updateEngagementStatus(engId, action, note || '');
-                if (res && res.ok) {
-                    PTJO.toast('Status updated.', 'success');
-                    await loadEngagementsFromAPI();
-                } else {
-                    PTJO.toast((res && res.error) || 'Update failed.', 'error');
-                }
-            } catch(e) { console.error('[Bridge] updateEngagementStatus:', e); }
-            return;
-        }
-        if (_origUpdateStatus) _origUpdateStatus(engId, action, note);
-    };
-
-    /* ── Override addCertification ──────────────────────────────────────────── */
-    var _origAddCert = window.addCertification;
-    window.addCertification = async function (data) {
-        if (_origAddCert) _origAddCert(data);
-        try {
-            var res = await PTJO.hacker.addCertification(data || {});
-            if (res && res.ok) await loadFullProfile();
-        } catch(e) { console.warn('[Bridge] addCertification:', e); }
-    };
-
-    /* ── Override deleteCertification ───────────────────────────────────────── */
-    var _origDelCert = window.deleteCertification;
-    window.deleteCertification = async function (certId) {
-        if (_origDelCert) _origDelCert(certId);
-        if (/^[0-9a-f]{8}-/.test(String(certId))) {
-            try {
-                await PTJO.hacker.deleteCertification(certId);
-                await loadFullProfile();
-            } catch(e) { console.warn('[Bridge] deleteCertification:', e); }
-        }
+        } catch(err) { console.error('[Bridge] submitReport:', err); }
     };
 
 })();

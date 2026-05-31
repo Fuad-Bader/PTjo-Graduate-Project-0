@@ -284,8 +284,17 @@
                         <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
                         <span data-i18n="nav.settings">Settings</span>
                     </a>
-                    <a id="nav-hacker-btn" href="SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.hacker-login">Log In as Hacker</span></a>
-                    <a id="nav-customer-btn" href="SignUp_Customer/SignupC.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.customer-login">Log In as Customer</span></a>
+                    <a id="nav-login-btn" href="LogIn/Login.html" class="text-teal-400 hover:text-white transition duration-300 font-medium flex items-center gap-1.5"><i class="fas fa-sign-in-alt text-sm"></i><span>Log In</span></a>
+                    <a id="nav-signup-btn" href="SignUp_Customer/SignupC.html" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 px-4 rounded-xl transition-all duration-200 text-sm">Sign Up</a>
+                    <a id="nav-dashboard-btn" href="#" class="hidden text-gray-300 hover:text-teal-400 transition duration-300 font-medium flex items-center gap-2">
+                        <i class="fas fa-gauge-high text-sm"></i> Dashboard
+                    </a>
+                    <a id="nav-profile-btn" href="#" class="hidden flex items-center gap-2 px-4 py-2 bg-teal-600/20 border border-teal-600/40 hover:bg-teal-600 text-teal-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm">
+                        <i class="fas fa-user-circle"></i><span>My Profile</span>
+                    </a>
+                    <button id="nav-logout-btn" onclick="ptjoNavLogout()" class="hidden text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </button>
                 </div>
             </div>
         </div>
@@ -1052,16 +1061,39 @@
         });
     </script>
     <script>
-        (function() {
-            var r = localStorage.getItem('ptjo_role');
-            if (r === 'hacker') {
-                var h = document.getElementById('nav-hacker-btn');
-                if (h) h.style.display = 'none';
-            }
-            if (r === 'customer') {
-                var c = document.getElementById('nav-customer-btn');
-                if (c) c.style.display = 'none';
-            }
+        function ptjoNavLogout() {
+            fetch('api/auth/logout.php', {
+                method: 'POST', credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': window._ptjoNavCSRF || '' },
+                body: '{}'
+            }).finally(function () { window.location.reload(); });
+        }
+        (function () {
+            fetch('api/auth/session.php', { credentials: 'same-origin' })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (!data || !data.ok) return;
+                    window._ptjoNavCSRF = data.csrf;
+                    var role = data.user && data.user.role;
+                    ['nav-login-btn','nav-signup-btn'].forEach(function(id){
+                        var el = document.getElementById(id); if (el) el.classList.add('hidden');
+                    });
+                    var pBtn = document.getElementById('nav-profile-btn');
+                    if (pBtn) {
+                        pBtn.href = role === 'hacker'
+                            ? 'My_ProfileHacker/MyProfile.html'
+                            : (role === 'admin' ? 'AD_Page/AD.html' : 'My_ProfileCustomer/MyProfileC.html');
+                        pBtn.classList.remove('hidden');
+                    }
+                    var dBtn = document.getElementById('nav-dashboard-btn');
+                    if (dBtn) {
+                        dBtn.href = role === 'hacker' ? 'Hacker_Dashboard/HackerDashboard.html' : 'Customer_Dashboard/Customer_Dashboard.html';
+                        dBtn.classList.remove('hidden');
+                    }
+                    var lBtn = document.getElementById('nav-logout-btn');
+                    if (lBtn) lBtn.classList.remove('hidden');
+                })
+                .catch(function () {});
         })();
     </script>
     <script src="assets/lang.js"></script>

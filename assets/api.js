@@ -115,6 +115,19 @@
       window.location.href = this.loginUrl();
     },
 
+    /** Upload a profile avatar (works for both customer and hacker). */
+    async uploadAvatar(file) {
+      const fd = new FormData();
+      fd.append('avatar', file);
+      const res = await fetch(apiBase() + 'upload_avatar.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': getCSRF() },
+        body: fd,
+      });
+      return res.json();
+    },
+
     // ── Customer API ──────────────────────────────────────────────────────────
 
     customer: {
@@ -123,8 +136,15 @@
       async getWallet()              { return get('customer/get_wallet.php'); },
       async topupWallet(amount)      { return post('customer/topup_wallet.php', { amount }); },
       async getBounties(status)      { return get('customer/get_bounties.php', status ? { status } : {}); },
+      async getEngagements(status)   { return get('customer/get_engagements.php', status ? { status } : {}); },
       async createBounty(data)       { return post('customer/create_bounty.php', data); },
       async cancelBounty(bountyId)   { return post('customer/cancel_bounty.php', { bounty_id: bountyId }); },
+      async cancelEngagement(engId)  { return post('customer/cancel_engagement.php', { engagement_id: engId }); },
+      async completeEngagement(engId, method) { return post('customer/complete_engagement.php', { engagement_id: engId, payment_method: method || 'wallet' }); },
+      async updateBounty(data)       { return post('customer/update_bounty.php', data); },
+      async getApplicants(bountyId)  { return get('customer/get_applicants.php', { bounty_id: bountyId }); },
+      async getMessages(engId)       { return get('customer/get_messages.php', { engagement_id: engId }); },
+      async sendMessage(engId, body) { return post('customer/send_message.php', { engagement_id: engId, body: body }); },
       async getPentesters(params)    { return get('customer/get_pentesters.php', params || {}); },
       async hirePentester(appId)     { return post('customer/hire_pentester.php', { application_id: appId }); },
       async getReports(params)       { return get('customer/get_reports.php', params || {}); },
@@ -137,6 +157,12 @@
       },
       async addPaymentMethod(data)   { return post('customer/add_payment_method.php', data); },
       async deletePaymentMethod(id)  { return post('customer/delete_payment_method.php', { payment_method_id: id }); },
+      /** Leave a review for a completed engagement. data: {rating, recommended, comment} */
+      async submitReview(engId, data) {
+        return post('customer/submit_review.php', Object.assign({ engagement_id: engId }, data || {}));
+      },
+      /** View a pentester's public profile + reviews. params: {engagement_id} or {hacker_id} */
+      async getHackerPublic(params)  { return get('customer/get_hacker_public.php', params || {}); },
     },
 
     // ── Hacker API ────────────────────────────────────────────────────────────
@@ -149,12 +175,16 @@
       async applyBounty(bountyId, note) {
         return post('hacker/apply_bounty.php', { bounty_id: bountyId, availability_note: note || '' });
       },
+      async getApplications()        { return get('hacker/get_applications.php'); },
+      async getMessages(engId)       { return get('hacker/get_messages.php', { engagement_id: engId }); },
+      async sendMessage(engId, body) { return post('hacker/send_message.php', { engagement_id: engId, body: body }); },
       async getEngagements(status)   { return get('hacker/get_engagements.php', status ? { status } : {}); },
       async updateEngagementStatus(engId, action, note) {
         return post('hacker/update_engagement_status.php', { engagement_id: engId, action, status_note: note || '' });
       },
       async getReports(params)       { return get('hacker/get_reports.php', params || {}); },
       async submitReport(data)       { return post('hacker/submit_report.php', data); },
+      async getReviews()             { return get('hacker/get_reviews.php'); },
       async getNotifications(unreadOnly) {
         return get('hacker/get_notifications.php', unreadOnly ? { unread_only: '1' } : {});
       },
@@ -163,6 +193,22 @@
       },
       async addCertification(data)   { return post('hacker/add_certification.php', data); },
       async deleteCertification(id)  { return post('hacker/delete_certification.php', { certification_id: id }); },
+      async uploadAttachments(reportId, files) {
+        const results = [];
+        for (const file of files) {
+          const fd = new FormData();
+          fd.append('report_id', reportId);
+          fd.append('file', file);
+          const res = await fetch(apiBase() + 'hacker/upload_attachment.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': getCSRF() },
+            body: fd,
+          });
+          results.push(await res.json());
+        }
+        return results;
+      },
     },
 
     // ── UI helpers ────────────────────────────────────────────────────────────

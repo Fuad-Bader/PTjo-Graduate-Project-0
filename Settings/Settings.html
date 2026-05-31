@@ -103,48 +103,19 @@
 <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
     <div class="container flex justify-between items-center h-20">
         <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
-        <div class="hidden md:flex items-center space-x-8">
-            <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
-            <div class="relative">
-                <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                    <span data-i18n="nav.products">Products</span>
-                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network"  class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span data-i18n="nav.network">Network Testing</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad"       class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span data-i18n="nav.ad">Active Directory</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span data-i18n="nav.cloud">Cloud Testing</span></a>
-                    <div class="h-px bg-gray-700 my-1"></div>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp"    class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span data-i18n="nav.webapp">Web App</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile"   class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span data-i18n="nav.mobile">Mobile App</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span data-i18n="nav.api">API Testing</span></a>
-                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span data-i18n="nav.iot">IoT Testing</span></a>
-                </div>
-            </div>
-            <div class="relative">
-                <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                    <span data-i18n="nav.industries">Industries</span>
-                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                    <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span data-i18n="nav.industries.all">All Industries</span></a>
-                    <div class="h-px bg-gray-700 my-1"></div>
-                    <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span data-i18n="nav.finance">Finance</span></a>
-                    <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span data-i18n="nav.healthcare">Healthcare</span></a>
-                    <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span data-i18n="nav.retail">Retail</span></a>
-                    <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span data-i18n="nav.technology">Technology</span></a>
-                </div>
-            </div>
-            <div class="flex items-center space-x-4 ml-4">
-                <a href="Settings.html"
-                   class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
-                   title="Settings">
-                    <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
-                    <span data-i18n="nav.settings">Settings</span>
-                </a>
-                <a id="nav-hacker-btn" href="../SignUp_Hacker/SignUpH.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium text-sm" data-i18n="nav.hacker-login">Log In as Hacker</a>
-                <a id="nav-customer-btn" href="../SignUp_Customer/SignupC.html" class="text-teal-400 hover:text-white transition duration-300 font-medium text-sm" data-i18n="nav.customer-login">Log In as Customer</a>
-            </div>
+        <div class="hidden md:flex items-center space-x-4">
+            <a id="nav-dashboard-btn" href="#" class="hidden text-gray-300 hover:text-teal-400 transition duration-300 font-medium flex items-center gap-2">
+                <i class="fas fa-gauge-high text-sm"></i> Dashboard
+            </a>
+            <a id="nav-profile-btn" href="#" class="hidden flex items-center gap-2 px-4 py-2 bg-teal-600/20 border border-teal-600/40 hover:bg-teal-600 text-teal-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm">
+                <i class="fas fa-user-circle"></i><span>My Profile</span>
+            </a>
+            <a id="nav-login-btn" href="../LogIn/Login.html" class="text-teal-400 hover:text-white transition duration-300 font-medium text-sm flex items-center gap-1.5">
+                <i class="fas fa-sign-in-alt"></i> Log In
+            </a>
+            <button id="nav-logout-btn" onclick="ptjoNavLogout()" class="hidden text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </button>
         </div>
     </div>
 </nav>
@@ -882,21 +853,96 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const profile = JSON.parse(localStorage.getItem('ptjo_profile') || '{}');
-    if (profile.name)  document.getElementById('prof-name').value  = profile.name;
-    if (profile.email) document.getElementById('prof-email').value = profile.email;
-    if (profile.phone) document.getElementById('prof-phone').value = profile.phone;
-    if (profile.role)  document.getElementById('prof-role').value  = profile.role;
-    if (profile.bio)   document.getElementById('prof-bio').value   = profile.bio;
-
-    const avatar = localStorage.getItem('ptjo_avatar');
-    if (avatar) document.getElementById('settings-avatar').src = avatar;
-
-    const r = localStorage.getItem('ptjo_role');
-    if (r === 'hacker')   { const h = document.getElementById('nav-hacker-btn');   if (h) h.style.display = 'none'; }
-    if (r === 'customer') { const c = document.getElementById('nav-customer-btn'); if (c) c.style.display = 'none'; }
+    // Profile will be populated via API — see nav-auth.js + ptjo:session listener below
 });
+
+/* ── Load profile from API when session is available ── */
+document.addEventListener('ptjo:session', function (e) {
+    var data = e.detail;
+    var u = data.user || {}, p = data.profile || {};
+    var role = u.role || '';
+
+    // Populate form fields from session data
+    if (p.display_name) document.getElementById('prof-name').value  = p.display_name;
+    if (u.email)        document.getElementById('prof-email').value = u.email;
+    if (role)           document.getElementById('prof-role').value  = role;
+
+    if (p.avatar_url) {
+        document.getElementById('settings-avatar').src = p.avatar_url;
+    } else if (p.display_name) {
+        document.getElementById('settings-avatar').src =
+            'https://api.dicebear.com/7.x/initials/svg?seed=' +
+            encodeURIComponent(p.display_name) +
+            '&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700';
+    }
+
+    // Fetch full profile for phone + bio
+    var apiBase = (function() {
+        var parts = location.pathname.replace(/\/[^/]*$/, '').split('/').filter(Boolean);
+        return parts.length <= 1 ? '../api/' : '../../api/';
+    })();
+    var endpoint = role === 'hacker' ? 'hacker/get_profile.php' : 'customer/get_profile.php';
+    fetch(apiBase + endpoint, { credentials: 'same-origin',
+        headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': data.csrf || '' }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+        var prof = d.profile || {};
+        if (prof.phone_number) document.getElementById('prof-phone').value = prof.phone_number;
+        if (prof.bio)          document.getElementById('prof-bio').value   = prof.bio;
+        if (prof.avatar_url)   document.getElementById('settings-avatar').src = prof.avatar_url;
+        window._settingsProfileData = prof;
+        window._settingsUserData    = d.user || {};
+    })
+    .catch(function(){});
+});
+
+/* ── Override saveProfile to call API ── */
+(function() {
+    var _orig = window.saveProfile;
+    window.saveProfile = async function(e) {
+        e.preventDefault();
+        var csrf = window._ptjoNavCSRF || '';
+        var apiBase = (function() {
+            var parts = location.pathname.replace(/\/[^/]*$/, '').split('/').filter(Boolean);
+            return parts.length <= 1 ? '../api/' : '../../api/';
+        })();
+        var role = (window._settingsUserData && window._settingsUserData.role)
+                 || document.getElementById('prof-role').value || '';
+        var payload = {
+            display_name: document.getElementById('prof-name').value.trim(),
+            phone_number: document.getElementById('prof-phone').value.trim(),
+            bio:          document.getElementById('prof-bio').value.trim(),
+        };
+        if (!role) {
+            // Not logged in — fallback to localStorage
+            if (_orig) return _orig(e);
+            return;
+        }
+        var endpoint = role === 'hacker' ? 'hacker/update_profile.php' : 'customer/update_profile.php';
+        try {
+            var res = await fetch(apiBase + endpoint, {
+                method: 'POST', credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-Token': csrf
+                },
+                body: JSON.stringify(payload)
+            });
+            var json = await res.json();
+            if (json && json.ok) {
+                showToast('Profile saved successfully!');
+            } else {
+                showToast(json.error || 'Failed to save profile.', true);
+            }
+        } catch(err) {
+            showToast('Network error saving profile.', true);
+        }
+    };
+})();
 </script>
+<script src="../assets/nav-auth.js"></script>
 <script src="../assets/lang.js"></script>
 <script src="../assets/settings-panel.js"></script>
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PTjo - Customer Portal</title>
+    <title>PTjo - Sign Up</title>
     <script src="../assets/theme.js"></script>
     <script src="../assets/vuln-taxonomy.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,335 +13,213 @@
 
     <style type="text/tailwindcss">
         @layer base { body { @apply bg-gray-900 text-gray-200 font-sans; } .input-field { @apply w-full px-4 py-3 rounded-xl bg-gray-900 border border-gray-700 text-gray-100 placeholder-gray-600 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20
-        transition-all; } } .tab-btn { @apply flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200; } .tab-btn.active { @apply bg-teal-600 text-white shadow; } .tab-btn:not(.active) { @apply text-gray-500 hover:text-gray-300; } .service-btn
-        { @apply flex flex-col items-center justify-center p-3 border-2 border-gray-700 rounded-xl transition-all duration-200 cursor-pointer text-center h-24 hover:border-teal-500/50 hover:bg-gray-800; } .service-btn.selected { @apply border-teal-500
-        bg-teal-900/30 ring-1 ring-teal-500/50; } .service-btn.selected i { @apply text-teal-400; } .service-btn.selected span { @apply text-teal-300; } .req-item { @apply flex items-center gap-2 text-xs; } .req-dot { @apply w-4 h-4 rounded-full flex
-        items-center justify-center text-[10px] font-bold flex-shrink-0 transition-all; }
+        transition-all; } } .tab-btn { @apply flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200; } .tab-btn.active { @apply bg-teal-600 text-white shadow; } .tab-btn:not(.active) { @apply text-gray-500 hover:text-gray-300; } .role-tab-btn { @apply flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 flex items-center justify-center gap-1.5; } .role-tab-btn.active { @apply bg-gray-700 text-teal-300 shadow; } .role-tab-btn:not(.active) { @apply text-gray-500 hover:text-gray-400; } .service-btn { @apply flex flex-col items-center justify-center p-3 border-2 border-gray-700 rounded-xl transition-all duration-200 cursor-pointer text-center h-24 hover:border-teal-500/50 hover:bg-gray-800; } .service-btn.selected { @apply border-teal-500 bg-teal-900/30 ring-1 ring-teal-500/50; } .service-btn.selected i { @apply text-teal-400; } .service-btn.selected span { @apply text-teal-300; } .req-item { @apply flex items-center gap-2 text-xs; } .req-dot { @apply w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 transition-all; }
     </style>
 
     <style>
-        /* intl-tel-input dark theme */
-        
-        .iti {
-            width: 100%;
-        }
-        
-        .iti--allow-dropdown .input-field {
-            padding-left: 58px;
-        }
-        
-        .iti__dropdown-content,
-        .iti__country-list {
-            background-color: #111827 !important;
-            border-color: #374151 !important;
-        }
-        
-        .iti__country {
-            color: #e5e7eb !important;
-        }
-        
-        .iti__country.iti__highlight {
-            background-color: #1f2937 !important;
-        }
-        
-        .iti__dial-code {
-            color: #9ca3af !important;
-        }
-        /* Strength bar */
-        
-        .strength-seg {
-            height: 4px;
-            border-radius: 2px;
-            flex: 1;
-            background: #374151;
-            transition: background 0.3s;
-        }
-        /* OTP boxes */
-        
-        .otp-box {
-            width: 46px;
-            height: 56px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: #111827;
-            border: 2px solid #374151;
-            border-radius: 12px;
-            color: #f9fafb;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        
-        .otp-box:focus {
-            border-color: #14b8a6;
-            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
-        }
-        /* Scrollbar */
-        /* Dropdown */
-        
-        .dropdown-menu {
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity .3s ease-out, transform .3s ease-out;
-            min-width: 270px;
-            background: #1f2937;
-            border: 1px solid #374151;
-            border-radius: .75rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .5);
-            z-index: 10;
-        }
-        
-        .dropdown-active {
-            display: block !important;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .dropdown-toggle-svg {
-            transition: transform .3s;
-        }
-        
-        .dropdown-toggle-svg.active {
-            transform: rotate(180deg);
-        }
-        
-        .dropdown-item-pro {
-            display: flex;
-            align-items: center;
-            padding: .75rem 1.25rem;
-            font-size: .95rem;
-            color: #e5e7eb;
-            transition: background-color .2s, color .2s;
-        }
-        
-        .dropdown-item-pro:hover {
-            background: #0d9488;
-            color: #fff;
-        }
-        
-        .dropdown-icon {
-            width: 1.5rem;
-            text-align: center;
-            margin-right: 1rem;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-            color: #2dd4bf;
-        }
-        
-        .dropdown-item-pro:hover .dropdown-icon {
-            color: #fff;
-        }
-        
-        .dropdown-title {
-            font-weight: 600;
-        }
-        
-         ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-         ::-webkit-scrollbar-track {
-            background: #111827;
-        }
-        
-         ::-webkit-scrollbar-thumb {
-            background: #0d9488;
-            border-radius: 10px;
-        }
-        /* Fade */
-        
-        .fade-in {
-            animation: fadeIn 0.3s ease forwards;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        /* Pulse dot */
-        
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.4);
-            }
-        }
-        
-        .pulse-dot {
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
+        .iti { width: 100%; }
+        .iti--allow-dropdown .input-field { padding-left: 58px; }
+        .iti__dropdown-content, .iti__country-list { background-color: #111827 !important; border-color: #374151 !important; }
+        .iti__country { color: #e5e7eb !important; }
+        .iti__country.iti__highlight { background-color: #1f2937 !important; }
+        .iti__dial-code { color: #9ca3af !important; }
+        .strength-seg { height: 4px; border-radius: 2px; flex: 1; background: #374151; transition: background 0.3s; }
+        .otp-box { width: 46px; height: 56px; text-align: center; font-size: 1.5rem; font-weight: 700; background: #111827; border: 2px solid #374151; border-radius: 12px; color: #f9fafb; outline: none; transition: border-color 0.2s; }
+        .otp-box:focus { border-color: #14b8a6; box-shadow: 0 0 0 3px rgba(20,184,166,.15); }
+        .fade-in { animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(1.4); } }
+        .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+        .terminal-cursor { animation: blink 1s step-end infinite; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 10px; }
     </style>
 </head>
 
 <body class="min-h-screen">
 
+    <!-- ── SIMPLE NAV ──────────────────────────────────────────────────────── -->
     <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
             <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
-                <div class="relative">
-                    <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                        <span data-i18n="nav.products">Products</span>
-                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-                    <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span class="dropdown-title" data-i18n="nav.network">Network Testing</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span class="dropdown-title" data-i18n="nav.ad">Active Directory</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span class="dropdown-title" data-i18n="nav.cloud">Cloud Testing</span></a>
-                        <div class="h-px bg-gray-700 my-1"></div>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span class="dropdown-title" data-i18n="nav.webapp">Web App</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span class="dropdown-title" data-i18n="nav.mobile">Mobile App</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span class="dropdown-title" data-i18n="nav.api">API Testing</span></a>
-                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span class="dropdown-title" data-i18n="nav.iot">IoT Testing</span></a>
-                    </div>
-                </div>
-                <div class="relative">
-                    <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
-                        <span>Industries</span>
-                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-                    <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
-                        <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span>All Industries</span></a>
-                        <div class="h-px bg-gray-700 my-1"></div>
-                        <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span>Finance</span></a>
-                        <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span>Healthcare</span></a>
-                        <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span>Retail</span></a>
-                        <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span>Technology</span></a>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4 ml-4">
-                    <a href="../Settings/Settings.html" class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
-                        title="Settings">
-                        <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
-                        <span data-i18n="nav.settings">Settings</span>
-                    </a>
-                    <a id="nav-hacker-btn" href="../SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.hacker-login">Log In as Hacker</span></a>
-                    <a id="nav-customer-btn" href="SignupC.html" class="bg-teal-600 text-white font-semibold py-2 px-5 rounded-xl text-sm shadow cursor-default"><span data-i18n="nav.customer-login">Log In as Customer</span></a>
-                </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="../LogIn/Login.html" class="text-teal-400 hover:text-white transition duration-300 font-medium flex items-center gap-1.5">
+                    <i class="fas fa-sign-in-alt text-sm"></i><span>Log In</span>
+                </a>
+                <a href="SignupC.html" class="bg-teal-600 text-white font-semibold py-2 px-5 rounded-xl text-sm shadow cursor-default">Sign Up</a>
             </div>
         </div>
     </nav>
 
     <div class="min-h-screen flex">
 
-        <!-- ── LEFT PANEL ─────────────────────────────────────────────────────── -->
+        <!-- ── LEFT PANEL WRAPPER (shared outer structure) ───────────────────── -->
         <div class="hidden lg:flex lg:w-[46%] bg-gray-800/40 border-r border-gray-800 flex-col justify-between px-14 py-16">
 
-            <!-- Top branding -->
-            <div>
-                <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-full mb-6">
-                    <i class="fas fa-building mr-1.5"></i> Customer Portal
-                </span>
-                <h1 class="text-4xl font-extrabold text-white leading-tight mb-4">
-                    Protect Your Business<br><span class="text-teal-400">Before Attackers Strike</span>
-                </h1>
-                <p class="text-gray-400 text-lg leading-relaxed mb-10">
-                    Post security bounties, connect with certified pentesters, and get real-time vulnerability reporting — all in one platform.
-                </p>
-
-                <!-- Stats row -->
-                <div class="grid grid-cols-3 gap-4 mb-10">
-                    <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
-                        <div class="text-2xl font-extrabold text-teal-400">500+</div>
-                        <div class="text-xs text-gray-500 mt-1">Companies Protected</div>
+            <!-- CUSTOMER PANEL CONTENT -->
+            <div id="left-customer-content" class="flex flex-col justify-between h-full">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-full mb-6">
+                        <i class="fas fa-building mr-1.5"></i> Customer Portal
+                    </span>
+                    <h1 class="text-4xl font-extrabold text-white leading-tight mb-4">
+                        Protect Your Business<br><span class="text-teal-400">Before Attackers Strike</span>
+                    </h1>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-10">
+                        Post security bounties, connect with certified pentesters, and get real-time vulnerability reporting — all in one platform.
+                    </p>
+                    <div class="grid grid-cols-3 gap-4 mb-10">
+                        <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
+                            <div class="text-2xl font-extrabold text-teal-400">500+</div>
+                            <div class="text-xs text-gray-500 mt-1">Companies Protected</div>
+                        </div>
+                        <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
+                            <div class="text-2xl font-extrabold text-teal-400">12K+</div>
+                            <div class="text-xs text-gray-500 mt-1">Vulns Fixed</div>
+                        </div>
+                        <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
+                            <div class="text-2xl font-extrabold text-teal-400">99.2%</div>
+                            <div class="text-xs text-gray-500 mt-1">Client Retention</div>
+                        </div>
                     </div>
-                    <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
-                        <div class="text-2xl font-extrabold text-teal-400">12K+</div>
-                        <div class="text-xs text-gray-500 mt-1">Vulns Fixed</div>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            Post bounties and receive findings <strong class="text-white ml-1">within hours</strong>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            Access <strong class="text-white ml-1">pre-vetted OSCP/OSCE</strong> certified pentesters
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            <strong class="text-white mr-1">Real-time dashboard</strong> with severity-ranked findings
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            Full <strong class="text-white ml-1">remediation reports</strong> with developer-ready fixes
+                        </li>
+                    </ul>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-gray-700/60 shadow-2xl mt-12" style="background:#0d1117;">
+                    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700/50" style="background:#161b22;">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                        <span class="text-xs text-gray-500 font-mono">ptjo-dashboard &mdash; security overview</span>
+                        <div class="w-14"></div>
                     </div>
-                    <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
-                        <div class="text-2xl font-extrabold text-teal-400">99.2%</div>
-                        <div class="text-xs text-gray-500 mt-1">Client Retention</div>
+                    <div class="p-5 font-mono text-xs leading-[1.8]">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500">Risk Score</span>
+                            <span class="text-green-400 font-bold">LOW &nbsp;▼</span>
+                        </div>
+                        <div class="flex gap-1 mb-4">
+                            <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
+                            <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                            <div style="background:#1c2128;" class="rounded-xl p-2 border border-gray-700/40">
+                                <div class="text-red-400 font-bold text-base">2</div>
+                                <div class="text-gray-600" style="font-size:10px;">Critical</div>
+                            </div>
+                            <div style="background:#1c2128;" class="rounded-xl p-2 border border-gray-700/40">
+                                <div class="text-yellow-400 font-bold text-base">5</div>
+                                <div class="text-gray-600" style="font-size:10px;">High</div>
+                            </div>
+                            <div style="background:#1c2128;" class="rounded-xl p-2 border border-gray-700/40">
+                                <div class="text-blue-400 font-bold text-base">9</div>
+                                <div class="text-gray-600" style="font-size:10px;">Medium</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-1" style="font-size:10px;">RECENT ACTIVITY</p>
+                        <p class="text-green-400"><i class="fas fa-check text-[9px]"></i> &nbsp;Network scan completed &mdash; 0 criticals</p>
+                        <p class="text-red-400"><i class="fas fa-exclamation-triangle text-[9px]"></i> &nbsp;SQLi found in <span class="text-gray-400">/api/search</span></p>
+                        <p class="text-yellow-400"><span class="pulse-dot inline-block w-2 h-2 rounded-full bg-yellow-400 mr-1"></span> Cloud audit in progress...</p>
                     </div>
                 </div>
-
-                <!-- Feature list -->
-                <ul class="space-y-3">
-                    <li class="flex items-center gap-3 text-sm text-gray-300">
-                        <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span> Post bounties and receive findings
-                        <strong
-                            class="text-white ml-1">within hours</strong>
-                    </li>
-                    <li class="flex items-center gap-3 text-sm text-gray-300">
-                        <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span> Access <strong class="text-white ml-1">pre-vetted OSCP/OSCE</strong>                        certified pentesters
-                    </li>
-                    <li class="flex items-center gap-3 text-sm text-gray-300">
-                        <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
-                        <strong class="text-white mr-1">Real-time dashboard</strong> with severity-ranked findings
-                    </li>
-                    <li class="flex items-center gap-3 text-sm text-gray-300">
-                        <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span> Full <strong class="text-white ml-1">remediation reports</strong>                        with developer-ready fixes
-                    </li>
-                </ul>
             </div>
 
-            <!-- Security Dashboard mockup -->
-            <div class="rounded-2xl overflow-hidden border border-gray-700/60 shadow-2xl mt-12" style="background:#0d1117;" data-dark-bg="true">
-                <!-- Title bar -->
-                <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700/50" style="background:#161b22;">
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
-                        <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                    </div>
-                    <span class="text-xs text-gray-500 font-mono">ptjo-dashboard &mdash; security overview</span>
-                    <div class="w-14"></div>
-                </div>
-                <!-- Body -->
-                <div class="p-5 font-mono text-xs leading-[1.8]">
-                    <!-- Risk score -->
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-gray-500">Risk Score</span>
-                        <span class="text-green-400 font-bold">LOW &nbsp;▼</span>
-                    </div>
-                    <div class="flex gap-1 mb-4">
-                        <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#14b8a6;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
-                        <div class="h-2 rounded-full flex-1" style="background:#374151;"></div>
-                    </div>
-
-                    <!-- Counters -->
-                    <div class="grid grid-cols-3 gap-2 mb-4 text-center">
-                        <div style="background:#1c2128;" class="rounded-xl p-2 border border-gray-700/40">
-                            <div class="text-red-400 font-bold text-base">2</div>
-                            <div class="text-gray-600" style="font-size:10px;">Critical</div>
-                        </div>
-                        <div style="background:#1c2128;" class="rounded-xl p-2 border border-gray-700/40">
-                            <div class="text-yellow-400 font-bold text-base">5</div>
-                            <div class="text-gray-600" style="font-size:10px;">High</div>
-                        </div>
-                        <div style="background:#1c2128;" class="rounded-xl p-2 border border-gray-700/40">
-                            <div class="text-blue-400 font-bold text-base">9</div>
-                            <div class="text-gray-600" style="font-size:10px;">Medium</div>
-                        </div>
-                    </div>
-
-                    <!-- Activity feed -->
-                    <p class="text-gray-600 mb-1" style="font-size:10px;">RECENT ACTIVITY</p>
-                    <p class="text-green-400"><i class="fas fa-check text-[9px]"></i> &nbsp;Network scan completed &mdash; 0 criticals</p>
-                    <p class="text-red-400"><i class="fas fa-exclamation-triangle text-[9px]"></i> &nbsp;SQLi found in <span class="text-gray-400">/api/search</span></p>
-                    <p class="text-yellow-400">
-                        <span class="pulse-dot inline-block w-2 h-2 rounded-full bg-yellow-400 mr-1"></span> Cloud audit in progress...
+            <!-- HACKER PANEL CONTENT -->
+            <div id="left-hacker-content" class="hidden flex-col justify-between h-full">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-full mb-6">
+                        <i class="fas fa-user-secret mr-1.5"></i> Hacker Portal
+                    </span>
+                    <h1 class="text-4xl font-extrabold text-white leading-tight mb-4">
+                        Join the Elite<br><span class="text-teal-400">Pentester Community</span>
+                    </h1>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-10">
+                        Get access to vetted bounty programs, build your public reputation, and earn real rewards for your offensive security skills.
                     </p>
+                    <div class="grid grid-cols-3 gap-4 mb-10">
+                        <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
+                            <div class="text-2xl font-extrabold text-teal-400">$2.4M+</div>
+                            <div class="text-xs text-gray-500 mt-1">Total Paid Out</div>
+                        </div>
+                        <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
+                            <div class="text-2xl font-extrabold text-teal-400">1,200+</div>
+                            <div class="text-xs text-gray-500 mt-1">Pentesters</div>
+                        </div>
+                        <div class="bg-gray-800/60 rounded-2xl p-4 border border-gray-700 text-center">
+                            <div class="text-2xl font-extrabold text-teal-400">340+</div>
+                            <div class="text-xs text-gray-500 mt-1">Live Bounties</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            Verified programs with <strong class="text-white ml-1">guaranteed payouts</strong>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            Build your <strong class="text-white ml-1">public pentester profile</strong> with cert badges
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            Private programs for <strong class="text-white ml-1">elite / OSCP+ pentesters</strong>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <span class="w-6 h-6 rounded-full bg-teal-500/15 border border-teal-500/30 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-teal-400 text-[10px]"></i></span>
+                            Secure, <strong class="text-white ml-1">anonymous reporting</strong> system
+                        </li>
+                    </ul>
+                </div>
+                <div class="rounded-2xl overflow-hidden border border-gray-700/60 shadow-2xl mt-12" style="background:#0d1117;">
+                    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700/50" style="background:#161b22;">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                        <span class="text-xs text-gray-500 font-mono">ptjo-shell &mdash; hacker@ptjo:~</span>
+                        <div class="w-14"></div>
+                    </div>
+                    <div class="p-5 font-mono text-xs leading-[1.8] space-y-0.5">
+                        <p><span class="text-teal-400 font-bold">hacker@ptjo</span><span class="text-gray-600">:</span><span class="text-blue-400">~</span><span class="text-gray-500">$</span><span class="text-gray-100 ml-1">ptjo connect --hacker-mode --secure</span></p>
+                        <p class="text-green-400">&nbsp;&nbsp;<i class="fas fa-check text-[9px]"></i> Encrypted tunnel established <span class="text-gray-600">[TLS 1.3 / AES-256]</span></p>
+                        <p class="text-green-400">&nbsp;&nbsp;<i class="fas fa-check text-[9px]"></i> Identity verification complete</p>
+                        <p class="text-green-400 mb-2">&nbsp;&nbsp;<i class="fas fa-check text-[9px]"></i> Session started <span class="text-gray-600">[token: e9f2...c41a]</span></p>
+                        <p><span class="text-teal-400 font-bold">hacker@ptjo</span><span class="text-gray-600">:</span><span class="text-blue-400">~</span><span class="text-gray-500">$</span><span class="text-gray-100 ml-1">ptjo list-bounties --status=open --sort=reward</span></p>
+                        <p class="text-gray-500">&nbsp;&nbsp;┌── <span class="text-teal-400 font-semibold">Active Programs</span> ─────────────────────</p>
+                        <p>&nbsp;&nbsp;│&nbsp;<span class="text-red-400 font-bold">[CRIT]</span>&nbsp;<span class="text-white font-bold">$5,000</span>&nbsp;<span class="text-gray-400">Network Pentest</span>&nbsp;<span class="text-gray-600">·</span>&nbsp;<span class="text-gray-500">FinTech Corp</span></p>
+                        <p>&nbsp;&nbsp;│&nbsp;<span class="text-yellow-400 font-bold">[HIGH]</span>&nbsp;<span class="text-white font-bold">$3,800</span>&nbsp;<span class="text-gray-400">Cloud Audit</span>&nbsp;<span class="text-gray-600">·</span>&nbsp;<span class="text-gray-500">TechGiant Inc.</span></p>
+                        <p>&nbsp;&nbsp;│&nbsp;<span class="text-blue-400 font-bold">[MED]</span>&nbsp;&nbsp;<span class="text-white font-bold">$2,500</span>&nbsp;<span class="text-gray-400">AD Assessment</span>&nbsp;<span class="text-gray-600">·</span>&nbsp;<span class="text-gray-500">SecureBank</span></p>
+                        <p class="text-gray-500">&nbsp;&nbsp;└── <span class="text-gray-600">340 programs total &mdash; 12 private (OSCP+)</span></p>
+                        <p class="mt-2"><span class="text-teal-400 font-bold">hacker@ptjo</span><span class="text-gray-600">:</span><span class="text-blue-400">~</span><span class="text-gray-500">$</span><span class="terminal-cursor ml-1" style="display:inline-block;width:8px;height:13px;background:#14b8a6;vertical-align:middle;"></span></p>
+                    </div>
                 </div>
             </div>
 
@@ -351,19 +229,19 @@
         <div class="flex-1 flex items-center justify-center p-6 lg:p-12 overflow-y-auto">
             <div class="w-full max-w-md">
 
-                <!-- PTjo logo (mobile only) -->
+                <!-- Mobile logo -->
                 <div class="lg:hidden text-center mb-8">
                     <span class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</span>
-                    <p class="text-sm text-gray-500 mt-1">Customer Portal</p>
+                    <p id="mobile-portal-label" class="text-sm text-gray-500 mt-1">Customer Portal</p>
                 </div>
 
-                <!-- Tab Toggle -->
+                <!-- Login / Sign Up main tabs -->
                 <div class="flex bg-gray-800/60 border border-gray-700 rounded-xl p-1 mb-8">
-                    <button id="tab-login" class="tab-btn active" onclick="switchTab('login')">
-                        <i class="fas fa-sign-in-alt mr-2"></i><span data-i18n="signup.tab.login">Log In</span>
+                    <button id="tab-login" class="tab-btn" onclick="switchTab('login')">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Log In
                     </button>
-                    <button id="tab-signup" class="tab-btn" onclick="switchTab('signup')">
-                        <i class="fas fa-user-plus mr-2"></i><span data-i18n="signup.tab.signup">Sign Up</span>
+                    <button id="tab-signup" class="tab-btn active" onclick="switchTab('signup')">
+                        <i class="fas fa-user-plus mr-2"></i>Sign Up
                     </button>
                 </div>
 
@@ -375,7 +253,7 @@
                         <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                         <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                     </svg>
-                    <span id="google-btn-text" data-i18n="signup.google">Continue with Google</span>
+                    <span id="google-btn-text">Sign up with Google</span>
                 </button>
 
                 <!-- Divider -->
@@ -386,10 +264,10 @@
                 </div>
 
                 <!-- ── LOGIN FORM ──────────────────────────────────── -->
-                <div id="login-wrap" class="fade-in">
+                <div id="login-wrap" class="hidden fade-in">
                     <form id="login-form" method="POST" action="../LogIn/CheckLogin.php" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5" data-i18n="signup.label.email">Email Address</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Email Address</label>
                             <div class="relative">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-envelope text-sm"></i></span>
                                 <input type="email" id="login-email" class="input-field pl-11" placeholder="you@company.com" required />
@@ -397,7 +275,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-1.5">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest" data-i18n="signup.label.password">Password</label>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Password</label>
                                 <a href="../Resources/Support.html" class="text-xs text-teal-500 hover:text-teal-400 transition">Forgot password?</a>
                             </div>
                             <div class="relative">
@@ -409,104 +287,186 @@
                             </div>
                         </div>
                         <button type="submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow mt-2 flex items-center justify-center gap-2">
-                            <i class="fas fa-sign-in-alt"></i> <span data-i18n="signup.btn.login.customer">Log In as Customer</span>
+                            <i class="fas fa-sign-in-alt"></i> Log In
                         </button>
                     </form>
                     <p class="text-center text-sm text-gray-500 mt-5">
-                        <span data-i18n="signup.no-account">Don't have an account?</span>
-                        <button onclick="switchTab('signup')" class="text-teal-400 hover:text-teal-300 font-semibold transition ml-1" data-i18n="signup.sign-up">Sign Up Free</button>
+                        Don't have an account?
+                        <button onclick="switchTab('signup')" class="text-teal-400 hover:text-teal-300 font-semibold transition ml-1">Sign Up Free</button>
                     </p>
                 </div>
 
-                <!-- ── SIGNUP FORM ─────────────────────────────────── -->
-                <div id="signup-wrap" class="hidden fade-in">
-                    <form id="signup-form" class="space-y-5" method="POST" action="Signup.php" onsubmit="handleSignup(event)">
+                <!-- ── SIGNUP WRAP ─────────────────────────────────── -->
+                <div id="signup-wrap" class="fade-in">
 
-                        <!-- Name + Phone -->
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5" data-i18n="signup.label.fullname">Full Name</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-user text-sm"></i></span>
-                                    <input type="text" id="signup-name" name="full_name" class="input-field pl-11" placeholder="Abdulrahman" required />
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5" data-i18n="signup.label.phone">Phone Number</label>
-                                <input type="tel" id="signup-phone" name="phone_number" class="input-field" required />
-                            </div>
-                        </div>
-
-                        <!-- Email -->
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5" data-i18n="signup.label.email">Email Address</label>
-                            <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-envelope text-sm"></i></span>
-                                <input type="email" id="signup-email" name="email" class="input-field pl-11" placeholder="you@company.com" required />
-                            </div>
-                        </div>
-
-                        <!-- Company Name -->
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Company Name</label>
-                            <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-building text-sm"></i></span>
-                                <input type="text" id="company-name" name="company_name" class="input-field pl-11" placeholder="Acme Corporation" required />
-                            </div>
-                        </div>
-
-                        <!-- Password + Confirm -->
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5" data-i18n="signup.label.password">Password</label>
-                                <div class="relative">
-                                    <input type="password" id="signup-password" name="password" class="input-field pr-11" placeholder="••••••••••••" autocapitalize="none" autocorrect="off" spellcheck="false" required />
-                                    <button type="button" onclick="toggleVisibility('signup-password', this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400 transition">
-                                        <i class="fas fa-eye text-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5" data-i18n="signup.label.confirm">Confirm Password</label>
-                                <div class="relative">
-                                    <input type="password" id="signup-confirm" name="confirm_password" class="input-field pr-11" placeholder="••••••••••••" autocapitalize="none" autocorrect="off" spellcheck="false" required />
-                                    <button type="button" onclick="toggleVisibility('signup-confirm', this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400 transition">
-                                        <i class="fas fa-eye text-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Password Strength Bar -->
-                        <div>
-                            <div class="flex gap-1 mb-2">
-                                <div class="strength-seg" id="seg-1"></div>
-                                <div class="strength-seg" id="seg-2"></div>
-                                <div class="strength-seg" id="seg-3"></div>
-                                <div class="strength-seg" id="seg-4"></div>
-                                <div class="strength-seg" id="seg-5"></div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-x-4 gap-y-1">
-                                <div class="req-item"><span class="req-dot" id="dot-length" style="background:#374151;color:#6b7280;border-radius:50%;">12</span><span style="color:#6b7280;" class="text-xs">12+ characters</span></div>
-                                <div class="req-item"><span class="req-dot" id="dot-upper" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Uppercase letter</span></div>
-                                <div class="req-item"><span class="req-dot" id="dot-lower" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Lowercase letter</span></div>
-                                <div class="req-item"><span class="req-dot" id="dot-number" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Number</span></div>
-                                <div class="req-item col-span-2"><span class="req-dot" id="dot-special" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Special character (!@#$%^&amp;*)</span></div>
-                            </div>
-                        </div>
-
-
-                        <!-- Submit -->
-                        <button type="submit" id="signup-submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3.5 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow mt-1 flex items-center justify-center gap-2">
-                            <i class="fas fa-user-plus"></i> <span data-i18n="signup.btn.create.customer">Create Account</span>
+                    <!-- Customer / Hacker role sub-tabs -->
+                    <div class="flex bg-gray-800/40 border border-gray-700/60 rounded-xl p-1 mb-6 gap-1">
+                        <button id="role-tab-customer" class="role-tab-btn active" onclick="switchRole('customer')">
+                            <i class="fas fa-building text-xs"></i> Customer
                         </button>
+                        <button id="role-tab-hacker" class="role-tab-btn" onclick="switchRole('hacker')">
+                            <i class="fas fa-user-secret text-xs"></i> Hacker
+                        </button>
+                    </div>
 
-                        <div id="signup-error" class="text-red-400 text-sm text-center font-medium hidden"></div>
-                    </form>
+                    <!-- ── CUSTOMER SIGNUP FORM ── -->
+                    <div id="customer-form-wrap">
+                        <form id="customer-signup-form" class="space-y-5" method="POST" action="Signup.php" onsubmit="handleCustomerSignup(event)">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Full Name</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-user text-sm"></i></span>
+                                        <input type="text" id="signup-name" name="full_name" class="input-field pl-11" placeholder="Abdulrahman" required />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Phone Number</label>
+                                    <input type="tel" id="signup-phone" name="phone_number" class="input-field" required />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Email Address</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-envelope text-sm"></i></span>
+                                    <input type="email" id="signup-email" name="email" class="input-field pl-11" placeholder="you@company.com" required />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Company Name</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-building text-sm"></i></span>
+                                    <input type="text" id="company-name" name="company_name" class="input-field pl-11" placeholder="Acme Corporation" required />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Password</label>
+                                    <div class="relative">
+                                        <input type="password" id="signup-password" name="password" class="input-field pr-11" placeholder="••••••••••••" autocapitalize="none" autocorrect="off" spellcheck="false" required />
+                                        <button type="button" onclick="toggleVisibility('signup-password', this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400 transition">
+                                            <i class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Confirm Password</label>
+                                    <div class="relative">
+                                        <input type="password" id="signup-confirm" name="confirm_password" class="input-field pr-11" placeholder="••••••••••••" autocapitalize="none" autocorrect="off" spellcheck="false" required />
+                                        <button type="button" onclick="toggleVisibility('signup-confirm', this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400 transition">
+                                            <i class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Password Strength Bar -->
+                            <div>
+                                <div class="flex gap-1 mb-2">
+                                    <div class="strength-seg" id="seg-1"></div>
+                                    <div class="strength-seg" id="seg-2"></div>
+                                    <div class="strength-seg" id="seg-3"></div>
+                                    <div class="strength-seg" id="seg-4"></div>
+                                    <div class="strength-seg" id="seg-5"></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                                    <div class="req-item"><span class="req-dot" id="dot-length" style="background:#374151;color:#6b7280;">12</span><span style="color:#6b7280;" class="text-xs">12+ characters</span></div>
+                                    <div class="req-item"><span class="req-dot" id="dot-upper" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Uppercase letter</span></div>
+                                    <div class="req-item"><span class="req-dot" id="dot-lower" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Lowercase letter</span></div>
+                                    <div class="req-item"><span class="req-dot" id="dot-number" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Number</span></div>
+                                    <div class="req-item col-span-2"><span class="req-dot" id="dot-special" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Special character (!@#$%^&amp;*)</span></div>
+                                </div>
+                            </div>
+                            <button type="submit" id="signup-submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3.5 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow mt-1 flex items-center justify-center gap-2">
+                                <i class="fas fa-user-plus"></i> Create Customer Account
+                            </button>
+                            <div id="signup-error" class="text-red-400 text-sm text-center font-medium hidden"></div>
+                        </form>
+                    </div>
+
+                    <!-- ── HACKER SIGNUP FORM ── -->
+                    <div id="hacker-form-wrap" class="hidden">
+                        <form id="hacker-signup-form" class="space-y-5" method="POST" action="../SignUp_Hacker/Signup.php" onsubmit="handleHackerSignup(event)">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Full Name</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-user text-sm"></i></span>
+                                        <input type="text" id="h-signup-name" name="full_name" class="input-field pl-11" placeholder="Abdulrahman" required />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Phone Number</label>
+                                    <input type="tel" id="h-signup-phone" name="phone_number" class="input-field" required />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Email Address</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600"><i class="fas fa-envelope text-sm"></i></span>
+                                    <input type="email" id="h-signup-email" name="email" class="input-field pl-11" placeholder="you@example.com" required />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Password</label>
+                                    <div class="relative">
+                                        <input type="password" id="h-signup-password" name="password" class="input-field pr-11" placeholder="••••••••••••" autocapitalize="none" autocorrect="off" spellcheck="false" required />
+                                        <button type="button" onclick="toggleVisibility('h-signup-password', this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400 transition">
+                                            <i class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1.5">Confirm Password</label>
+                                    <div class="relative">
+                                        <input type="password" id="h-signup-confirm" name="confirm_password" class="input-field pr-11" placeholder="••••••••••••" autocapitalize="none" autocorrect="off" spellcheck="false" required />
+                                        <button type="button" onclick="toggleVisibility('h-signup-confirm', this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400 transition">
+                                            <i class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Hacker Password Strength Bar -->
+                            <div>
+                                <div class="flex gap-1 mb-2">
+                                    <div class="strength-seg" id="h-seg-1"></div>
+                                    <div class="strength-seg" id="h-seg-2"></div>
+                                    <div class="strength-seg" id="h-seg-3"></div>
+                                    <div class="strength-seg" id="h-seg-4"></div>
+                                    <div class="strength-seg" id="h-seg-5"></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                                    <div class="req-item"><span class="req-dot" id="h-dot-length" style="background:#374151;color:#6b7280;">12</span><span style="color:#6b7280;" class="text-xs">12+ characters</span></div>
+                                    <div class="req-item"><span class="req-dot" id="h-dot-upper" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Uppercase letter</span></div>
+                                    <div class="req-item"><span class="req-dot" id="h-dot-lower" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Lowercase letter</span></div>
+                                    <div class="req-item"><span class="req-dot" id="h-dot-number" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Number</span></div>
+                                    <div class="req-item col-span-2"><span class="req-dot" id="h-dot-special" style="background:#374151;color:#6b7280;"><i class="fas fa-check" style="font-size:8px"></i></span><span style="color:#6b7280;" class="text-xs">Special character (!@#$%^&amp;*)</span></div>
+                                </div>
+                            </div>
+                            <!-- Service specialties -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Services You Provide <span class="text-red-400">*</span></label>
+                                <div class="grid grid-cols-4 gap-2" id="h-service-grid">
+                                    <div class="service-btn" data-service="webapp"><i class="fas fa-globe text-2xl mb-1 text-gray-500"></i><span class="text-xs text-gray-500">Web App</span></div>
+                                    <div class="service-btn" data-service="mobile"><i class="fas fa-mobile-alt text-2xl mb-1 text-gray-500"></i><span class="text-xs text-gray-500">Mobile App</span></div>
+                                    <div class="service-btn" data-service="api"><i class="fas fa-cube text-2xl mb-1 text-gray-500"></i><span class="text-xs text-gray-500">API Testing</span></div>
+                                    <div class="service-btn" data-service="iot"><i class="fas fa-wifi text-2xl mb-1 text-gray-500"></i><span class="text-xs text-gray-500">IoT Testing</span></div>
+                                    <div class="service-btn" data-service="network"><i class="fas fa-network-wired text-2xl mb-1 text-gray-500"></i><span class="text-xs text-gray-500">Network</span></div>
+                                    <div class="service-btn" data-service="cloud"><i class="fas fa-cloud text-2xl mb-1 text-gray-500"></i><span class="text-xs text-gray-500">Cloud</span></div>
+                                    <div class="service-btn" data-service="ad"><i class="fas fa-users-cog text-2xl mb-1 text-gray-500"></i><span class="text-xs text-gray-500">Active Dir.</span></div>
+                                </div>
+                                <input type="hidden" id="h-service-type" name="service_type" value="" />
+                            </div>
+                            <button type="submit" id="h-signup-submit" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3.5 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow mt-1 flex items-center justify-center gap-2">
+                                <i class="fas fa-user-plus"></i> Create Hacker Account
+                            </button>
+                            <div id="h-signup-error" class="text-red-400 text-sm text-center font-medium hidden"></div>
+                        </form>
+                    </div>
 
                     <p class="text-center text-sm text-gray-500 mt-4">
-                        <span data-i18n="signup.already">Already have an account?</span>
-                        <button onclick="switchTab('login')" class="text-teal-400 hover:text-teal-300 font-semibold transition ml-1" data-i18n="signup.log-in">Log In</button>
+                        Already have an account?
+                        <button onclick="switchTab('login')" class="text-teal-400 hover:text-teal-300 font-semibold transition ml-1">Log In</button>
                     </p>
                 </div>
 
@@ -579,22 +539,25 @@
                 <i class="fas fa-check-circle text-teal-400 text-4xl"></i>
             </div>
             <h3 class="text-2xl font-bold text-white mb-2" id="success-title">Welcome to PTjo!</h3>
-            <p class="text-gray-400 text-sm mb-7" id="success-message">Your customer account has been created successfully.</p>
+            <p class="text-gray-400 text-sm mb-7" id="success-message">Your account has been created successfully.</p>
             <button onclick="successContinue()" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 rounded-xl transition">
-                Go to Dashboard <i class="fas fa-arrow-right ml-2"></i>
+                Continue <i class="fas fa-arrow-right ml-2"></i>
             </button>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script>
-        // ── Tab Switcher ──────────────────────────────────────────────────────────
+        // ── State ──────────────────────────────────────────────────────────────────
+        var _activeRole = 'customer'; // 'customer' | 'hacker'
+
+        // ── Main Tab Switcher (Login / Sign Up) ────────────────────────────────────
         function switchTab(tab) {
-            const loginWrap = document.getElementById('login-wrap');
-            const signupWrap = document.getElementById('signup-wrap');
-            const btnLogin = document.getElementById('tab-login');
-            const btnSignup = document.getElementById('tab-signup');
-            const googleText = document.getElementById('google-btn-text');
+            var loginWrap  = document.getElementById('login-wrap');
+            var signupWrap = document.getElementById('signup-wrap');
+            var btnLogin   = document.getElementById('tab-login');
+            var btnSignup  = document.getElementById('tab-signup');
+            var googleText = document.getElementById('google-btn-text');
 
             if (tab === 'login') {
                 loginWrap.classList.remove('hidden');
@@ -613,10 +576,42 @@
             }
         }
 
+        // ── Role Sub-Tab Switcher (Customer / Hacker) ─────────────────────────────
+        function switchRole(role) {
+            _activeRole = role;
+            var customerContent = document.getElementById('left-customer-content');
+            var hackerContent   = document.getElementById('left-hacker-content');
+            var customerForm    = document.getElementById('customer-form-wrap');
+            var hackerForm      = document.getElementById('hacker-form-wrap');
+            var roleTabC        = document.getElementById('role-tab-customer');
+            var roleTabH        = document.getElementById('role-tab-hacker');
+            var mobileLabel     = document.getElementById('mobile-portal-label');
+
+            if (role === 'hacker') {
+                customerContent.classList.add('hidden');
+                hackerContent.classList.remove('hidden');
+                hackerContent.classList.add('flex');
+                customerForm.classList.add('hidden');
+                hackerForm.classList.remove('hidden');
+                roleTabH.classList.add('active');
+                roleTabC.classList.remove('active');
+                if (mobileLabel) mobileLabel.textContent = 'Hacker Portal';
+            } else {
+                hackerContent.classList.add('hidden');
+                hackerContent.classList.remove('flex');
+                customerContent.classList.remove('hidden');
+                hackerForm.classList.add('hidden');
+                customerForm.classList.remove('hidden');
+                roleTabC.classList.add('active');
+                roleTabH.classList.remove('active');
+                if (mobileLabel) mobileLabel.textContent = 'Customer Portal';
+            }
+        }
+
         // ── Toggle Password Visibility ────────────────────────────────────────────
         function toggleVisibility(inputId, btn) {
-            const input = document.getElementById(inputId);
-            const icon = btn.querySelector('i');
+            var input = document.getElementById(inputId);
+            var icon  = btn.querySelector('i');
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.classList.replace('fa-eye', 'fa-eye-slash');
@@ -626,21 +621,61 @@
             }
         }
 
-        // ── Login Handler — form submits natively to CheckLogin.php
-        function handleLogin(e) { /* no-op */ }
+        // ── No-op handlers (real logic in addEventListener) ───────────────────────
+        function handleCustomerSignup(e) {}
+        function handleHackerSignup(e) {}
 
-        // ── Signup Handler — real validation is done by the DOMContentLoaded listener below.
-        // This inline onsubmit handler must exist to avoid ReferenceError blocking the submit.
-        function handleSignup(e) { /* no-op — validation handled by addEventListener */ }
+        // ── Password Strength Checker ─────────────────────────────────────────────
+        function checkPassword(pw) {
+            return {
+                length:  pw.length >= 12,
+                upper:   /[A-Z]/.test(pw),
+                lower:   /[a-z]/.test(pw),
+                number:  /[0-9]/.test(pw),
+                special: /[!@#$%^&*]/.test(pw)
+            };
+        }
+
+        function updateStrength(pw, prefix) {
+            prefix = prefix || '';
+            var v   = checkPassword(pw);
+            var met = Object.values(v).filter(Boolean).length;
+            var barColors = ['#ef4444','#f97316','#eab308','#22c55e','#14b8a6'];
+            for (var i = 1; i <= 5; i++) {
+                var seg = document.getElementById(prefix + 'seg-' + i);
+                if (seg) seg.style.background = i <= met ? barColors[met - 1] : '#374151';
+            }
+            var dotKeys = [
+                { key:'length',  id: prefix+'dot-length'  },
+                { key:'upper',   id: prefix+'dot-upper'   },
+                { key:'lower',   id: prefix+'dot-lower'   },
+                { key:'number',  id: prefix+'dot-number'  },
+                { key:'special', id: prefix+'dot-special' }
+            ];
+            dotKeys.forEach(function(d) {
+                var dot = document.getElementById(d.id);
+                if (!dot) return;
+                var ok = v[d.key];
+                dot.style.background   = ok ? '#14b8a6' : '#374151';
+                dot.style.color        = ok ? '#ffffff'  : '#6b7280';
+                dot.style.borderRadius = '50%';
+                dot.innerHTML = ok
+                    ? '<i class="fas fa-check" style="font-size:8px"></i>'
+                    : (d.key === 'length' && pw.length > 0 ? pw.length : '<i class="fas fa-check" style="font-size:8px"></i>');
+                var labelSpan = dot.closest('.req-item') && dot.closest('.req-item').querySelector('span:last-child');
+                if (labelSpan) labelSpan.style.color = ok ? '#5eead4' : '#6b7280';
+            });
+            return v;
+        }
 
         // ── Google Flow ───────────────────────────────────────────────────────────
         function startGoogleFlow() {
             document.getElementById('google-modal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('google-email-input').focus(), 100);
+            setTimeout(function() { document.getElementById('google-email-input').focus(); }, 100);
         }
 
         function googleNext() {
-            const email = document.getElementById('google-email-input').value.trim();
+            var email = document.getElementById('google-email-input').value.trim();
             if (!email || !email.includes('@')) {
                 document.getElementById('google-email-input').classList.add('border-red-400');
                 return;
@@ -649,75 +684,72 @@
             document.getElementById('otp-email-display').textContent = maskEmail(email);
             document.getElementById('otp-modal').classList.remove('hidden');
             document.getElementById('otp-error').classList.add('hidden');
-            document.querySelectorAll('.otp-box').forEach(b => b.value = '');
-            setTimeout(() => document.querySelectorAll('.otp-box')[0].focus(), 100);
+            document.querySelectorAll('.otp-box').forEach(function(b) { b.value = ''; });
+            setTimeout(function() { document.querySelectorAll('.otp-box')[0].focus(); }, 100);
             startResendTimer(30);
         }
 
         function maskEmail(email) {
-            const [user, domain] = email.split('@');
-            const masked = user[0] + '•'.repeat(Math.max(user.length - 2, 2)) + user[user.length - 1];
+            var parts  = email.split('@');
+            var user   = parts[0];
+            var domain = parts[1];
+            var masked = user[0] + '•'.repeat(Math.max(user.length - 2, 2)) + user[user.length - 1];
             return masked + '@' + domain;
         }
 
-        document.querySelectorAll('.otp-box').forEach((box, i, boxes) => {
-            box.addEventListener('input', () => {
+        document.querySelectorAll('.otp-box').forEach(function(box, i, boxes) {
+            box.addEventListener('input', function() {
                 if (box.value && i < boxes.length - 1) boxes[i + 1].focus();
             });
-            box.addEventListener('keydown', e => {
+            box.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace' && !box.value && i > 0) boxes[i - 1].focus();
             });
-            box.addEventListener('paste', e => {
+            box.addEventListener('paste', function(e) {
                 e.preventDefault();
-                const digits = (e.clipboardData.getData('text').replace(/\D/g, '')).split('');
-                boxes.forEach((b, j) => {
-                    if (digits[j]) b.value = digits[j];
-                });
+                var digits = (e.clipboardData.getData('text').replace(/\D/g, '')).split('');
+                boxes.forEach(function(b, j) { if (digits[j]) b.value = digits[j]; });
             });
         });
 
         function verifyOtp() {
-            const code = [...document.querySelectorAll('.otp-box')].map(b => b.value).join('');
+            var code = Array.from(document.querySelectorAll('.otp-box')).map(function(b) { return b.value; }).join('');
             if (code.length < 6) {
                 document.getElementById('otp-error').textContent = 'Please enter all 6 digits.';
                 document.getElementById('otp-error').classList.remove('hidden');
                 return;
             }
             document.getElementById('otp-modal').classList.add('hidden');
-            document.getElementById('success-title').textContent = 'Google Verified!';
-            document.getElementById('success-message').textContent = 'Your identity has been verified. Your customer account is now active.';
+            document.getElementById('success-title').textContent   = 'Google Verified!';
+            document.getElementById('success-message').textContent = 'Your identity has been verified. Your account is now active.';
             document.getElementById('success-modal').classList.remove('hidden');
         }
 
-        function closeOtp() {
-            document.getElementById('otp-modal').classList.add('hidden');
-        }
+        function closeOtp() { document.getElementById('otp-modal').classList.add('hidden'); }
 
-        let resendInterval;
-
+        var resendInterval;
         function startResendTimer(seconds) {
-            const btn = document.getElementById('resend-btn');
-            const timer = document.getElementById('resend-timer');
+            var btn   = document.getElementById('resend-btn');
+            var timer = document.getElementById('resend-timer');
             btn.disabled = true;
-            btn.classList.add('opacity-40', 'cursor-not-allowed');
-            let s = seconds;
-            timer.textContent = ` (${s}s)`;
+            btn.classList.add('opacity-40','cursor-not-allowed');
+            var s = seconds;
+            timer.textContent = ' (' + s + 's)';
             clearInterval(resendInterval);
-            resendInterval = setInterval(() => {
+            resendInterval = setInterval(function() {
                 s--;
                 if (s <= 0) {
                     clearInterval(resendInterval);
                     timer.textContent = '';
                     btn.disabled = false;
-                    btn.classList.remove('opacity-40', 'cursor-not-allowed');
+                    btn.classList.remove('opacity-40','cursor-not-allowed');
                 } else {
-                    timer.textContent = ` (${s}s)`;
+                    timer.textContent = ' (' + s + 's)';
                 }
             }, 1000);
         }
 
         function resendCode() {
-            document.querySelectorAll('.otp-box').forEach(b => b.value = '');
+            document.querySelectorAll('.otp-box').forEach(function(b) { b.value = ''; });
             document.getElementById('otp-error').classList.add('hidden');
             startResendTimer(30);
         }
@@ -726,165 +758,200 @@
             window.location.href = '../LogIn/Login.html?signup=success';
         }
 
-        // ── Password check ────────────────────────────────────────────────────────
-        function checkPassword(pw) {
-            return {
-                length: pw.length >= 12,
-                upper: /[A-Z]/.test(pw),
-                lower: /[a-z]/.test(pw),
-                number: /[0-9]/.test(pw),
-                special: /[!@#$%^&*]/.test(pw)
-            };
-        }
+        // ── DOMContentLoaded ─────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function() {
 
-        // ── Update strength (inline styles — no Tailwind class dependency) ────────
-        function updateStrength(pw) {
-            const v = checkPassword(pw);
-            const met = Object.values(v).filter(Boolean).length;
-            const barColors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#14b8a6'];
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById('seg-' + i).style.background =
-                    i <= met ? barColors[met - 1] : '#374151';
-            }
-            const dotKeys = [{
-                key: 'length',
-                id: 'dot-length'
-            }, {
-                key: 'upper',
-                id: 'dot-upper'
-            }, {
-                key: 'lower',
-                id: 'dot-lower'
-            }, {
-                key: 'number',
-                id: 'dot-number'
-            }, {
-                key: 'special',
-                id: 'dot-special'
-            }];
-            dotKeys.forEach(({
-                key,
-                id
-            }) => {
-                const dot = document.getElementById(id);
-                if (!dot) return;
-                const ok = v[key];
-                dot.style.background = ok ? '#14b8a6' : '#374151';
-                dot.style.color = ok ? '#ffffff' : '#6b7280';
-                dot.style.borderRadius = '50%';
-                dot.innerHTML = ok ?
-                    '<i class="fas fa-check" style="font-size:8px"></i>' :
-                    (key === 'length' && pw.length > 0 ? pw.length : '<i class="fas fa-check" style="font-size:8px"></i>');
-                const labelSpan = dot.closest('.req-item') ? .querySelector('span:last-child');
-                if (labelSpan) labelSpan.style.color = ok ? '#5eead4' : '#6b7280';
-            });
-            return v;
-        }
-
-        // ── Signup Form Logic ─────────────────────────────────────────────────────
-        document.addEventListener('DOMContentLoaded', () => {
-            // ── Show server-side error from URL param (?error=...) ─────────────
+            // Handle URL params: ?error=..., ?tab=signup, ?role=hacker
             (function() {
                 var params = new URLSearchParams(window.location.search);
+
+                var role = params.get('role');
+                if (role === 'hacker') switchRole('hacker');
+
                 var errMsg = params.get('error');
                 if (errMsg) {
-                    var ed = document.getElementById('signup-error');
-                    if (ed) {
-                        ed.textContent = decodeURIComponent(errMsg);
-                        ed.classList.remove('hidden');
-                        // Ensure signup tab is visible
-                        if (typeof switchTab === 'function') switchTab('signup');
-                        ed.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    var targetErr = (_activeRole === 'hacker')
+                        ? document.getElementById('h-signup-error')
+                        : document.getElementById('signup-error');
+                    if (targetErr) {
+                        targetErr.textContent = decodeURIComponent(errMsg);
+                        targetErr.classList.remove('hidden');
+                        switchTab('signup');
+                        targetErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
+
+                if (!errMsg && params.get('tab') === 'signup') switchTab('signup');
             })();
 
-
-
-            const phoneInput = document.getElementById('signup-phone');
-            const iti = window.intlTelInput(phoneInput, {
+            // ── intl-tel-input: Customer phone ──────────────────────────────────
+            var phoneInputC = document.getElementById('signup-phone');
+            var itiC = window.intlTelInput(phoneInputC, {
                 separateDialCode: true,
                 utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
                 initialCountry: 'jo'
             });
 
-            const passwordInput = document.getElementById('signup-password');
-            const confirmInput = document.getElementById('signup-confirm');
-            const submitBtn = document.getElementById('signup-submit');
-            const errorDiv = document.getElementById('signup-error');
+            // ── intl-tel-input: Hacker phone ────────────────────────────────────
+            var phoneInputH = document.getElementById('h-signup-phone');
+            var itiH = window.intlTelInput(phoneInputH, {
+                separateDialCode: true,
+                utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
+                initialCountry: 'jo'
+            });
 
-            function checkFormReady() {
-                const pw = passwordInput.value;
-                const cpw = confirmInput.value;
-                const v = checkPassword(pw);
-                const ok = Object.values(v).every(Boolean) &&
+            // ── Customer form ────────────────────────────────────────────────────
+            var cPwInput   = document.getElementById('signup-password');
+            var cCpwInput  = document.getElementById('signup-confirm');
+            var cSubmitBtn = document.getElementById('signup-submit');
+            var cErrDiv    = document.getElementById('signup-error');
+
+            function cCheckReady() {
+                var pw  = cPwInput.value;
+                var cpw = cCpwInput.value;
+                var v   = checkPassword(pw);
+                var ok  = Object.values(v).every(Boolean) &&
                     pw === cpw && pw !== '' &&
                     document.getElementById('signup-name').value.trim() !== '' &&
                     document.getElementById('signup-email').value.trim() !== '' &&
                     document.getElementById('company-name').value.trim() !== '' &&
-                    phoneInput.value.trim() !== '';
-                // Visual feedback only — never hard-disable so the user can always click
-                submitBtn.classList.toggle('opacity-60', !ok);
-                submitBtn.classList.toggle('ring-2', !ok);
-                submitBtn.classList.toggle('ring-yellow-500', !ok);
+                    phoneInputC.value.trim() !== '';
+                cSubmitBtn.classList.toggle('opacity-60', !ok);
+                cSubmitBtn.classList.toggle('ring-2', !ok);
+                cSubmitBtn.classList.toggle('ring-yellow-500', !ok);
             }
 
-            passwordInput.addEventListener('input', () => {
-                updateStrength(passwordInput.value);
-                checkFormReady();
+            cPwInput.addEventListener('input', function() {
+                updateStrength(cPwInput.value, '');
+                cCheckReady();
             });
-            confirmInput.addEventListener('input', checkFormReady);
-            document.getElementById('signup-name').addEventListener('input', checkFormReady);
-            document.getElementById('signup-email').addEventListener('input', checkFormReady);
-            document.getElementById('company-name').addEventListener('input', checkFormReady);
-            phoneInput.addEventListener('input', checkFormReady);
+            cCpwInput.addEventListener('input', cCheckReady);
+            document.getElementById('signup-name').addEventListener('input', cCheckReady);
+            document.getElementById('signup-email').addEventListener('input', cCheckReady);
+            document.getElementById('company-name').addEventListener('input', cCheckReady);
+            phoneInputC.addEventListener('input', cCheckReady);
 
+            document.getElementById('customer-signup-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                cErrDiv.classList.add('hidden');
 
-            document.getElementById('signup-form').addEventListener('submit', function(e) {
-                e.preventDefault();   // always prevent; we re-submit manually after validation
-                errorDiv.classList.add('hidden');
+                var name    = document.getElementById('signup-name').value.trim();
+                var email   = document.getElementById('signup-email').value.trim();
+                var company = document.getElementById('company-name').value.trim();
+                var phone   = phoneInputC.value.trim();
+                var pw      = cPwInput.value;
+                var cpw     = cCpwInput.value;
 
-                const name    = document.getElementById('signup-name').value.trim();
-                const email   = document.getElementById('signup-email').value.trim();
-                const company = document.getElementById('company-name').value.trim();
-                const phone   = phoneInput.value.trim();
-                const pw      = passwordInput.value;
-                const cpw     = confirmInput.value;
+                if (!name)    { _cErr('Full name is required.'); return; }
+                if (!email)   { _cErr('Email address is required.'); return; }
+                if (!company) { _cErr('Company name is required.'); return; }
+                if (!phone)   { _cErr('Phone number is required.'); return; }
 
-                // Field presence checks
-                if (!name)    { _showErr('Full name is required.'); return; }
-                if (!email)   { _showErr('Email address is required.'); return; }
-                if (!company) { _showErr('Company name is required.'); return; }
-                if (!phone)   { _showErr('Phone number is required.'); return; }
+                var v = checkPassword(pw);
+                if (pw.length < 8) { _cErr('Password must be at least 8 characters.'); return; }
+                if (!v.upper)      { _cErr('Password must contain at least one uppercase letter.'); return; }
+                if (!v.lower)      { _cErr('Password must contain at least one lowercase letter.'); return; }
+                if (!v.number)     { _cErr('Password must contain at least one digit.'); return; }
+                if (!v.special)    { _cErr('Password must contain at least one special character.'); return; }
+                if (pw !== cpw)    { _cErr('Passwords do not match.'); return; }
 
-                // Password strength (require at least 8 chars to match server)
-                const v = checkPassword(pw);
-                if (pw.length < 8) { _showErr('Password must be at least 8 characters.'); return; }
-                if (!v.upper)   { _showErr('Password must contain at least one uppercase letter.'); return; }
-                if (!v.lower)   { _showErr('Password must contain at least one lowercase letter.'); return; }
-                if (!v.number)  { _showErr('Password must contain at least one digit.'); return; }
-                if (!v.special) { _showErr('Password must contain at least one special character.'); return; }
-                if (pw !== cpw) { _showErr('Passwords do not match.'); return; }
+                if (itiC) phoneInputC.value = itiC.getNumber() || phoneInputC.value;
 
-                // Inject E.164 phone number
-                const phoneHidden = document.getElementById('signup-phone');
-                if (phoneHidden && iti) {
-                    phoneHidden.value = iti.getNumber() || phoneHidden.value;
-                }
-
-                // All good — submit
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating account…';
-                document.getElementById('signup-form').submit();
+                cSubmitBtn.disabled = true;
+                cSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating account…';
+                document.getElementById('customer-signup-form').submit();
             });
 
-            function _showErr(msg) {
-                errorDiv.textContent = msg;
-                errorDiv.classList.remove('hidden');
-                errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            function _cErr(msg) {
+                cErrDiv.textContent = msg;
+                cErrDiv.classList.remove('hidden');
+                cErrDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
 
-        })();
+            // ── Hacker form ──────────────────────────────────────────────────────
+            var hPwInput    = document.getElementById('h-signup-password');
+            var hCpwInput   = document.getElementById('h-signup-confirm');
+            var hSubmitBtn  = document.getElementById('h-signup-submit');
+            var hErrDiv     = document.getElementById('h-signup-error');
+            var hSelectedSvcs = [];
+
+            function hCheckReady() {
+                var pw  = hPwInput.value;
+                var cpw = hCpwInput.value;
+                var v   = checkPassword(pw);
+                var ok  = Object.values(v).every(Boolean) &&
+                    pw === cpw && pw !== '' &&
+                    hSelectedSvcs.length > 0 &&
+                    document.getElementById('h-signup-name').value.trim() !== '' &&
+                    document.getElementById('h-signup-email').value.trim() !== '' &&
+                    phoneInputH.value.trim() !== '';
+                hSubmitBtn.classList.toggle('opacity-60', !ok);
+                hSubmitBtn.classList.toggle('ring-2', !ok);
+                hSubmitBtn.classList.toggle('ring-yellow-500', !ok);
+            }
+
+            hPwInput.addEventListener('input', function() {
+                updateStrength(hPwInput.value, 'h-');
+                hCheckReady();
+            });
+            hCpwInput.addEventListener('input', hCheckReady);
+            document.getElementById('h-signup-name').addEventListener('input', hCheckReady);
+            document.getElementById('h-signup-email').addEventListener('input', hCheckReady);
+            phoneInputH.addEventListener('input', hCheckReady);
+
+            document.querySelectorAll('#h-service-grid .service-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var svc = btn.dataset.service;
+                    var sel = btn.classList.contains('selected');
+                    btn.classList.toggle('selected', !sel);
+                    if (sel) {
+                        hSelectedSvcs = hSelectedSvcs.filter(function(s) { return s !== svc; });
+                    } else {
+                        hSelectedSvcs.push(svc);
+                    }
+                    document.getElementById('h-service-type').value = hSelectedSvcs[0] || '';
+                    hCheckReady();
+                });
+            });
+
+            document.getElementById('hacker-signup-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                hErrDiv.classList.add('hidden');
+
+                var name  = document.getElementById('h-signup-name').value.trim();
+                var email = document.getElementById('h-signup-email').value.trim();
+                var phone = phoneInputH.value.trim();
+                var pw    = hPwInput.value;
+                var cpw   = hCpwInput.value;
+
+                if (!name)  { _hErr('Full name is required.'); return; }
+                if (!email) { _hErr('Email address is required.'); return; }
+                if (!phone) { _hErr('Phone number is required.'); return; }
+                if (hSelectedSvcs.length === 0) { _hErr('Please select at least one service type.'); return; }
+
+                var v = checkPassword(pw);
+                if (pw.length < 8) { _hErr('Password must be at least 8 characters.'); return; }
+                if (!v.upper)      { _hErr('Password must contain at least one uppercase letter.'); return; }
+                if (!v.lower)      { _hErr('Password must contain at least one lowercase letter.'); return; }
+                if (!v.number)     { _hErr('Password must contain at least one digit.'); return; }
+                if (!v.special)    { _hErr('Password must contain at least one special character.'); return; }
+                if (pw !== cpw)    { _hErr('Passwords do not match.'); return; }
+
+                if (itiH) phoneInputH.value = itiH.getNumber() || phoneInputH.value;
+                document.getElementById('h-service-type').value = hSelectedSvcs[0] || '';
+
+                hSubmitBtn.disabled = true;
+                hSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating account…';
+                document.getElementById('hacker-signup-form').submit();
+            });
+
+            function _hErr(msg) {
+                hErrDiv.textContent = msg;
+                hErrDiv.classList.remove('hidden');
+                hErrDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+        });
     </script>
 </body>
 </html>

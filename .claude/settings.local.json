@@ -2,7 +2,38 @@
   "permissions": {
     "allow": [
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\FuadBader\\\\Documents\\\\Github\\\\AAU\\\\PTjo-Graduate-Project-0\" -Force)",
-      "Bash(Select-Object Name, PSIsContainer)"
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Get-ChildItem -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "PowerShell(cd \"c:\\\\Users\\\\FuadBader\\\\Documents\\\\Github\\\\AAU\\\\PTjo-Graduate-Project-0\"; Get-ChildItem -Force | Where-Object {$_.PSIsContainer})",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\FuadBader\\\\Documents\\\\Github\\\\AAU\\\\PTjo-Graduate-Project-0\" -Recurse -Directory)",
+      "Bash(Select-Object FullName)",
+      "Bash(Find-Item -Path \"c:\\\\Users\\\\FuadBader\\\\Documents\\\\Github\\\\AAU\\\\PTjo-Graduate-Project-0\\\\database\" -Name \"*.sql\")",
+      "Bash(Select-Object -ExpandProperty Name)",
+      "PowerShell($php = \\(Get-Command php -ErrorAction SilentlyContinue\\); if \\($php\\) { php -l api/customer/get_applicants.php; php -l api/customer/update_bounty.php } else { Write-Output \"php not on PATH; checking docker\" ; docker compose ps 2>$null | Select-Object -First 10 })",
+      "Bash(docker compose *)",
+      "Bash(echo \"---done exit=$?\")",
+      "PowerShell(docker compose exec -T web php -l api/customer/get_applicants.php)",
+      "PowerShell(docker compose exec -T web php -l api/hacker/get_applications.php)",
+      "Bash(awk '/CREATE TABLE.*engagements/,/;/' database/schema.mysql.sql)",
+      "Bash(docker ps *)",
+      "Bash(docker exec *)",
+      "Bash(curl -s -i -X POST http://localhost:8080/api/upload_avatar.php -H 'Cookie: PHPSESSID=a95f84b93f5a67648a0e84e21b3e9996' -H 'X-Requested-With: XMLHttpRequest' -H 'X-CSRF-Token: 2e47a92dbd0acb800b501c4a4ff345808f9199bf36faa02b5b37d22375cfeb0a' -F 'avatar=@uploads/avatars/av_4d3977c9-5ce2-11f1-bb3b-2a5a75cb0682_e42cd446.jpg;type=image/jpeg')",
+      "Bash(curl -s \"http://localhost:8080/api/hacker/get_profile.php\" -H \"Cookie: PHPSESSID=a95f84b93f5a67648a0e84e21b3e9996\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('avatar_url =', d.get\\('profile',{}\\).get\\('avatar_url'\\)\\)\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); p=d.get\\('profile',{}\\); print\\('jobs_done =',p.get\\('jobs_done'\\)\\); print\\('avg_rating =',p.get\\('avg_rating'\\)\\); print\\('review_count =',p.get\\('review_count'\\)\\); print\\('wallet_balance =',p.get\\('wallet_balance'\\)\\)\")",
+      "Bash(curl -s \"http://localhost:8080/api/hacker/get_wallet.php\" -H \"Cookie: PHPSESSID=a95f84b93f5a67648a0e84e21b3e9996\")",
+      "Bash(curl -s \"http://localhost:8080/api/auth/session.php\" -H \"Cookie: PHPSESSID=a95f84b93f5a67648a0e84e21b3e9996\")",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(curl -s -X POST http://localhost:8080/api/customer/submit_review.php -H 'Cookie: PHPSESSID=15459bec528a6fd645379f2215660c63' -H 'Content-Type: application/json' -H 'X-CSRF-Token: 5c28e94b5a80512ee6cc670f4921e26f38b5821a48a9be3732d731cc5b74b599' -d '{\"engagement_id\":\"6cac4b3b-5ce2-11f1-bb3b-2a5a75cb0682\",\"rating\":5,\"recommended\":true,\"comment\":\"Outstanding pentest — found a critical auth bypass and explained the fix clearly.\"}')",
+      "Bash(curl -s -X POST http://localhost:8080/api/customer/submit_review.php -H 'Cookie: PHPSESSID=15459bec528a6fd645379f2215660c63' -H 'Content-Type: application/json' -H 'X-CSRF-Token: 5c28e94b5a80512ee6cc670f4921e26f38b5821a48a9be3732d731cc5b74b599' -d '{\"engagement_id\":\"6cac4b3b-5ce2-11f1-bb3b-2a5a75cb0682\",\"rating\":3,\"recommended\":false}')",
+      "Bash(curl -s \"http://localhost:8080/api/customer/get_hacker_public.php?engagement_id=6cac4b3b-5ce2-11f1-bb3b-2a5a75cb0682\" -H \"Cookie: PHPSESSID=15459bec528a6fd645379f2215660c63\")",
+      "Bash(curl -s -X POST http://localhost:8080/api/customer/submit_review.php -H 'Cookie: PHPSESSID=15459bec528a6fd645379f2215660c63' -H 'Content-Type: application/json' -H 'X-CSRF-Token: 5c28e94b5a80512ee6cc670f4921e26f38b5821a48a9be3732d731cc5b74b599' -d '{\"engagement_id\":\"6cac4b3b-5ce2-11f1-bb3b-2a5a75cb0682\",\"rating\":5,\"recommended\":true,\"comment\":\"Outstanding pentest - found a critical auth bypass and explained the fix clearly. Will hire again.\"}')",
+      "Bash(curl -s -X POST http://localhost:8080/api/customer/submit_review.php -H 'Cookie: PHPSESSID=15459bec528a6fd645379f2215660c63' -H 'Content-Type: application/json' -H 'X-CSRF-Token: 5c28e94b5a80512ee6cc670f4921e26f38b5821a48a9be3732d731cc5b74b599' -d '{\"engagement_id\":\"6cac4b3b-5ce2-11f1-bb3b-2a5a75cb0682\",\"rating\":1,\"recommended\":false}')",
+      "Bash(curl -s -X POST http://localhost:8080/api/customer/submit_review.php -H 'Cookie: PHPSESSID=15459bec528a6fd645379f2215660c63' -H 'Content-Type: application/json' -H 'X-CSRF-Token: 5c28e94b5a80512ee6cc670f4921e26f38b5821a48a9be3732d731cc5b74b599' -d '{\"engagement_id\":\"00000000-0000-0000-0000-000000000000\",\"rating\":5}')",
+      "Bash(curl -s \"http://localhost:8080/api/hacker/get_reviews.php\" -H \"Cookie: PHPSESSID=a95f84b93f5a67648a0e84e21b3e9996\")",
+      "Bash(export MSYS_NO_PATHCONV=1)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/__TRACKED_VAR__)"
     ]
   }
 }
