@@ -27,7 +27,7 @@ docker compose up --build -d
 ```
 
 **Access the application:**
-Open `http://localhost:5500/` in your browser and start from `index.html`.
+Open `http://localhost:8080/` in your browser and start from `index.html`.
 
 **Stop the container:**
 ```bash
