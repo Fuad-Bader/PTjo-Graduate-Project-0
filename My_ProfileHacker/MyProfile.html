@@ -371,6 +371,13 @@
                                 </div>
                             </div>
                             <div>
+                                <label class="form-label" data-i18n="profile.label.phone">Phone Number</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-phone text-sm"></i></span>
+                                    <input type="tel" id="prof-phone" class="form-input pl-10" value="" placeholder="+962 ...">
+                                </div>
+                            </div>
+                            <div>
                                 <label class="form-label">Years of Experience</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-clock text-sm"></i></span>
@@ -3303,6 +3310,7 @@ document.addEventListener('keydown', e => {
             _set('prof-handle',   p.handle             || '');
             _set('prof-title',    p.professional_title || '');
             _set('prof-location', p.location           || '');
+            _set('prof-phone',    p.phone_e164         || '');
             _set('prof-bio',      p.bio                || '');
             _set('prof-linkedin', p.linkedin_url       || '');
             _set('prof-github',   p.github_url         || '');
@@ -3548,6 +3556,7 @@ document.addEventListener('keydown', e => {
                 handle:             _gv('prof-handle').replace(/^@/,''),
                 professional_title: _gv('prof-title'),
                 location:           _gv('prof-location'),
+                phone_e164:         _gv('prof-phone'),
                 bio:                _gv('prof-bio'),
                 linkedin_url:       _gv('prof-linkedin'),
                 github_url:         _gv('prof-github'),

@@ -150,10 +150,6 @@
                     <i class="fas fa-language"></i>
                     <span data-i18n="settings.tab.language">Language &amp; Region</span>
                 </div>
-                <div class="sidebar-tab" onclick="switchTab('profile', this)">
-                    <i class="fas fa-user-circle"></i>
-                    <span data-i18n="settings.tab.profile">Profile</span>
-                </div>
                 <div class="sidebar-tab" onclick="switchTab('notifications', this)">
                     <i class="fas fa-bell"></i>
                     <span data-i18n="settings.tab.notifications">Notifications</span>
@@ -325,85 +321,6 @@
                             </label>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- ═══ PROFILE ═══ -->
-            <div id="tab-profile" class="tab-panel">
-                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
-                    <h3 class="text-xl font-bold text-white mb-1" data-i18n="settings.tab.profile">Profile</h3>
-                    <p class="text-gray-500 text-sm mb-8">Your public identity shown to other users on the platform.</p>
-
-                    <!-- Avatar -->
-                    <div class="flex items-center gap-6 mb-8 pb-8 border-b border-gray-700">
-                        <div class="avatar-wrap relative cursor-pointer flex-shrink-0" onclick="document.getElementById('avatar-upload').click()">
-                            <img id="settings-avatar"
-                                 src="https://api.dicebear.com/7.x/initials/svg?seed=User&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700"
-                                 alt="Avatar"
-                                 class="w-20 h-20 rounded-full object-cover avatar-ring">
-                            <div class="avatar-overlay absolute inset-0 rounded-full bg-black/60 flex items-center justify-center">
-                                <i class="fas fa-camera text-white text-lg"></i>
-                            </div>
-                        </div>
-                        <input type="file" id="avatar-upload" accept="image/*" class="hidden" onchange="handleAvatarChange(event)">
-                        <div>
-                            <p class="text-white font-semibold text-sm mb-1">Profile Photo</p>
-                            <p class="text-gray-500 text-xs mb-3">Click the avatar to upload a new photo. JPG, PNG, or GIF up to 2 MB.</p>
-                            <button onclick="document.getElementById('avatar-upload').click()" class="btn btn-primary text-xs px-4 py-2">
-                                <i class="fas fa-upload mr-1.5"></i> Upload Photo
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Profile form -->
-                    <form onsubmit="saveProfile(event)">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label class="form-label" data-i18n="settings.profile.name">Full Name</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-user text-sm"></i></span>
-                                    <input type="text" id="prof-name" class="form-input pl-10" placeholder="Your full name">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="form-label" data-i18n="settings.profile.email">Email Address</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-envelope text-sm"></i></span>
-                                    <input type="email" id="prof-email" class="form-input pl-10" placeholder="you@example.com">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="form-label" data-i18n="settings.profile.phone">Phone Number</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-phone text-sm"></i></span>
-                                    <input type="tel" id="prof-phone" class="form-input pl-10" placeholder="+1 555 000 0000">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="form-label" data-i18n="settings.profile.role">Role</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-id-badge text-sm"></i></span>
-                                    <select id="prof-role" class="form-input pl-10 appearance-none">
-                                        <option value="">Select your role…</option>
-                                        <option value="hacker">Penetration Tester (Hacker)</option>
-                                        <option value="customer">Customer / Business</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-6">
-                            <label class="form-label" data-i18n="settings.profile.bio">Bio</label>
-                            <textarea id="prof-bio" class="form-input resize-none" rows="3" placeholder="A short description about yourself…"></textarea>
-                        </div>
-
-                        <div class="flex justify-end gap-3">
-                            <button type="button" onclick="resetProfile()" class="btn bg-gray-700 hover:bg-gray-600 text-sm" data-i18n="settings.btn.discard">Discard</button>
-                            <button type="submit" class="btn btn-primary text-sm flex items-center gap-2">
-                                <i class="fas fa-save"></i> <span data-i18n="settings.btn.save">Save Changes</span>
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </div>
 
@@ -680,42 +597,6 @@ function savePref(key, value) {
     showToast('Preference saved.');
 }
 
-/* ── Profile ── */
-function saveProfile(e) {
-    e.preventDefault();
-    const data = {
-        name:  document.getElementById('prof-name').value,
-        email: document.getElementById('prof-email').value,
-        phone: document.getElementById('prof-phone').value,
-        role:  document.getElementById('prof-role').value,
-        bio:   document.getElementById('prof-bio').value,
-    };
-    localStorage.setItem('ptjo_profile', JSON.stringify(data));
-    showToast('Profile saved successfully!');
-}
-
-function resetProfile() {
-    const saved = JSON.parse(localStorage.getItem('ptjo_profile') || '{}');
-    document.getElementById('prof-name').value  = saved.name  || '';
-    document.getElementById('prof-email').value = saved.email || '';
-    document.getElementById('prof-phone').value = saved.phone || '';
-    document.getElementById('prof-role').value  = saved.role  || '';
-    document.getElementById('prof-bio').value   = saved.bio   || '';
-}
-
-/* ── Avatar ── */
-function handleAvatarChange(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-        document.getElementById('settings-avatar').src = ev.target.result;
-        localStorage.setItem('ptjo_avatar', ev.target.result);
-        showToast('Profile photo updated.');
-    };
-    reader.readAsDataURL(file);
-}
-
 /* ── Password visibility ── */
 function togglePw(inputId, iconId) {
     const input = document.getElementById(inputId);
@@ -852,95 +733,8 @@ document.addEventListener('DOMContentLoaded', () => {
             r.checked = r.value === tf;
         });
     }
-
-    // Profile will be populated via API — see nav-auth.js + ptjo:session listener below
 });
 
-/* ── Load profile from API when session is available ── */
-document.addEventListener('ptjo:session', function (e) {
-    var data = e.detail;
-    var u = data.user || {}, p = data.profile || {};
-    var role = u.role || '';
-
-    // Populate form fields from session data
-    if (p.display_name) document.getElementById('prof-name').value  = p.display_name;
-    if (u.email)        document.getElementById('prof-email').value = u.email;
-    if (role)           document.getElementById('prof-role').value  = role;
-
-    if (p.avatar_url) {
-        document.getElementById('settings-avatar').src = p.avatar_url;
-    } else if (p.display_name) {
-        document.getElementById('settings-avatar').src =
-            'https://api.dicebear.com/7.x/initials/svg?seed=' +
-            encodeURIComponent(p.display_name) +
-            '&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700';
-    }
-
-    // Fetch full profile for phone + bio
-    var apiBase = (function() {
-        var parts = location.pathname.replace(/\/[^/]*$/, '').split('/').filter(Boolean);
-        return parts.length <= 1 ? '../api/' : '../../api/';
-    })();
-    var endpoint = role === 'hacker' ? 'hacker/get_profile.php' : 'customer/get_profile.php';
-    fetch(apiBase + endpoint, { credentials: 'same-origin',
-        headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': data.csrf || '' }
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-        var prof = d.profile || {};
-        if (prof.phone_number) document.getElementById('prof-phone').value = prof.phone_number;
-        if (prof.bio)          document.getElementById('prof-bio').value   = prof.bio;
-        if (prof.avatar_url)   document.getElementById('settings-avatar').src = prof.avatar_url;
-        window._settingsProfileData = prof;
-        window._settingsUserData    = d.user || {};
-    })
-    .catch(function(){});
-});
-
-/* ── Override saveProfile to call API ── */
-(function() {
-    var _orig = window.saveProfile;
-    window.saveProfile = async function(e) {
-        e.preventDefault();
-        var csrf = window._ptjoNavCSRF || '';
-        var apiBase = (function() {
-            var parts = location.pathname.replace(/\/[^/]*$/, '').split('/').filter(Boolean);
-            return parts.length <= 1 ? '../api/' : '../../api/';
-        })();
-        var role = (window._settingsUserData && window._settingsUserData.role)
-                 || document.getElementById('prof-role').value || '';
-        var payload = {
-            display_name: document.getElementById('prof-name').value.trim(),
-            phone_number: document.getElementById('prof-phone').value.trim(),
-            bio:          document.getElementById('prof-bio').value.trim(),
-        };
-        if (!role) {
-            // Not logged in — fallback to localStorage
-            if (_orig) return _orig(e);
-            return;
-        }
-        var endpoint = role === 'hacker' ? 'hacker/update_profile.php' : 'customer/update_profile.php';
-        try {
-            var res = await fetch(apiBase + endpoint, {
-                method: 'POST', credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-Token': csrf
-                },
-                body: JSON.stringify(payload)
-            });
-            var json = await res.json();
-            if (json && json.ok) {
-                showToast('Profile saved successfully!');
-            } else {
-                showToast(json.error || 'Failed to save profile.', true);
-            }
-        } catch(err) {
-            showToast('Network error saving profile.', true);
-        }
-    };
-})();
 </script>
 <script src="../assets/nav-auth.js"></script>
 <script src="../assets/lang.js"></script>
