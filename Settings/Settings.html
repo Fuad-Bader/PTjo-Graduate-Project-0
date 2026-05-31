@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTjo - Settings</title>
+    <script src="../assets/theme.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="../assets/lang.js"></script>
+    <script src="../assets/vuln-taxonomy.js"></script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-gray-900 text-gray-200 font-sans; }
+            .container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+            .btn { @apply px-6 py-3 font-semibold text-white rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg active:scale-95; }
+            .btn-primary { @apply bg-teal-600 hover:bg-teal-500; }
+            .btn-danger  { @apply bg-red-700 hover:bg-red-600; }
+            .form-input  { @apply w-full bg-gray-800 border border-gray-700 rounded-xl py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all; }
+            .form-label  { @apply block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest; }
+        }
+    </style>
+
+    <style>
+        /* ── Dropdown ── */
+        .dropdown-menu { opacity:0; transform:translateY(-10px); transition:opacity .3s ease-out,transform .3s ease-out; min-width:270px; background:#1f2937; border:1px solid #374151; border-radius:.75rem; box-shadow:0 25px 50px -12px rgba(0,0,0,.5); z-index:10; }
+        .dropdown-active { display:block !important; opacity:1; transform:translateY(0); }
+        .dropdown-toggle-svg { transition:transform .3s; }
+        .dropdown-toggle-svg.active { transform:rotate(180deg); }
+        .dropdown-item-pro { display:flex; align-items:center; padding:.75rem 1.25rem; font-size:.95rem; color:#e5e7eb; transition:background-color .2s,color .2s; }
+        .dropdown-item-pro:hover { background:#0d9488; color:#fff; }
+        .dropdown-icon { width:1.5rem; text-align:center; margin-right:1rem; font-size:1.1rem; flex-shrink:0; color:#2dd4bf; }
+        .dropdown-item-pro:hover .dropdown-icon { color:#fff; }
+
+        /* ── Sidebar tabs ── */
+        .sidebar-tab { display:flex; align-items:center; gap:12px; padding:12px 18px; border-radius:12px; cursor:pointer; transition:all .2s; color:#9ca3af; font-weight:600; font-size:.9rem; border-left:3px solid transparent; }
+        .sidebar-tab:hover { background:rgba(20,184,166,.08); color:#e5e7eb; }
+        .sidebar-tab.active { background:rgba(20,184,166,.15); color:#2dd4bf; border-left-color:#0d9488; }
+        .sidebar-tab i { width:18px; text-align:center; }
+
+        /* ── Tab panels ── */
+        .tab-panel { display:none; }
+        .tab-panel.active { display:block; animation:fadeIn .3s ease-out; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ── Theme cards ── */
+        .theme-card { border:2px solid #374151; border-radius:16px; overflow:hidden; cursor:pointer; transition:all .25s; }
+        .theme-card:hover { border-color:rgba(20,184,166,.5); transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.3); }
+        .theme-card.selected { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.25); }
+        .theme-card .check-badge { opacity:0; transform:scale(.7); transition:all .2s; }
+        .theme-card.selected .check-badge { opacity:1; transform:scale(1); }
+
+        /* ── Language cards ── */
+        .lang-card { display:flex; align-items:center; gap:16px; padding:18px 20px; background:rgba(31,41,55,.7); border:2px solid #374151; border-radius:14px; cursor:pointer; transition:all .2s; }
+        .lang-card:hover { border-color:rgba(20,184,166,.4); background:rgba(31,41,55,1); }
+        .lang-card.selected { border-color:#0d9488; background:rgba(13,148,136,.1); }
+        .lang-card .flag { font-size:2rem; line-height:1; }
+        .lang-card .check { color:#0d9488; opacity:0; margin-left:auto; transition:opacity .2s; }
+        .lang-card.selected .check { opacity:1; }
+
+        /* ── Toggle switch ── */
+        .toggle-wrap { display:flex; align-items:center; justify-content:space-between; padding:16px 0; border-bottom:1px solid #1f2937; }
+        .toggle-wrap:last-child { border-bottom:none; }
+        .toggle { position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0; }
+        .toggle input { opacity:0; width:0; height:0; }
+        .toggle-slider { position:absolute; inset:0; background:#374151; border-radius:999px; cursor:pointer; transition:background .25s; }
+        .toggle-slider:before { content:''; position:absolute; height:18px; width:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:transform .25s; }
+        .toggle input:checked + .toggle-slider { background:#0d9488; }
+        .toggle input:checked + .toggle-slider:before { transform:translateX(20px); }
+
+        /* ── Session card ── */
+        .session-card { background:rgba(31,41,55,.6); border:1px solid #374151; border-radius:14px; padding:16px 20px; display:flex; align-items:center; gap:14px; transition:border-color .2s; }
+        .session-card:hover { border-color:rgba(20,184,166,.3); }
+
+        /* ── Avatar ── */
+        .avatar-ring { box-shadow:0 0 0 3px #0f766e,0 0 0 6px rgba(13,148,136,.2); }
+        .avatar-overlay { opacity:0; transition:opacity .2s; }
+        .avatar-wrap:hover .avatar-overlay { opacity:1; }
+
+        /* ── Toast ── */
+        #toast { position:fixed; bottom:28px; right:28px; z-index:9999; transform:translateY(80px); opacity:0; transition:all .35s cubic-bezier(.4,0,.2,1); }
+        #toast.show { transform:translateY(0); opacity:1; }
+
+        /* ── Strength bar ── */
+        .strength-bar { height:4px; border-radius:2px; background:#374151; transition:all .3s; }
+        .strength-fill { height:100%; border-radius:2px; width:0%; transition:width .3s, background .3s; }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:#1f2937; }
+        ::-webkit-scrollbar-thumb { background:#0d9488; border-radius:10px; }
+
+        /* ── RTL sidebar border ── */
+        [dir="rtl"] .sidebar-tab { border-left:none; border-right:3px solid transparent; }
+        [dir="rtl"] .sidebar-tab.active { border-right-color:#0d9488; }
+    </style>
+</head>
+
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
+    <div class="container flex justify-between items-center h-20">
+        <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+        <div class="hidden md:flex items-center space-x-8">
+            <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
+            <div class="relative">
+                <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                    <span data-i18n="nav.products">Products</span>
+                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network"  class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span data-i18n="nav.network">Network Testing</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad"       class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span data-i18n="nav.ad">Active Directory</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span data-i18n="nav.cloud">Cloud Testing</span></a>
+                    <div class="h-px bg-gray-700 my-1"></div>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp"    class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span data-i18n="nav.webapp">Web App</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile"   class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span data-i18n="nav.mobile">Mobile App</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span data-i18n="nav.api">API Testing</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot"      class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span data-i18n="nav.iot">IoT Testing</span></a>
+                </div>
+            </div>
+            <div class="relative">
+                <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                    <span data-i18n="nav.industries">Industries</span>
+                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                    <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span data-i18n="nav.industries.all">All Industries</span></a>
+                    <div class="h-px bg-gray-700 my-1"></div>
+                    <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span data-i18n="nav.finance">Finance</span></a>
+                    <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span data-i18n="nav.healthcare">Healthcare</span></a>
+                    <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span data-i18n="nav.retail">Retail</span></a>
+                    <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span data-i18n="nav.technology">Technology</span></a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 ml-4">
+                <a href="Settings.html"
+                   class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
+                   title="Settings">
+                    <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
+                    <span data-i18n="nav.settings">Settings</span>
+                </a>
+                <a id="nav-hacker-btn" href="../SignUp_Hacker/SignUpH.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium text-sm" data-i18n="nav.hacker-login">Log In as Hacker</a>
+                <a id="nav-customer-btn" href="../SignUp_Customer/SignupC.html" class="text-teal-400 hover:text-white transition duration-300 font-medium text-sm" data-i18n="nav.customer-login">Log In as Customer</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ── Page Header ── -->
+<header class="bg-gray-900 pt-10 pb-8 border-b border-gray-800">
+    <div class="container">
+        <div class="flex items-center gap-3 text-sm text-gray-500">
+            <a href="../index.html" class="hover:text-teal-400 transition-colors" data-i18n="nav.home">Home</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <span class="text-gray-300 font-medium" data-i18n="settings.title">Settings</span>
+        </div>
+        <h1 class="text-3xl font-extrabold text-white mt-3">
+            <span data-i18n="settings.title">Settings</span>
+        </h1>
+        <p class="text-gray-400 mt-1 text-sm" data-i18n="settings.subtitle">Manage your preferences and account settings.</p>
+    </div>
+</header>
+
+<!-- ── Main Layout ── -->
+<main class="container py-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+        <!-- ── Sidebar ── -->
+        <aside class="lg:w-64 flex-shrink-0">
+            <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-3 flex flex-col gap-1 sticky top-28">
+                <div class="sidebar-tab active" onclick="switchTab('appearance', this)">
+                    <i class="fas fa-palette"></i>
+                    <span data-i18n="settings.tab.appearance">Appearance</span>
+                </div>
+                <div class="sidebar-tab" onclick="switchTab('language', this)">
+                    <i class="fas fa-language"></i>
+                    <span data-i18n="settings.tab.language">Language &amp; Region</span>
+                </div>
+                <div class="sidebar-tab" onclick="switchTab('profile', this)">
+                    <i class="fas fa-user-circle"></i>
+                    <span data-i18n="settings.tab.profile">Profile</span>
+                </div>
+                <div class="sidebar-tab" onclick="switchTab('notifications', this)">
+                    <i class="fas fa-bell"></i>
+                    <span data-i18n="settings.tab.notifications">Notifications</span>
+                </div>
+                <div class="sidebar-tab" onclick="switchTab('security', this)">
+                    <i class="fas fa-shield-halved"></i>
+                    <span data-i18n="settings.tab.security">Security</span>
+                </div>
+                <div class="h-px bg-gray-700 my-1"></div>
+                <div class="sidebar-tab" onclick="switchTab('about', this)">
+                    <i class="fas fa-circle-info"></i>
+                    <span data-i18n="settings.tab.about">About</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ── Content Panels ── -->
+        <div class="flex-1 min-w-0">
+
+            <!-- ═══ APPEARANCE ═══ -->
+            <div id="tab-appearance" class="tab-panel active">
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                    <h3 class="text-xl font-bold text-white mb-1" data-i18n="settings.tab.appearance">Appearance</h3>
+                    <p class="text-gray-500 text-sm mb-8">Choose how PTjo looks for you. Changes are saved instantly.</p>
+
+                    <!-- Theme picker -->
+                    <div class="mb-8">
+                        <label class="form-label" data-i18n="settings.theme.label">Theme</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+
+                            <!-- Dark theme card -->
+                            <div id="card-dark" class="theme-card selected" onclick="selectTheme('dark')">
+                                <div class="h-32 bg-gray-900 flex flex-col p-3 gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-12 h-2.5 rounded-full bg-teal-500/80"></div>
+                                        <div class="ml-auto flex gap-1.5">
+                                            <div class="w-6 h-2 rounded bg-gray-700"></div>
+                                            <div class="w-6 h-2 rounded bg-gray-700"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2 mt-1">
+                                        <div class="w-20 bg-gray-800 rounded-lg h-16 flex flex-col gap-1.5 p-2">
+                                            <div class="w-full h-1.5 bg-gray-700 rounded"></div>
+                                            <div class="w-3/4 h-1.5 bg-gray-700 rounded"></div>
+                                            <div class="w-5/6 h-1.5 bg-teal-600/50 rounded mt-auto"></div>
+                                        </div>
+                                        <div class="flex-1 bg-gray-800 rounded-lg h-16 flex flex-col gap-1.5 p-2">
+                                            <div class="w-1/2 h-1.5 bg-gray-700 rounded"></div>
+                                            <div class="w-full h-1.5 bg-gray-700 rounded"></div>
+                                            <div class="w-4/5 h-1.5 bg-gray-700 rounded"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-gray-800 flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-moon text-teal-400"></i>
+                                        <span class="font-semibold text-white text-sm" data-i18n="settings.theme.dark">Dark</span>
+                                    </div>
+                                    <div class="check-badge w-6 h-6 rounded-full bg-teal-600 flex items-center justify-center">
+                                        <i class="fas fa-check text-white" style="font-size:10px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Light theme card -->
+                            <div id="card-light" class="theme-card" onclick="selectTheme('light')">
+                                <div class="h-32 bg-gray-100 flex flex-col p-3 gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-12 h-2.5 rounded-full bg-teal-600/90"></div>
+                                        <div class="ml-auto flex gap-1.5">
+                                            <div class="w-6 h-2 rounded bg-gray-300"></div>
+                                            <div class="w-6 h-2 rounded bg-gray-300"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2 mt-1">
+                                        <div class="w-20 bg-white rounded-lg h-16 flex flex-col gap-1.5 p-2 shadow-sm">
+                                            <div class="w-full h-1.5 bg-gray-200 rounded"></div>
+                                            <div class="w-3/4 h-1.5 bg-gray-200 rounded"></div>
+                                            <div class="w-5/6 h-1.5 bg-teal-300 rounded mt-auto"></div>
+                                        </div>
+                                        <div class="flex-1 bg-white rounded-lg h-16 flex flex-col gap-1.5 p-2 shadow-sm">
+                                            <div class="w-1/2 h-1.5 bg-gray-200 rounded"></div>
+                                            <div class="w-full h-1.5 bg-gray-200 rounded"></div>
+                                            <div class="w-4/5 h-1.5 bg-gray-200 rounded"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-white flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-sun text-yellow-500"></i>
+                                        <span class="font-semibold text-gray-800 text-sm" data-i18n="settings.theme.light">Light</span>
+                                    </div>
+                                    <div class="check-badge w-6 h-6 rounded-full bg-teal-600 flex items-center justify-center">
+                                        <i class="fas fa-check text-white" style="font-size:10px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Font size -->
+                    <div>
+                        <label class="form-label">Font Size</label>
+                        <div class="flex items-center gap-4 mt-3">
+                            <span class="text-gray-500 text-xs font-semibold uppercase">A</span>
+                            <input type="range" id="font-size-range" min="12" max="20" value="16" step="1"
+                                   class="flex-1 accent-teal-500 cursor-pointer"
+                                   oninput="applyFontSize(this.value)">
+                            <span class="text-gray-300 text-xl font-semibold">A</span>
+                            <span id="font-size-label" class="text-xs text-teal-400 font-mono w-8 text-center">16px</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ LANGUAGE & REGION ═══ -->
+            <div id="tab-language" class="tab-panel">
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                    <h3 class="text-xl font-bold text-white mb-1" data-i18n="settings.tab.language">Language &amp; Region</h3>
+                    <p class="text-gray-500 text-sm mb-8">Set your display language. Changing the language applies instantly across all pages.</p>
+
+                    <label class="form-label" data-i18n="settings.lang.label">Display Language</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+
+                        <!-- English -->
+                        <div id="lang-card-en" class="lang-card selected" onclick="selectLang('en')">
+                            <span class="flag">🇬🇧</span>
+                            <div>
+                                <div class="font-bold text-white text-sm">English</div>
+                                <div class="text-gray-500 text-xs">English (Global)</div>
+                            </div>
+                            <i class="fas fa-circle-check check text-xl"></i>
+                        </div>
+
+                        <!-- Arabic -->
+                        <div id="lang-card-ar" class="lang-card" onclick="selectLang('ar')">
+                            <span class="flag">🇸🇦</span>
+                            <div>
+                                <div class="font-bold text-white text-sm">العربية</div>
+                                <div class="text-gray-500 text-xs">Arabic</div>
+                            </div>
+                            <i class="fas fa-circle-check check text-xl"></i>
+                        </div>
+
+                    </div>
+
+                    <!-- Date format -->
+                    <div class="mt-8">
+                        <label class="form-label">Date Format</label>
+                        <select id="date-format" class="form-input mt-2 max-w-xs" onchange="savePref('date_format', this.value)">
+                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                            <option value="DD/MM/YYYY" selected>DD/MM/YYYY</option>
+                            <option value="YYYY-MM-DD">YYYY-MM-DD (ISO)</option>
+                        </select>
+                    </div>
+
+                    <!-- Time format -->
+                    <div class="mt-6">
+                        <label class="form-label">Time Format</label>
+                        <div class="flex gap-4 mt-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="time-format" value="12" class="accent-teal-500" onchange="savePref('time_format','12')" checked>
+                                <span class="text-gray-300 text-sm font-medium">12-hour (AM/PM)</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="time-format" value="24" class="accent-teal-500" onchange="savePref('time_format','24')">
+                                <span class="text-gray-300 text-sm font-medium">24-hour</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ PROFILE ═══ -->
+            <div id="tab-profile" class="tab-panel">
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                    <h3 class="text-xl font-bold text-white mb-1" data-i18n="settings.tab.profile">Profile</h3>
+                    <p class="text-gray-500 text-sm mb-8">Your public identity shown to other users on the platform.</p>
+
+                    <!-- Avatar -->
+                    <div class="flex items-center gap-6 mb-8 pb-8 border-b border-gray-700">
+                        <div class="avatar-wrap relative cursor-pointer flex-shrink-0" onclick="document.getElementById('avatar-upload').click()">
+                            <img id="settings-avatar"
+                                 src="https://api.dicebear.com/7.x/initials/svg?seed=User&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700"
+                                 alt="Avatar"
+                                 class="w-20 h-20 rounded-full object-cover avatar-ring">
+                            <div class="avatar-overlay absolute inset-0 rounded-full bg-black/60 flex items-center justify-center">
+                                <i class="fas fa-camera text-white text-lg"></i>
+                            </div>
+                        </div>
+                        <input type="file" id="avatar-upload" accept="image/*" class="hidden" onchange="handleAvatarChange(event)">
+                        <div>
+                            <p class="text-white font-semibold text-sm mb-1">Profile Photo</p>
+                            <p class="text-gray-500 text-xs mb-3">Click the avatar to upload a new photo. JPG, PNG, or GIF up to 2 MB.</p>
+                            <button onclick="document.getElementById('avatar-upload').click()" class="btn btn-primary text-xs px-4 py-2">
+                                <i class="fas fa-upload mr-1.5"></i> Upload Photo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Profile form -->
+                    <form onsubmit="saveProfile(event)">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="form-label" data-i18n="settings.profile.name">Full Name</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-user text-sm"></i></span>
+                                    <input type="text" id="prof-name" class="form-input pl-10" placeholder="Your full name">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label" data-i18n="settings.profile.email">Email Address</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-envelope text-sm"></i></span>
+                                    <input type="email" id="prof-email" class="form-input pl-10" placeholder="you@example.com">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label" data-i18n="settings.profile.phone">Phone Number</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-phone text-sm"></i></span>
+                                    <input type="tel" id="prof-phone" class="form-input pl-10" placeholder="+1 555 000 0000">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label" data-i18n="settings.profile.role">Role</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-id-badge text-sm"></i></span>
+                                    <select id="prof-role" class="form-input pl-10 appearance-none">
+                                        <option value="">Select your role…</option>
+                                        <option value="hacker">Penetration Tester (Hacker)</option>
+                                        <option value="customer">Customer / Business</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="form-label" data-i18n="settings.profile.bio">Bio</label>
+                            <textarea id="prof-bio" class="form-input resize-none" rows="3" placeholder="A short description about yourself…"></textarea>
+                        </div>
+
+                        <div class="flex justify-end gap-3">
+                            <button type="button" onclick="resetProfile()" class="btn bg-gray-700 hover:bg-gray-600 text-sm" data-i18n="settings.btn.discard">Discard</button>
+                            <button type="submit" class="btn btn-primary text-sm flex items-center gap-2">
+                                <i class="fas fa-save"></i> <span data-i18n="settings.btn.save">Save Changes</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ═══ NOTIFICATIONS ═══ -->
+            <div id="tab-notifications" class="tab-panel">
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                    <h3 class="text-xl font-bold text-white mb-1" data-i18n="settings.tab.notifications">Notifications</h3>
+                    <p class="text-gray-500 text-sm mb-8">Control which notifications you receive. Changes are saved automatically.</p>
+
+                    <div class="divide-y divide-gray-700/60">
+
+                        <div class="toggle-wrap">
+                            <div>
+                                <p class="text-white font-semibold text-sm" data-i18n="settings.notif.new_job">New Job Available</p>
+                                <p class="text-gray-500 text-xs mt-0.5">Get notified when a new pentesting job matches your skills.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked onchange="savePref('notif_new_job', this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-wrap">
+                            <div>
+                                <p class="text-white font-semibold text-sm" data-i18n="settings.notif.engagement">Engagement Updates</p>
+                                <p class="text-gray-500 text-xs mt-0.5">Status changes, approvals, and payments on your engagements.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked onchange="savePref('notif_engagement', this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-wrap">
+                            <div>
+                                <p class="text-white font-semibold text-sm" data-i18n="settings.notif.messages">New Messages</p>
+                                <p class="text-gray-500 text-xs mt-0.5">Direct messages from customers or pentesters.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked onchange="savePref('notif_messages', this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-wrap">
+                            <div>
+                                <p class="text-white font-semibold text-sm" data-i18n="settings.notif.security">Security Alerts</p>
+                                <p class="text-gray-500 text-xs mt-0.5">Login from a new device or suspicious activity detected.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked onchange="savePref('notif_security', this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-wrap">
+                            <div>
+                                <p class="text-white font-semibold text-sm" data-i18n="settings.notif.marketing">Product Updates &amp; News</p>
+                                <p class="text-gray-500 text-xs mt-0.5">Platform announcements, new features, and newsletters.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" onchange="savePref('notif_marketing', this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ SECURITY ═══ -->
+            <div id="tab-security" class="tab-panel">
+
+                <!-- Change Password -->
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                    <h3 class="text-xl font-bold text-white mb-1" data-i18n="settings.tab.security">Security</h3>
+                    <p class="text-gray-500 text-sm mb-8">Keep your account secure by using a strong, unique password.</p>
+
+                    <form onsubmit="changePassword(event)" class="max-w-md">
+                        <div class="mb-5">
+                            <label class="form-label" data-i18n="settings.security.oldpw">Current Password</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-lock text-sm"></i></span>
+                                <input type="password" id="old-pw" class="form-input pl-10 pr-11" placeholder="••••••••">
+                                <button type="button" onclick="togglePw('old-pw','eye-old')" class="absolute right-4 top-3.5 text-gray-500 hover:text-gray-300">
+                                    <i id="eye-old" class="fas fa-eye text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label" data-i18n="settings.security.newpw">New Password</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-lock text-sm"></i></span>
+                                <input type="password" id="new-pw" class="form-input pl-10 pr-11" placeholder="••••••••" oninput="checkStrength(this.value)">
+                                <button type="button" onclick="togglePw('new-pw','eye-new')" class="absolute right-4 top-3.5 text-gray-500 hover:text-gray-300">
+                                    <i id="eye-new" class="fas fa-eye text-sm"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 strength-bar"><div id="strength-fill" class="strength-fill"></div></div>
+                            <p id="strength-text" class="text-xs text-gray-500 mt-1"></p>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="form-label" data-i18n="settings.security.confirmpw">Confirm New Password</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-lock text-sm"></i></span>
+                                <input type="password" id="confirm-pw" class="form-input pl-10 pr-11" placeholder="••••••••">
+                                <button type="button" onclick="togglePw('confirm-pw','eye-confirm')" class="absolute right-4 top-3.5 text-gray-500 hover:text-gray-300">
+                                    <i id="eye-confirm" class="fas fa-eye text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary flex items-center gap-2 text-sm">
+                            <i class="fas fa-key"></i> <span data-i18n="settings.security.update">Update Password</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Active Sessions -->
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h4 class="text-lg font-bold text-white" data-i18n="settings.security.sessions">Active Sessions</h4>
+                            <p class="text-gray-500 text-xs mt-0.5">Devices currently logged into your account.</p>
+                        </div>
+                        <button onclick="signOutAll()" class="btn bg-red-700/80 hover:bg-red-600 text-sm flex items-center gap-2">
+                            <i class="fas fa-right-from-bracket"></i>
+                            <span data-i18n="settings.security.signout_all">Sign Out All Devices</span>
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <div class="session-card">
+                            <div class="w-10 h-10 rounded-xl bg-teal-600/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-laptop text-teal-400"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-white font-semibold text-sm">Windows — Chrome</p>
+                                <p class="text-gray-500 text-xs">Amman, Jordan · Current session</p>
+                            </div>
+                            <span class="text-xs bg-teal-500/15 text-teal-400 border border-teal-500/30 px-2.5 py-1 rounded-full font-bold flex-shrink-0">Active now</span>
+                        </div>
+
+                        <div class="session-card">
+                            <div class="w-10 h-10 rounded-xl bg-gray-700/60 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-mobile-screen text-gray-400"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-white font-semibold text-sm">Android — PTjo App</p>
+                                <p class="text-gray-500 text-xs">Riyadh, Saudi Arabia · 2 days ago</p>
+                            </div>
+                            <button onclick="revokeSession(this)" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors flex-shrink-0">Revoke</button>
+                        </div>
+
+                        <div class="session-card">
+                            <div class="w-10 h-10 rounded-xl bg-gray-700/60 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-desktop text-gray-400"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-white font-semibold text-sm">macOS — Safari</p>
+                                <p class="text-gray-500 text-xs">Dubai, UAE · 5 days ago</p>
+                            </div>
+                            <button onclick="revokeSession(this)" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors flex-shrink-0">Revoke</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ═══ ABOUT ═══ -->
+            <div id="tab-about" class="tab-panel">
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                    <h3 class="text-xl font-bold text-white mb-1" data-i18n="settings.tab.about">About PTjo</h3>
+                    <p class="text-gray-500 text-sm mb-8">Version information, legal links, and platform details.</p>
+
+                    <!-- Logo -->
+                    <div class="flex items-center gap-4 mb-8 pb-8 border-b border-gray-700">
+                        <div class="w-16 h-16 rounded-2xl bg-teal-600/20 border border-teal-600/30 flex items-center justify-center">
+                            <span class="text-teal-400 font-extrabold text-2xl tracking-tight">PT</span>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-extrabold text-xl tracking-wide">PTjo</h4>
+                            <p class="text-gray-500 text-sm">Offensive Security Platform</p>
+                            <span class="text-xs bg-teal-500/15 text-teal-400 border border-teal-500/30 px-2.5 py-0.5 rounded-full font-bold mt-1 inline-block">v1.0.0 Beta</span>
+                        </div>
+                    </div>
+
+                    <!-- Info grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-gray-700/30 rounded-xl p-4">
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Version</p>
+                            <p class="text-white font-semibold">1.0.0 Beta</p>
+                        </div>
+                        <div class="bg-gray-700/30 rounded-xl p-4">
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Build</p>
+                            <p class="text-white font-semibold">2026.03</p>
+                        </div>
+                        <div class="bg-gray-700/30 rounded-xl p-4">
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Platform</p>
+                            <p class="text-white font-semibold">Web Application</p>
+                        </div>
+                        <div class="bg-gray-700/30 rounded-xl p-4">
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">License</p>
+                            <p class="text-white font-semibold">Academic / Graduation Project</p>
+                        </div>
+                    </div>
+
+                    <!-- Links -->
+                    <div class="flex flex-wrap gap-3">
+                        <a href="../Legal/PrivacyPolicy.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-teal-400 transition-colors font-medium">
+                            <i class="fas fa-file-shield"></i> Privacy Policy
+                        </a>
+                        <span class="text-gray-700">·</span>
+                        <a href="../Legal/TermsOfService.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-teal-400 transition-colors font-medium">
+                            <i class="fas fa-scale-balanced"></i> Terms of Service
+                        </a>
+                        <span class="text-gray-700">·</span>
+                        <a href="../Resources/Support.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-teal-400 transition-colors font-medium">
+                            <i class="fas fa-envelope"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /content panels -->
+    </div><!-- /flex layout -->
+</main>
+
+<!-- ── Toast ── -->
+<div id="toast" class="flex items-center gap-3 bg-gray-800 border border-teal-600/40 text-white px-5 py-3.5 rounded-2xl shadow-2xl">
+    <div class="w-8 h-8 rounded-full bg-teal-600/20 flex items-center justify-center">
+        <i id="toast-icon" class="fas fa-check text-teal-400 text-sm"></i>
+    </div>
+    <span id="toast-msg" class="font-medium text-sm">Changes saved.</span>
+</div>
+
+<script>
+/* ── Tab switching ── */
+function switchTab(name, el) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    el.classList.add('active');
+}
+
+/* ── Theme selection ── */
+function selectTheme(theme) {
+    PTjoTheme.set(theme);
+    document.getElementById('card-dark').classList.toggle('selected', theme === 'dark');
+    document.getElementById('card-light').classList.toggle('selected', theme === 'light');
+    showToast(theme === 'dark' ? 'Dark theme applied.' : 'Light theme applied.');
+}
+
+/* ── Language selection ── */
+function selectLang(lang) {
+    PTjoLang.set(lang);
+    document.getElementById('lang-card-en').classList.toggle('selected', lang === 'en');
+    document.getElementById('lang-card-ar').classList.toggle('selected', lang === 'ar');
+    showToast(lang === 'en' ? 'Language set to English.' : 'تم تغيير اللغة إلى العربية.');
+}
+
+/* ── Font size ── */
+function applyFontSize(val) {
+    document.documentElement.style.fontSize = val + 'px';
+    document.getElementById('font-size-label').textContent = val + 'px';
+    localStorage.setItem('ptjo_font_size', val);
+}
+
+/* ── Generic pref saver ── */
+function savePref(key, value) {
+    localStorage.setItem('ptjo_' + key, value);
+    showToast('Preference saved.');
+}
+
+/* ── Profile ── */
+function saveProfile(e) {
+    e.preventDefault();
+    const data = {
+        name:  document.getElementById('prof-name').value,
+        email: document.getElementById('prof-email').value,
+        phone: document.getElementById('prof-phone').value,
+        role:  document.getElementById('prof-role').value,
+        bio:   document.getElementById('prof-bio').value,
+    };
+    localStorage.setItem('ptjo_profile', JSON.stringify(data));
+    showToast('Profile saved successfully!');
+}
+
+function resetProfile() {
+    const saved = JSON.parse(localStorage.getItem('ptjo_profile') || '{}');
+    document.getElementById('prof-name').value  = saved.name  || '';
+    document.getElementById('prof-email').value = saved.email || '';
+    document.getElementById('prof-phone').value = saved.phone || '';
+    document.getElementById('prof-role').value  = saved.role  || '';
+    document.getElementById('prof-bio').value   = saved.bio   || '';
+}
+
+/* ── Avatar ── */
+function handleAvatarChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        document.getElementById('settings-avatar').src = ev.target.result;
+        localStorage.setItem('ptjo_avatar', ev.target.result);
+        showToast('Profile photo updated.');
+    };
+    reader.readAsDataURL(file);
+}
+
+/* ── Password visibility ── */
+function togglePw(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+}
+
+/* ── Password strength ── */
+function checkStrength(pw) {
+    const fill = document.getElementById('strength-fill');
+    const text = document.getElementById('strength-text');
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+    const map = [
+        { w: '0%',   color: '#374151', label: '' },
+        { w: '25%',  color: '#ef4444', label: 'Weak' },
+        { w: '50%',  color: '#f97316', label: 'Fair' },
+        { w: '75%',  color: '#eab308', label: 'Good' },
+        { w: '100%', color: '#22c55e', label: 'Strong' },
+    ];
+    fill.style.width      = map[score].w;
+    fill.style.background = map[score].color;
+    text.textContent      = pw.length ? map[score].label : '';
+    text.style.color      = map[score].color;
+}
+
+/* ── Change password ── */
+function changePassword(e) {
+    e.preventDefault();
+    const oldPw  = document.getElementById('old-pw').value;
+    const newPw  = document.getElementById('new-pw').value;
+    const confPw = document.getElementById('confirm-pw').value;
+    if (!oldPw || !newPw || !confPw) { showToast('Please fill in all fields.', true); return; }
+    if (newPw !== confPw) { showToast('New passwords do not match.', true); return; }
+    if (newPw.length < 8)  { showToast('Password must be at least 8 characters.', true); return; }
+    showToast('Password updated successfully!');
+    e.target.reset();
+    document.getElementById('strength-fill').style.width = '0%';
+    document.getElementById('strength-text').textContent = '';
+}
+
+/* ── Sessions ── */
+function revokeSession(btn) {
+    const card = btn.closest('.session-card');
+    card.style.opacity = '0';
+    card.style.transform = 'translateX(20px)';
+    card.style.transition = 'all .3s';
+    setTimeout(() => card.remove(), 300);
+    showToast('Session revoked.');
+}
+function signOutAll() {
+    showToast('Signed out from all devices.');
+}
+
+/* ── Toast ── */
+function showToast(msg, isError = false) {
+    const toast = document.getElementById('toast');
+    const icon  = document.getElementById('toast-icon');
+    document.getElementById('toast-msg').textContent = msg;
+    if (isError) {
+        icon.className = 'fas fa-xmark text-red-400 text-sm';
+        toast.style.borderColor = 'rgba(239,68,68,.4)';
+    } else {
+        icon.className = 'fas fa-check text-teal-400 text-sm';
+        toast.style.borderColor = 'rgba(13,148,136,.4)';
+    }
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+/* ── Dropdown ── */
+function toggleDropdown(id, btn) {
+    const menu = document.getElementById('dropdown-menu-' + id);
+    const svg  = btn.querySelector('.dropdown-toggle-svg');
+    const isOpen = menu.classList.contains('dropdown-active');
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('dropdown-active'));
+    document.querySelectorAll('.dropdown-toggle-svg').forEach(s => s.classList.remove('active'));
+    if (!isOpen) { menu.classList.add('dropdown-active'); svg && svg.classList.add('active'); }
+}
+document.addEventListener('click', e => {
+    if (!e.target.closest('[id^="dropdown-toggle"]') && !e.target.closest('.dropdown-menu')) {
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('dropdown-active'));
+        document.querySelectorAll('.dropdown-toggle-svg').forEach(s => s.classList.remove('active'));
+    }
+});
+document.getElementById('dropdown-toggle-products').addEventListener('click', function () {
+    toggleDropdown('products', this);
+});
+document.getElementById('dropdown-toggle-industries').addEventListener('click', function () {
+    toggleDropdown('industries', this);
+});
+
+/* ── Init: restore saved preferences ── */
+document.addEventListener('DOMContentLoaded', () => {
+    const theme = PTjoTheme.current();
+    document.getElementById('card-dark').classList.toggle('selected', theme === 'dark');
+    document.getElementById('card-light').classList.toggle('selected', theme === 'light');
+
+    const lang = PTjoLang.current();
+    document.getElementById('lang-card-en').classList.toggle('selected', lang === 'en');
+    document.getElementById('lang-card-ar').classList.toggle('selected', lang === 'ar');
+
+    const fs = localStorage.getItem('ptjo_font_size');
+    if (fs) {
+        document.getElementById('font-size-range').value = fs;
+        document.getElementById('font-size-label').textContent = fs + 'px';
+        document.documentElement.style.fontSize = fs + 'px';
+    }
+
+    const notifKeys = ['new_job','engagement','messages','security','marketing'];
+    notifKeys.forEach(k => {
+        const val = localStorage.getItem('ptjo_notif_' + k);
+        if (val === 'false') {
+            document.querySelectorAll(`input[onchange*="notif_${k}"]`).forEach(i => i.checked = false);
+        }
+    });
+
+    const df = localStorage.getItem('ptjo_date_format');
+    if (df) document.getElementById('date-format').value = df;
+    const tf = localStorage.getItem('ptjo_time_format');
+    if (tf) {
+        document.querySelectorAll('input[name="time-format"]').forEach(r => {
+            r.checked = r.value === tf;
+        });
+    }
+
+    const profile = JSON.parse(localStorage.getItem('ptjo_profile') || '{}');
+    if (profile.name)  document.getElementById('prof-name').value  = profile.name;
+    if (profile.email) document.getElementById('prof-email').value = profile.email;
+    if (profile.phone) document.getElementById('prof-phone').value = profile.phone;
+    if (profile.role)  document.getElementById('prof-role').value  = profile.role;
+    if (profile.bio)   document.getElementById('prof-bio').value   = profile.bio;
+
+    const avatar = localStorage.getItem('ptjo_avatar');
+    if (avatar) document.getElementById('settings-avatar').src = avatar;
+
+    const r = localStorage.getItem('ptjo_role');
+    if (r === 'hacker')   { const h = document.getElementById('nav-hacker-btn');   if (h) h.style.display = 'none'; }
+    if (r === 'customer') { const c = document.getElementById('nav-customer-btn'); if (c) c.style.display = 'none'; }
+});
+</script>
+<script src="../assets/lang.js"></script>
+<script src="../assets/settings-panel.js"></script>
+
+</body>
+</html>

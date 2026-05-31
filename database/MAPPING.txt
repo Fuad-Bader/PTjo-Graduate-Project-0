@@ -1,0 +1,36 @@
+PTjo — Browser localStorage keys → PostgreSQL tables (conceptual map)
+======================================================================
+
+ptjo_role, ptjo_hacker_id, ptjo_customer_* (name, phone)
+  → users + customer_profiles | hacker_profiles
+
+ptjo_customer_wallet, ptjo_hacker_wallet
+  → wallets (type customer | hacker) + wallet_ledger_entries for every change
+
+ptjo_customer_cards
+  → payment_methods (store only token refs / last4 in production)
+
+ptjo_customer_requests
+  → bounty_requests (public_id = REQ-* style id from UI)
+
+ptjo_hacker_applications
+  → hacker_applications
+
+Engagements embedded in profiles / dashboards (ENG-* ids)
+  → engagements (public_id, customer_id, hacker_id, agreed_price_usd, status)
+
+ptjo_reports
+  → vulnerability_reports (public_id = RPT-*) + report_attachments (files → object storage + metadata rows)
+
+ptjo_reviews
+  → reviews (link report_id, engagement_id, hacker_id, customer_id)
+
+ptjo_notifications, ptjo_notifications_customer, ptjo_notifications_hacker
+  → notifications (single table; filter by user_id; payload JSONB for reportId, etc.)
+
+ptjo_profile, certifications, skills in hacker profile HTML
+  → hacker_profiles, certifications, hacker_skills, hacker_tools, hacker_languages
+
+service_offerings seed rows align with dashboard service keys (web, network, mobile, cloud, social).
+
+Next steps for backend: replace localStorage reads/writes with API calls; use transactions when updating report status, wallets, and ledger in one atomic operation.

@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTjo - My Profile</title>
+    <script src="../assets/theme.js"></script>
+    <script src="../assets/vuln-taxonomy.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-gray-900 text-gray-200 font-sans; }
+            .container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+            .btn { @apply px-6 py-3 font-semibold text-white rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg active:scale-95; }
+            .btn-primary { @apply bg-teal-600 hover:bg-teal-500; }
+            .btn-danger { @apply bg-red-700 hover:bg-red-600; }
+            .form-input { @apply w-full bg-gray-800 border border-gray-700 rounded-xl py-3 px-4 text-white placeholder-gray-600 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all; }
+            .form-label { @apply block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest; }
+        }
+    </style>
+
+    <style>
+        /* Dropdown */
+        .dropdown-menu { opacity: 0; transform: translateY(-10px); transition: opacity 0.3s ease-out, transform 0.3s ease-out; min-width: 270px; background-color: #1f2937; border: 1px solid #374151; border-radius: 0.75rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); z-index: 10; }
+        .dropdown-active { display: block !important; opacity: 1; transform: translateY(0); }
+        .dropdown-toggle-svg { transition: transform 0.3s ease; }
+        .dropdown-toggle-svg.active { transform: rotate(180deg); }
+        .dropdown-item-pro { display: flex; align-items: center; padding: 0.75rem 1.25rem; font-size: 0.95rem; color: #e5e7eb; transition: background-color 0.2s, color 0.2s; }
+        .dropdown-item-pro:hover { background-color: #0d9488; color: #fff; }
+        .dropdown-icon { width: 1.5rem; text-align: center; margin-right: 1rem; font-size: 1.1rem; flex-shrink: 0; color: #2dd4bf; }
+        .dropdown-item-pro:hover .dropdown-icon { color: #fff; }
+        .dropdown-title { font-weight: 600; }
+
+        /* Sidebar tab */
+        .sidebar-tab { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 12px; cursor: pointer; transition: all 0.2s; color: #9ca3af; font-weight: 600; font-size: 0.9rem; }
+        .sidebar-tab:hover { background: rgba(20,184,166,0.08); color: #e5e7eb; }
+        .sidebar-tab.active { background: rgba(20,184,166,0.15); color: #2dd4bf; border-left: 3px solid #0d9488; }
+        .sidebar-tab i { width: 18px; text-align: center; }
+
+        /* Tab panel */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Order status badge */
+        .badge-pending { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+        .badge-completed { background: rgba(20,184,166,0.15); color: #2dd4bf; border: 1px solid rgba(20,184,166,0.3); }
+        .badge-failed { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        .badge-inprogress { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+
+        /* Order card */
+        .order-card { background: rgba(31,41,55,0.7); border: 1px solid #374151; border-radius: 16px; padding: 20px 24px; transition: border-color 0.2s, box-shadow 0.2s; }
+        .order-card:hover { border-color: rgba(20,184,166,0.35); box-shadow: 0 0 20px rgba(20,184,166,0.08); }
+
+        /* Avatar ring */
+        .avatar-ring { box-shadow: 0 0 0 3px #0f766e, 0 0 0 6px rgba(13,148,136,0.2); }
+
+        /* Profile picture upload hover */
+        .avatar-overlay { opacity: 0; transition: opacity 0.2s; }
+        .avatar-wrap:hover .avatar-overlay { opacity: 1; }
+
+        /* Password strength */
+        .strength-bar { height: 4px; border-radius: 2px; transition: background 0.3s, width 0.3s; }
+        .req-dot { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; font-size: 8px; transition: all 0.2s; flex-shrink: 0; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 10px; }
+
+        /* Toast */
+        #toast { position: fixed; bottom: 28px; right: 28px; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.35s cubic-bezier(.4,0,.2,1); }
+        #toast.show { transform: translateY(0); opacity: 1; }
+
+        /* Order filter tabs */
+        .order-filter-btn { padding: 7px 18px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s; color: #6b7280; border: 1px solid transparent; }
+        .order-filter-btn.active { background: rgba(20,184,166,0.15); color: #2dd4bf; border-color: rgba(20,184,166,0.3); }
+        .order-filter-btn:not(.active):hover { color: #d1d5db; background: rgba(255,255,255,0.05); }
+
+        /* Full report attachments lightbox (same pattern as Customer Dashboard) */
+        #customer-lightbox { display: none; position: fixed; inset: 0; z-index: 360; background: rgba(0,0,0,.92); align-items: center; justify-content: center; }
+        #customer-lightbox.open { display: flex; }
+        #customer-lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 12px; box-shadow: 0 0 60px rgba(0,0,0,.6); }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
+        <div class="container flex justify-between items-center h-20">
+            <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
+
+                <div class="relative">
+                    <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                        <span data-i18n="nav.products">Products</span>
+                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span class="dropdown-title" data-i18n="nav.network">Network Testing</span></a>
+                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span class="dropdown-title" data-i18n="nav.ad">Active Directory</span></a>
+                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span class="dropdown-title" data-i18n="nav.cloud">Cloud Testing</span></a>
+                        <div class="h-px bg-gray-700 my-1"></div>
+                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span class="dropdown-title" data-i18n="nav.webapp">Web App</span></a>
+                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span class="dropdown-title" data-i18n="nav.mobile">Mobile App</span></a>
+                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span class="dropdown-title" data-i18n="nav.api">API Testing</span></a>
+                        <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span class="dropdown-title" data-i18n="nav.iot">IoT Testing</span></a>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                        <span data-i18n="nav.industries">Industries</span>
+                        <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                        <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span class="dropdown-title" data-i18n="nav.industries.all">All Industries</span></a>
+                        <div class="h-px bg-gray-700 my-1"></div>
+                        <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span class="dropdown-title" data-i18n="nav.finance">Finance</span></a>
+                        <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span class="dropdown-title" data-i18n="nav.healthcare">Healthcare</span></a>
+                        <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span class="dropdown-title" data-i18n="nav.retail">Retail</span></a>
+                        <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span class="dropdown-title" data-i18n="nav.technology">Technology</span></a>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 ml-4">
+                    <a href="../Settings/Settings.html"
+                       class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
+                       title="Settings">
+                        <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
+                        <span data-i18n="nav.settings">Settings</span>
+                    </a>
+                    <a id="nav-hacker-btn" href="../SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.hacker-login">Log In as Hacker</span></a>
+                    <a href="MyProfileC.html" class="flex items-center gap-2.5 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl px-4 py-2 font-semibold text-sm group">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=Abdulrahman&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
+                        <span data-i18n="nav.my-profile">My Profile</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="bg-gray-900 pt-10 pb-8 border-b border-gray-800">
+        <div class="container">
+            <div class="flex items-center gap-3 text-sm text-gray-500">
+                <a href="../Customer_Dashboard/Customer_Dashboard.html" class="hover:text-teal-400 transition-colors">Dashboard</a>
+                <i class="fas fa-chevron-right text-xs"></i>
+                <span class="text-gray-300 font-medium">My Profile</span>
+            </div>
+            <h1 class="text-3xl font-extrabold text-white mt-3">Account Settings</h1>
+            <p class="text-gray-400 mt-1 text-sm">Manage your profile, security settings, and view your engagement history.</p>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <main class="container py-10">
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- ── Sidebar ── -->
+            <aside class="lg:w-72 flex-shrink-0">
+                <!-- Profile Card -->
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 mb-4 flex flex-col items-center text-center">
+                    <!-- Avatar -->
+                    <div class="avatar-wrap relative mb-4 cursor-pointer" onclick="document.getElementById('avatar-input').click()">
+                        <img id="avatar-img"
+                             src="https://api.dicebear.com/7.x/initials/svg?seed=Abdulrahman&backgroundColor=0d9488&fontFamily=Arial&fontSize=40&fontWeight=700"
+                             alt="Profile"
+                             class="w-24 h-24 rounded-full object-cover avatar-ring" />
+                        <div class="avatar-overlay absolute inset-0 rounded-full bg-black/60 flex flex-col items-center justify-center">
+                            <i class="fas fa-camera text-white text-lg mb-1"></i>
+                            <span class="text-white text-xs font-bold">Change</span>
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-teal-600 rounded-full flex items-center justify-center border-2 border-gray-800 pointer-events-none">
+                            <i class="fas fa-pen text-white" style="font-size:9px;"></i>
+                        </div>
+                    </div>
+                    <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="handleAvatarChange(event)">
+
+                    <h2 id="sidebar-name" class="text-lg font-bold text-white">Abdulrahman</h2>
+                    <p id="sidebar-company" class="text-xs text-teal-400 font-semibold mt-0.5">PTjo Systems Co.</p>
+                    <p id="sidebar-email" class="text-xs text-gray-500 mt-1">abdulrahman@ptjo.io</p>
+
+                    <div class="w-full mt-4 pt-4 border-t border-gray-700 grid grid-cols-3 gap-2 text-center">
+                        <div>
+                            <div class="text-lg font-extrabold text-white" id="stat-total">5</div>
+                            <div class="text-xs text-gray-500">Total</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-extrabold text-yellow-400" id="stat-pending">2</div>
+                            <div class="text-xs text-gray-500">Pending</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-extrabold text-teal-400" id="stat-done">3</div>
+                            <div class="text-xs text-gray-500">Done</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Tabs -->
+                <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-3 flex flex-col gap-1">
+                    <div class="sidebar-tab active" onclick="switchTab('profile', this)">
+                        <i class="fas fa-user"></i> <span data-i18n="profile.tab.info">Profile Info</span>
+                    </div>
+                    <div class="sidebar-tab" onclick="switchTab('security', this)">
+                        <i class="fas fa-shield-halved"></i> <span data-i18n="profile.tab.security">Security</span>
+                    </div>
+                    <div class="sidebar-tab" onclick="switchTab('orders', this)">
+                        <i class="fas fa-clipboard-list"></i> <span data-i18n="profile.tab.orders">My Orders</span>
+                        <span class="ml-auto text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded-full font-bold">2</span>
+                    </div>
+                    <div class="sidebar-tab" onclick="switchTab('payment', this)">
+                        <i class="fas fa-wallet"></i> <span>Payment & Wallet</span>
+                    </div>
+                    <div class="h-px bg-gray-700 my-1"></div>
+                    <div class="sidebar-tab text-red-400 hover:bg-red-500/10" onclick="showLogoutConfirm()" style="color:#f87171;">
+                        <i class="fas fa-right-from-bracket"></i> <span data-i18n="profile.signout">Sign Out</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ── Content Panels ── -->
+            <div class="flex-1 min-w-0">
+
+                <!-- ─── Profile Info Tab ─── -->
+                <div id="tab-profile" class="tab-panel active">
+                    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8">
+                        <div class="flex items-center justify-between mb-7">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Profile Information</h3>
+                                <p class="text-gray-500 text-sm mt-0.5">Update your personal and company details.</p>
+                            </div>
+                            <span class="text-xs text-gray-600 bg-gray-700/50 px-3 py-1.5 rounded-lg">Member since Jan 2025</span>
+                        </div>
+
+                        <form id="profile-form" onsubmit="saveProfile(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="form-label" data-i18n="profile.label.name">Full Name</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-user text-sm"></i></span>
+                                        <input type="text" id="prof-name" class="form-input pl-10" value="Abdulrahman" placeholder="Your full name">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Company Name</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-building text-sm"></i></span>
+                                        <input type="text" id="prof-company" class="form-input pl-10" value="PTjo Systems Co." placeholder="Your company">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label" data-i18n="profile.label.phone">Phone Number</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-phone text-sm"></i></span>
+                                        <input type="tel" id="prof-phone" class="form-input pl-10" value="+962 79 123 4567" placeholder="+962 ...">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Industry</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-briefcase text-sm"></i></span>
+                                        <select id="prof-industry" class="form-input pl-10 appearance-none">
+                                            <option>Technology</option>
+                                            <option>Finance</option>
+                                            <option>Healthcare</option>
+                                            <option>Retail</option>
+                                            <option>Government</option>
+                                            <option>Education</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="form-label">Company Bio / Notes</label>
+                                <textarea id="prof-bio" class="form-input resize-none" rows="3" placeholder="Brief description of your company or security needs...">We specialize in fintech solutions and require regular penetration testing to maintain compliance.</textarea>
+                            </div>
+                            <div class="flex justify-end gap-3">
+                                <button type="button" onclick="resetProfileForm()" class="btn bg-gray-700 hover:bg-gray-600 text-sm" data-i18n="profile.btn.discard">Discard</button>
+                                <button type="submit" class="btn btn-primary text-sm gap-2 flex items-center">
+                                    <i class="fas fa-save"></i> <span data-i18n="profile.btn.save">Save Changes</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="bg-red-900/10 border border-red-800/40 rounded-2xl p-6 mt-6">
+                        <h4 class="text-red-400 font-bold text-sm uppercase tracking-widest mb-1 flex items-center gap-2">
+                            <i class="fas fa-triangle-exclamation"></i> Danger Zone
+                        </h4>
+                        <p class="text-gray-500 text-sm mb-4">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                        <button onclick="showDeleteConfirm()" class="btn btn-danger text-sm flex items-center gap-2">
+                            <i class="fas fa-trash-can"></i> Delete Account
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ─── Security Tab ─── -->
+                <div id="tab-security" class="tab-panel">
+
+                    <!-- Change Email -->
+                    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-teal-500/15 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-envelope text-teal-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Change Email Address</h3>
+                                <p class="text-gray-500 text-xs mt-0.5">Current: <span class="text-teal-400" id="display-current-email">abdulrahman@ptjo.io</span></p>
+                            </div>
+                        </div>
+                        <form onsubmit="changeEmail(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                <div>
+                                    <label class="form-label">New Email Address</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-envelope text-sm"></i></span>
+                                        <input type="email" id="new-email" class="form-input pl-10" placeholder="new@email.com" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Confirm New Email</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-envelope-circle-check text-sm"></i></span>
+                                        <input type="email" id="confirm-email" class="form-input pl-10" placeholder="Repeat new email" required>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="form-label">Current Password (to verify)</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-lock text-sm"></i></span>
+                                        <input type="password" id="email-verify-pw" class="form-input pl-10 pr-12" placeholder="Your current password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+                                        <button type="button" onclick="toggleVis('email-verify-pw','eye-ev')" class="absolute right-4 top-3.5 text-gray-500 hover:text-teal-400 transition-colors focus:outline-none">
+                                            <i id="eye-ev" class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="email-error" class="hidden text-red-400 text-xs mb-4 flex items-center gap-2"><i class="fas fa-circle-exclamation"></i><span></span></div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="btn btn-primary text-sm flex items-center gap-2">
+                                    <i class="fas fa-paper-plane"></i> Update Email
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Change Password -->
+                    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-teal-500/15 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-key text-teal-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Change Password</h3>
+                                <p class="text-gray-500 text-xs mt-0.5">Use a strong password — minimum 12 characters.</p>
+                            </div>
+                        </div>
+                        <form onsubmit="changePassword(event)">
+                            <div class="grid grid-cols-1 gap-5 mb-5">
+                                <div>
+                                    <label class="form-label" data-i18n="profile.label.oldpw">Current Password</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-lock text-sm"></i></span>
+                                        <input type="password" id="old-pw" class="form-input pl-10 pr-12" placeholder="Your current password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+                                        <button type="button" onclick="toggleVis('old-pw','eye-old')" class="absolute right-4 top-3.5 text-gray-500 hover:text-teal-400 transition-colors focus:outline-none">
+                                            <i id="eye-old" class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label" data-i18n="profile.label.newpw">New Password</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-lock-open text-sm"></i></span>
+                                        <input type="password" id="new-pw" class="form-input pl-10 pr-12" placeholder="New password" autocomplete="new-password" autocapitalize="none" autocorrect="off" spellcheck="false" required oninput="updateStrength(this.value)">
+                                        <button type="button" onclick="toggleVis('new-pw','eye-new')" class="absolute right-4 top-3.5 text-gray-500 hover:text-teal-400 transition-colors focus:outline-none">
+                                            <i id="eye-new" class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Strength bar -->
+                                    <div class="flex gap-1 mt-2">
+                                        <div class="strength-bar flex-1" id="seg-1" style="background:#374151;"></div>
+                                        <div class="strength-bar flex-1" id="seg-2" style="background:#374151;"></div>
+                                        <div class="strength-bar flex-1" id="seg-3" style="background:#374151;"></div>
+                                        <div class="strength-bar flex-1" id="seg-4" style="background:#374151;"></div>
+                                        <div class="strength-bar flex-1" id="seg-5" style="background:#374151;"></div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 mt-3">
+                                        <div class="flex items-center gap-2"><span class="req-dot" id="dot-length" style="background:#374151;color:#6b7280;border-radius:50%;">12</span><span id="lbl-length" style="color:#6b7280;" class="text-xs">12+ characters</span></div>
+                                        <div class="flex items-center gap-2"><span class="req-dot" id="dot-upper" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span id="lbl-upper" style="color:#6b7280;" class="text-xs">Uppercase letter</span></div>
+                                        <div class="flex items-center gap-2"><span class="req-dot" id="dot-lower" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span id="lbl-lower" style="color:#6b7280;" class="text-xs">Lowercase letter</span></div>
+                                        <div class="flex items-center gap-2"><span class="req-dot" id="dot-number" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span id="lbl-number" style="color:#6b7280;" class="text-xs">Number</span></div>
+                                        <div class="col-span-2 flex items-center gap-2"><span class="req-dot" id="dot-special" style="background:#374151;color:#6b7280;border-radius:50%;"><i class="fas fa-check" style="font-size:8px"></i></span><span id="lbl-special" style="color:#6b7280;" class="text-xs">Special character (!@#$%^&*)</span></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label" data-i18n="profile.label.confirmpw">Confirm New Password</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-500"><i class="fas fa-lock text-sm"></i></span>
+                                        <input type="password" id="confirm-pw" class="form-input pl-10 pr-12" placeholder="Repeat new password" autocomplete="new-password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+                                        <button type="button" onclick="toggleVis('confirm-pw','eye-conf')" class="absolute right-4 top-3.5 text-gray-500 hover:text-teal-400 transition-colors focus:outline-none">
+                                            <i id="eye-conf" class="fas fa-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pw-error" class="hidden text-red-400 text-xs mb-4 flex items-center gap-2"><i class="fas fa-circle-exclamation"></i><span></span></div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="btn btn-primary text-sm flex items-center gap-2">
+                                    <i class="fas fa-key"></i> Update Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ─── Orders Tab ─── -->
+                <div id="tab-orders" class="tab-panel">
+                    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Engagement History</h3>
+                                <p class="text-gray-500 text-sm mt-0.5">All your security assessment orders.</p>
+                            </div>
+                            <a href="../Customer_Dashboard/Customer_Dashboard.html" class="btn btn-primary text-sm flex items-center gap-2 self-start sm:self-auto">
+                                <i class="fas fa-plus"></i> New Order
+                            </a>
+                        </div>
+
+                        <!-- Filter Tabs -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <button class="order-filter-btn active" onclick="filterOrders('all', this)">All <span class="ml-1 opacity-60">5</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('pending', this)">Pending <span class="ml-1 opacity-60">2</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('inprogress', this)">In Progress <span class="ml-1 opacity-60">1</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('completed', this)">Completed <span class="ml-1 opacity-60">1</span></button>
+                            <button class="order-filter-btn" onclick="filterOrders('failed', this)">Failed <span class="ml-1 opacity-60">1</span></button>
+                        </div>
+
+                        <!-- Order List -->
+                        <div id="order-list" class="flex flex-col gap-4">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── Payment & Wallet Tab ─── -->
+                <div id="tab-payment" class="tab-panel">
+
+                    <!-- Wallet Balance Card (ptjo_customer_wallet) -->
+                    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                        <h3 class="text-xl font-bold text-white mb-1">My Wallet</h3>
+                        <p class="text-gray-500 text-sm mb-6">Top up your balance to pay for reports instantly, or withdraw to a saved card.</p>
+
+                        <div class="relative rounded-2xl overflow-hidden mb-6 p-6"
+                             style="background:linear-gradient(135deg,#0d9488 0%,#0f766e 50%,#065f46 100%);">
+                            <div class="relative z-10">
+                                <p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">Available Balance</p>
+                                <p class="text-4xl font-extrabold text-white" id="cust-wallet-balance">$0.00</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            <button type="button" onclick="openWithdrawCustomer()"
+                                class="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-bold transition-all flex items-center justify-center gap-2 border border-gray-600">
+                                <i class="fas fa-arrow-up-from-bracket"></i> Withdraw Funds
+                            </button>
+                            <button type="button" onclick="document.getElementById('c-tx-section').scrollIntoView({behavior:'smooth'})"
+                                class="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-semibold transition-all flex items-center justify-center gap-2 border border-gray-600 text-sm">
+                                <i class="fas fa-list"></i> View sample transactions
+                            </button>
+                        </div>
+
+                        <div id="cust-withdraw-form" class="hidden bg-gray-900/60 border border-teal-600/25 rounded-2xl p-6 mb-6">
+                            <h4 class="text-white font-bold mb-5 flex items-center gap-2">
+                                <i class="fas fa-arrow-up-from-bracket text-teal-400"></i> Withdraw to saved card
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="form-label">Amount (USD)</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-3.5 text-gray-400 font-bold text-sm">$</span>
+                                        <input type="number" id="c-withdraw-amount" class="form-input pl-8" placeholder="0.00" min="10" step="0.01">
+                                    </div>
+                                    <p class="text-gray-500 text-xs mt-1.5">Minimum withdrawal: $10.00</p>
+                                </div>
+                                <div>
+                                    <label class="form-label">Withdraw to</label>
+                                    <select id="c-withdraw-dest" class="form-input">
+                                        <option value="">— Select saved card —</option>
+                                    </select>
+                                    <p class="text-gray-500 text-xs mt-1.5">Add a card in Saved Cards below if you do not see one.</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-end gap-3">
+                                <button type="button" onclick="openWithdrawCustomer()"
+                                    class="px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm font-semibold transition-all">Cancel</button>
+                                <button type="button" onclick="processWithdrawCustomer()"
+                                    class="btn btn-primary text-sm flex items-center gap-2">
+                                    <i class="fas fa-paper-plane"></i> Withdraw
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Select Top-Up Amount</p>
+                        <div class="grid grid-cols-3 gap-3 mb-4" id="topup-amount-grid"></div>
+
+                        <div class="relative mb-5">
+                            <span class="absolute left-4 top-3.5 text-gray-400 font-bold">$</span>
+                            <input type="number" id="topup-custom" min="10" max="10000" step="10" placeholder="Custom amount"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-xl py-3 pl-8 pr-4 text-white placeholder-gray-600 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all"
+                                oninput="selectCustomTopup(this.value)">
+                        </div>
+
+                        <button type="button" onclick="processTopup()"
+                            class="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-teal-900/30">
+                            <i class="fas fa-plus"></i> Add Funds
+                        </button>
+
+                        <!-- Transaction history -->
+                        <div id="c-tx-section">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-white font-bold">Recent Transactions</h4>
+                                <span class="text-xs text-gray-500">Last 30 days</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center gap-4 p-3.5 bg-gray-900/60 rounded-xl border border-gray-700/60">
+                                    <div class="w-9 h-9 rounded-xl bg-red-600/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-arrow-up text-red-400 text-sm"></i></div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-white text-sm font-semibold">Payment Sent</p>
+                                        <p class="text-gray-500 text-xs">Network Pentest · Order #NP-0042</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-red-400 font-bold text-sm">−$1,200.00</p>
+                                        <p class="text-gray-600 text-xs">Apr 1, 2026</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 p-3.5 bg-gray-900/60 rounded-xl border border-gray-700/60">
+                                    <div class="w-9 h-9 rounded-xl bg-teal-600/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-arrow-down text-teal-400 text-sm"></i></div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-white text-sm font-semibold">Wallet Top Up</p>
+                                        <p class="text-gray-500 text-xs">Via Visa ···1234 · Ref #TU-0882</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-teal-400 font-bold text-sm">+$2,000.00</p>
+                                        <p class="text-gray-600 text-xs">Mar 28, 2026</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 p-3.5 bg-gray-900/60 rounded-xl border border-gray-700/60">
+                                    <div class="w-9 h-9 rounded-xl bg-red-600/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-arrow-up text-red-400 text-sm"></i></div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-white text-sm font-semibold">Payment Sent</p>
+                                        <p class="text-gray-500 text-xs">Cloud Security · Order #CL-0019</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-red-400 font-bold text-sm">−$3,500.00</p>
+                                        <p class="text-gray-600 text-xs">Mar 20, 2026</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saved Cards -->
+                    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 mb-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Saved Cards</h3>
+                                <p class="text-gray-500 text-sm mt-0.5">Cards used for wallet top-ups and payments.</p>
+                            </div>
+                            <button onclick="toggleAddCardC()" class="btn btn-primary text-sm flex items-center gap-2">
+                                <i class="fas fa-plus"></i> Add Card
+                            </button>
+                        </div>
+
+                        <!-- Saved card list (ptjo_customer_cards) -->
+                        <div class="flex flex-col gap-3 mb-5" id="c-card-list"></div>
+
+                        <!-- Add card form -->
+                        <div id="c-add-card-form" class="hidden border border-teal-600/30 rounded-2xl p-6 bg-gray-900/60">
+                            <h4 class="text-white font-bold mb-5 flex items-center gap-2"><i class="fas fa-credit-card text-teal-400"></i> New Card</h4>
+
+                            <!-- Card preview -->
+                            <div class="relative rounded-2xl p-5 mb-6 overflow-hidden h-40"
+                                 style="background: linear-gradient(135deg, #1e3a5f 0%, #0d2137 100%);">
+                                <div class="absolute top-0 right-0 w-40 h-40 rounded-full opacity-10" style="background:radial-gradient(circle,#fff 0%,transparent 70%);transform:translate(20%,-20%)"></div>
+                                <div class="relative z-10 h-full flex flex-col justify-between">
+                                    <div class="flex justify-between items-start">
+                                        <i class="fas fa-wifi text-white/40 rotate-90 text-xl"></i>
+                                        <span id="c-preview-brand" class="text-white/70 text-2xl"><i class="fab fa-cc-visa"></i></span>
+                                    </div>
+                                    <div>
+                                        <p class="text-white/50 text-xs tracking-widest font-mono mb-1">CARD NUMBER</p>
+                                        <p class="text-white font-mono text-lg tracking-[0.25em]" id="c-preview-number">•••• •••• •••• ••••</p>
+                                    </div>
+                                    <div class="flex justify-between items-end">
+                                        <div>
+                                            <p class="text-white/50 text-xs tracking-widest">CARDHOLDER</p>
+                                            <p class="text-white font-semibold text-sm uppercase" id="c-preview-name">YOUR NAME</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-white/50 text-xs tracking-widest">EXPIRES</p>
+                                            <p class="text-white font-semibold text-sm font-mono" id="c-preview-expiry">MM / YY</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form fields -->
+                            <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                    <label class="form-label">Card Number</label>
+                                    <div class="relative">
+                                        <input type="text" id="c-card-number" class="form-input pr-12" placeholder="0000 0000 0000 0000" maxlength="19"
+                                               oninput="formatCardC(this)" autocomplete="cc-number">
+                                        <span class="absolute right-4 top-3.5 text-2xl" id="c-card-brand-icon"><i class="far fa-credit-card text-gray-600"></i></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Cardholder Name</label>
+                                    <input type="text" id="c-card-name" class="form-input" placeholder="Full name as on card"
+                                           oninput="document.getElementById('c-preview-name').textContent=this.value.toUpperCase()||'YOUR NAME'" autocomplete="cc-name">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="form-label">Expiry Date</label>
+                                        <input type="text" id="c-card-expiry" class="form-input" placeholder="MM / YY" maxlength="7"
+                                               oninput="formatExpiryC(this)" autocomplete="cc-exp">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">CVV</label>
+                                        <div class="relative">
+                                            <input type="password" id="c-card-cvv" class="form-input pr-10" placeholder="•••" maxlength="4" autocomplete="cc-csc">
+                                            <button type="button" onclick="toggleCvvC()" class="absolute right-3 top-3.5 text-gray-500 hover:text-gray-300">
+                                                <i id="c-cvv-eye" class="fas fa-eye text-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="flex items-center gap-2 cursor-pointer mt-1">
+                                    <input type="checkbox" id="c-card-default" class="accent-teal-500 w-4 h-4">
+                                    <span class="text-gray-300 text-sm">Set as default payment card</span>
+                                </label>
+                            </div>
+
+                            <div class="flex gap-3 mt-5">
+                                <button onclick="saveCardC()" class="btn btn-primary text-sm flex items-center gap-2"><i class="fas fa-save"></i> Save Card</button>
+                                <button onclick="toggleAddCardC()" class="btn bg-gray-700 hover:bg-gray-600 text-sm">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /tab-payment -->
+
+            </div><!-- /content panels -->
+        </div>
+    </main>
+
+    <!-- ── Logout Confirm Modal ── -->
+    <div id="logout-modal" class="hidden fixed inset-0 z-[200] bg-black/70 flex items-center justify-center p-4">
+        <div class="bg-gray-800 border border-gray-700 rounded-2xl p-8 w-full max-w-sm text-center shadow-2xl">
+            <div class="w-14 h-14 bg-yellow-500/15 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-right-from-bracket text-yellow-400 text-xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Sign Out?</h3>
+            <p class="text-gray-400 text-sm mb-6">You'll be redirected to the homepage.</p>
+            <div class="flex gap-3 justify-center">
+                <button onclick="document.getElementById('logout-modal').classList.add('hidden')" class="btn bg-gray-700 hover:bg-gray-600 text-sm">Cancel</button>
+                <button onclick="localStorage.removeItem('ptjo_role');window.location.href='../index.html'" class="btn bg-yellow-600 hover:bg-yellow-500 text-sm">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Delete Account Confirm Modal ── -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-[200] bg-black/70 flex items-center justify-center p-4">
+        <div class="bg-gray-800 border border-red-800/50 rounded-2xl p-8 w-full max-w-sm text-center shadow-2xl">
+            <div class="w-14 h-14 bg-red-500/15 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-trash-can text-red-400 text-xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Delete Account?</h3>
+            <p class="text-gray-400 text-sm mb-1">This will permanently delete your account,</p>
+            <p class="text-gray-400 text-sm mb-6">all your data, and order history.</p>
+            <div class="flex gap-3 justify-center">
+                <button onclick="document.getElementById('delete-modal').classList.add('hidden')" class="btn bg-gray-700 hover:bg-gray-600 text-sm">Cancel</button>
+                <button onclick="window.location.href='../index.html'" class="btn btn-danger text-sm">Delete Forever</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="customer-lightbox" onclick="closeCustomerLightbox()">
+        <img id="customer-lightbox-img" src="" alt="Attachment preview" onclick="event.stopPropagation()">
+    </div>
+
+    <!-- Full Report Viewer (same data as Customer Dashboard / ptjo_reports) -->
+    <div id="full-report-modal"
+      class="hidden fixed inset-0 z-[350] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+        <div class="bg-gray-900 px-6 py-4 border-b border-gray-700 flex items-center justify-between flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-file-shield text-teal-400"></i>
+            </div>
+            <div>
+              <h2 class="text-white font-extrabold text-sm leading-tight">Vulnerability Report</h2>
+              <p id="frm-report-id" class="text-gray-500 text-xs font-mono mt-0.5"></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="printReport()"
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-400 hover:text-white text-xs font-semibold transition-all">
+              <i class="fas fa-print text-xs"></i> Print
+            </button>
+            <button type="button" onclick="closeFullReportModal()"
+              class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-white hover:bg-gray-700 transition-all">
+              <i class="fas fa-xmark text-sm"></i>
+            </button>
+          </div>
+        </div>
+        <div id="frm-body" class="overflow-y-auto flex-1 px-6 py-6 space-y-6">
+          <div class="flex items-center justify-between flex-wrap gap-3 pb-5 border-b border-gray-700">
+            <div class="flex items-center gap-3">
+              <img id="frm-hacker-avatar" src="" alt="Hacker" class="w-9 h-9 rounded-full object-cover ring-2 ring-teal-500/30">
+              <div>
+                <p class="text-white font-bold text-sm" id="frm-hacker-name"></p>
+                <p class="text-gray-500 text-xs">Security Researcher</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-gray-500 text-xs">Submitted</p>
+              <p class="text-gray-300 text-xs font-semibold" id="frm-submitted-at"></p>
+            </div>
+          </div>
+          <div id="frm-meta-extra" class="flex flex-wrap gap-x-6 gap-y-2 text-xs border-b border-gray-700/50 pb-4">
+            <span class="text-gray-500">Client: <span id="frm-client" class="text-gray-300 font-semibold">—</span></span>
+            <span class="text-gray-500">Rating priority: <span id="frm-priority" class="text-gray-300 font-semibold">—</span></span>
+          </div>
+          <div id="frm-taxonomy-wrap" class="hidden">
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Taxonomy path</p>
+            <p id="frm-taxonomy" class="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap"></p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <div id="frm-severity-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border"></div>
+            <span id="frm-service-tag" class="text-xs px-2.5 py-1 bg-teal-500/10 border border-teal-500/20 text-teal-400 rounded-full font-semibold"></span>
+            <span id="frm-category-tag" class="text-xs px-2.5 py-1 bg-gray-700 border border-gray-600 text-gray-300 rounded-full font-semibold"></span>
+            <span id="frm-subcategory-tag" class="text-xs px-2.5 py-1 bg-gray-700/60 border border-gray-600/60 text-gray-400 rounded-full"></span>
+            <span id="frm-variant-tag" class="text-xs px-2.5 py-1 bg-gray-700/40 border border-gray-600/40 text-gray-500 rounded-full hidden"></span>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Vulnerability Title</p>
+            <p id="frm-title" class="text-white font-extrabold text-xl leading-snug"></p>
+          </div>
+          <div class="bg-gray-900/60 border border-gray-700 rounded-xl px-4 py-3 flex items-center gap-3">
+            <i class="fas fa-link text-teal-400 text-sm flex-shrink-0"></i>
+            <div>
+              <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-0.5">Location / URL</p>
+              <p id="frm-url" class="text-teal-400 text-sm font-mono break-all"></p>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2"><i class="fas fa-align-left mr-1.5"></i>Description</p>
+            <div id="frm-description" class="bg-gray-900/50 border border-gray-700 rounded-xl px-4 py-4 text-gray-300 text-sm leading-relaxed whitespace-pre-wrap"></div>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2"><i class="fas fa-bolt mr-1.5 text-orange-500/70"></i>Impact</p>
+            <div id="frm-impact" class="bg-orange-500/5 border border-orange-500/15 rounded-xl px-4 py-4 text-gray-300 text-sm leading-relaxed whitespace-pre-wrap"></div>
+          </div>
+          <div id="frm-weakness-wrap">
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2"><i class="fas fa-bug mr-1.5 text-red-500/70"></i>Weakness / CWE</p>
+            <p id="frm-weakness" class="text-gray-400 text-sm bg-gray-900/40 border border-gray-700/60 rounded-xl px-4 py-3"></p>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2"><i class="fas fa-lightbulb mr-1.5 text-green-500/70"></i>Recommendations</p>
+            <div id="frm-recommendations" class="bg-teal-500/5 border border-teal-500/15 rounded-xl px-4 py-4 text-gray-300 text-sm leading-relaxed whitespace-pre-wrap"></div>
+          </div>
+          <div id="frm-edit-note-outer" class="hidden">
+            <p class="text-xs font-bold text-yellow-500/80 uppercase tracking-widest mb-2">Customer edit request</p>
+            <div id="frm-edit-note" class="bg-yellow-500/8 border border-yellow-600/25 rounded-xl px-4 py-3 text-yellow-100 text-sm whitespace-pre-wrap"></div>
+          </div>
+          <div id="frm-payment-outer" class="hidden">
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Payment</p>
+            <p id="frm-payment-info" class="text-gray-300 text-sm"></p>
+          </div>
+          <div id="frm-files-section">
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3"><i class="fas fa-paperclip mr-1.5"></i>Supporting Evidence</p>
+            <div id="frm-images-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3"></div>
+            <div id="frm-files-list" class="space-y-2"></div>
+            <div id="frm-no-files" class="hidden text-center py-6 text-gray-600 text-sm">
+              <i class="fas fa-paperclip text-2xl mb-2 block opacity-40"></i>
+              No files attached to this report.
+            </div>
+          </div>
+          <div class="bg-gray-900/60 border border-gray-700 rounded-xl px-5 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-gray-400 text-sm"><i class="fas fa-circle-dollar-to-slot text-teal-400"></i> Agreed Amount</div>
+            <span id="frm-amount" class="text-white font-extrabold text-xl"></span>
+          </div>
+        </div>
+        <div id="frm-footer" class="px-6 py-4 border-t border-gray-700 flex flex-wrap items-center justify-between gap-3 flex-shrink-0 bg-gray-900">
+          <p id="frm-status-label" class="text-xs text-gray-500 font-semibold"></p>
+          <div id="frm-action-slot" class="flex gap-3 flex-wrap"></div>
+          <button type="button" onclick="closeFullReportModal()" class="px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm font-semibold transition-all ml-auto">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Toast ── -->
+    <div id="toast" class="flex items-center gap-3 bg-gray-800 border border-teal-600/50 text-white px-5 py-3.5 rounded-xl shadow-2xl text-sm font-medium min-w-[260px]">
+        <i id="toast-icon" class="fas fa-check-circle text-teal-400 text-base flex-shrink-0"></i>
+        <span id="toast-msg">Changes saved.</span>
+    </div>
+
+    <script>
+        // ── Tab Switching ──────────────────────────────────────────
+        function switchTab(name, el) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + name).classList.add('active');
+            el.classList.add('active');
+            if (name === 'payment' && typeof renderWallet === 'function') renderWallet();
+            if (name === 'payment' && typeof renderSavedCardsFromStorage === 'function') renderSavedCardsFromStorage();
+        }
+
+        // ── Avatar Upload ──────────────────────────────────────────
+        function handleAvatarChange(e) {
+            const file = e.target.files[0];
+            if (!file || !file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                document.getElementById('avatar-img').src = ev.target.result;
+                showToast('Profile picture updated!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ── Toggle Password Visibility ─────────────────────────────
+        function toggleVis(inputId, eyeId) {
+            const inp = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                eye.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                inp.type = 'password';
+                eye.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // ── Save Profile ───────────────────────────────────────────
+        const originalProfile = {
+            name: 'Abdulrahman',
+            company: 'PTjo Systems Co.',
+            phone: '+962 79 123 4567',
+            industry: 'Technology',
+            bio: 'We specialize in fintech solutions and require regular penetration testing to maintain compliance.'
+        };
+        function saveProfile(e) {
+            e.preventDefault();
+            const name = document.getElementById('prof-name').value.trim();
+            const company = document.getElementById('prof-company').value.trim();
+            document.getElementById('sidebar-name').textContent = name || 'Abdulrahman';
+            document.getElementById('sidebar-company').textContent = company || '—';
+            showToast('Profile saved successfully!');
+        }
+        function resetProfileForm() {
+            document.getElementById('prof-name').value = originalProfile.name;
+            document.getElementById('prof-company').value = originalProfile.company;
+            document.getElementById('prof-phone').value = originalProfile.phone;
+            document.getElementById('prof-bio').value = originalProfile.bio;
+            showToast('Changes discarded.', 'warn');
+        }
+
+        // ── Change Email ───────────────────────────────────────────
+        function changeEmail(e) {
+            e.preventDefault();
+            const errEl = document.getElementById('email-error');
+            const newEmail = document.getElementById('new-email').value.trim();
+            const confEmail = document.getElementById('confirm-email').value.trim();
+            const pw = document.getElementById('email-verify-pw').value;
+
+            errEl.classList.add('hidden');
+            if (newEmail !== confEmail) {
+                showFieldError(errEl, 'Email addresses do not match.');
+                return;
+            }
+            if (pw.length < 6) {
+                showFieldError(errEl, 'Password is required to confirm this change.');
+                return;
+            }
+            document.getElementById('display-current-email').textContent = newEmail;
+            document.getElementById('sidebar-email').textContent = newEmail;
+            document.getElementById('new-email').value = '';
+            document.getElementById('confirm-email').value = '';
+            document.getElementById('email-verify-pw').value = '';
+            showToast('Email address updated!');
+        }
+
+        // ── Password Strength ──────────────────────────────────────
+        function checkPassword(pw) {
+            return {
+                length:  pw.length >= 12,
+                upper:   /[A-Z]/.test(pw),
+                lower:   /[a-z]/.test(pw),
+                number:  /[0-9]/.test(pw),
+                special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pw)
+            };
+        }
+        const dotKeys = ['length','upper','lower','number','special'];
+        const segColors = ['#ef4444','#f97316','#eab308','#22c55e','#14b8a6'];
+        function updateStrength(pw) {
+            const v = checkPassword(pw);
+            const score = Object.values(v).filter(Boolean).length;
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById('seg-' + i).style.background = i <= score ? segColors[score - 1] : '#374151';
+            }
+            dotKeys.forEach(key => {
+                const dot  = document.getElementById('dot-' + key);
+                const lbl  = document.getElementById('lbl-' + key);
+                const met  = v[key];
+                if (key === 'length') {
+                    dot.innerHTML = met ? '<i class="fas fa-check" style="font-size:8px"></i>' : (12 - pw.length > 0 ? (12 - pw.length) : '');
+                } else {
+                    dot.innerHTML = '<i class="fas fa-check" style="font-size:8px"></i>';
+                }
+                dot.style.background = met ? '#0d9488' : '#374151';
+                dot.style.color      = met ? '#ffffff' : '#6b7280';
+                lbl.style.color      = met ? '#2dd4bf' : '#6b7280';
+            });
+        }
+
+        // ── Change Password ────────────────────────────────────────
+        function changePassword(e) {
+            e.preventDefault();
+            const errEl = document.getElementById('pw-error');
+            const oldPw  = document.getElementById('old-pw').value;
+            const newPw  = document.getElementById('new-pw').value;
+            const confPw = document.getElementById('confirm-pw').value;
+
+            errEl.classList.add('hidden');
+            if (oldPw.length < 1) { showFieldError(errEl, 'Please enter your current password.'); return; }
+            if (!Object.values(checkPassword(newPw)).every(Boolean)) { showFieldError(errEl, 'New password does not meet all requirements.'); return; }
+            if (newPw !== confPw) { showFieldError(errEl, 'New passwords do not match.'); return; }
+            if (oldPw === newPw)  { showFieldError(errEl, 'New password must be different from the current one.'); return; }
+
+            document.getElementById('old-pw').value = '';
+            document.getElementById('new-pw').value = '';
+            document.getElementById('confirm-pw').value = '';
+            updateStrength('');
+            showToast('Password changed successfully!');
+        }
+
+        // ── Helpers ────────────────────────────────────────────────
+        function showFieldError(el, msg) {
+            el.querySelector('span').textContent = msg;
+            el.classList.remove('hidden');
+        }
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon  = document.getElementById('toast-icon');
+            document.getElementById('toast-msg').textContent = msg;
+            if (type === 'warn') {
+                icon.className = 'fas fa-triangle-exclamation text-yellow-400 text-base flex-shrink-0';
+                toast.style.borderColor = 'rgba(234,179,8,0.4)';
+            } else {
+                icon.className = 'fas fa-check-circle text-teal-400 text-base flex-shrink-0';
+                toast.style.borderColor = 'rgba(20,184,166,0.5)';
+            }
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        function showLogoutConfirm()  { document.getElementById('logout-modal').classList.remove('hidden'); }
+        function showDeleteConfirm()  { document.getElementById('delete-modal').classList.remove('hidden'); }
+
+        // ── Full report viewer (ptjo_reports) — profile page: view only; Approve/Pay only on Customer Dashboard ──
+        var currentReviewReportId = '';
+        var SEVERITY_STYLES_PROFILE = {
+            Critical: { bg: 'rgba(239,68,68,.15)', color: '#fca5a5', border: '#ef4444' },
+            High: { bg: 'rgba(249,115,22,.15)', color: '#fdba74', border: '#f97316' },
+            Medium: { bg: 'rgba(234,179,8,.15)', color: '#fde047', border: '#eab308' },
+            Low: { bg: 'rgba(34,197,94,.15)', color: '#86efac', border: '#22c55e' },
+            Info: { bg: 'rgba(59,130,246,.15)', color: '#93c5fd', border: '#3b82f6' }
+        };
+
+        function frmEscapeHtmlProfile(s) {
+            return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        }
+
+        window.openCustomerLightbox = function (src) {
+            document.getElementById('customer-lightbox-img').src = src;
+            document.getElementById('customer-lightbox').classList.add('open');
+        };
+        window.closeCustomerLightbox = function () {
+            document.getElementById('customer-lightbox').classList.remove('open');
+        };
+
+        window.openFullReportLightboxAt = function (idx) {
+            var files = window.__fullReportLightboxFiles || [];
+            var f = files[idx];
+            if (f && f.dataUrl) window.openCustomerLightbox(f.dataUrl);
+        };
+
+        window.closeFullReportModal = function () {
+            var m = document.getElementById('full-report-modal');
+            if (m) m.classList.add('hidden');
+            window.__fullReportLightboxFiles = [];
+            var pm = document.getElementById('payment-modal');
+            var rr = document.getElementById('report-review-modal');
+            document.body.style.overflow = (pm && !pm.classList.contains('hidden')) || (rr && !rr.classList.contains('hidden')) ? 'hidden' : '';
+        };
+
+        window.printReport = function () { window.print(); };
+
+        window.openFullReportViewer = function (report, viewer) {
+            viewer = viewer || 'hacker';
+            window.__fullReportLightboxFiles = (report.files || []).filter(Boolean);
+
+            document.getElementById('frm-report-id').textContent = report.id || '';
+            document.getElementById('frm-hacker-name').textContent = report.submittedBy || report.hackerName || 'Hacker';
+            var av = report.hackerAvatar;
+            document.getElementById('frm-hacker-avatar').src = av && av.length
+                ? av
+                : 'https://api.dicebear.com/7.x/initials/svg?seed=' + encodeURIComponent(report.submittedBy || report.hackerName || 'H') +
+                  '&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700';
+            document.getElementById('frm-submitted-at').textContent =
+                report.submittedAt ? new Date(report.submittedAt).toLocaleString() : '—';
+
+            document.getElementById('frm-client').textContent = report.client || '—';
+            document.getElementById('frm-priority').textContent =
+                report.priority != null && report.priority !== '' ? String(report.priority) : '—';
+
+            var taxW = document.getElementById('frm-taxonomy-wrap');
+            var taxEl = document.getElementById('frm-taxonomy');
+            var vpath = String(report.vulnerabilityPath || '').trim();
+            if (vpath) { taxEl.textContent = vpath; taxW.classList.remove('hidden'); } else { taxW.classList.add('hidden'); }
+
+            var sev = SEVERITY_STYLES_PROFILE[report.severity] || SEVERITY_STYLES_PROFILE.Info;
+            var badge = document.getElementById('frm-severity-badge');
+            badge.textContent = report.severity || 'Unrated';
+            badge.style.background = sev.bg;
+            badge.style.color = sev.color;
+            badge.style.border = '1px solid ' + sev.border;
+
+            document.getElementById('frm-service-tag').textContent = report.serviceType || report.service || '';
+            document.getElementById('frm-category-tag').textContent = report.vulnCategoryFull || report.vulnCategory || '';
+            document.getElementById('frm-subcategory-tag').textContent = report.vulnSubcategoryFull || report.vulnSubcategory || '';
+
+            var varTag = document.getElementById('frm-variant-tag');
+            var varText = String(report.vulnVariantFull || report.vulnVariant || '').trim();
+            if (varText && varText !== '— Select Variant (optional) —') {
+                varTag.textContent = varText;
+                varTag.classList.remove('hidden');
+            } else { varTag.classList.add('hidden'); }
+
+            document.getElementById('frm-title').textContent = report.title || '—';
+            document.getElementById('frm-url').textContent = report.url || '—';
+            document.getElementById('frm-description').textContent = report.description || '—';
+            document.getElementById('frm-impact').textContent = report.impact || '—';
+            document.getElementById('frm-recommendations').textContent = report.recommendations || '—';
+            document.getElementById('frm-amount').textContent =
+                '$' + (parseFloat(report.agreedAmount) || 0).toFixed(2);
+
+            var weaknessWrap = document.getElementById('frm-weakness-wrap');
+            if (report.weakness && String(report.weakness).trim()) {
+                document.getElementById('frm-weakness').textContent = report.weakness;
+                weaknessWrap.classList.remove('hidden');
+            } else { weaknessWrap.classList.add('hidden'); }
+
+            var editOuter = document.getElementById('frm-edit-note-outer');
+            var editEl = document.getElementById('frm-edit-note');
+            if (report.editNote && String(report.editNote).trim()) {
+                editEl.textContent = report.editNote;
+                editOuter.classList.remove('hidden');
+            } else { editOuter.classList.add('hidden'); }
+
+            var payOuter = document.getElementById('frm-payment-outer');
+            var payEl = document.getElementById('frm-payment-info');
+            if (report.status === 'paid' || (report.paymentMethod && String(report.paymentMethod).trim())) {
+                payEl.textContent = (report.status === 'paid' ? 'Paid' : 'Pending') +
+                    (report.paymentMethod ? ' · ' + report.paymentMethod : '') +
+                    (report.paymentCard ? ' · ' + report.paymentCard : '');
+                payOuter.classList.remove('hidden');
+            } else { payOuter.classList.add('hidden'); }
+
+            var files = report.files || [];
+            var images = files.filter(function (f) { return f && f.type && f.type.indexOf('image/') === 0; });
+            var nonImages = files.filter(function (f) { return !f || !f.type || f.type.indexOf('image/') !== 0; });
+            var imgGrid = document.getElementById('frm-images-grid');
+            var fileList = document.getElementById('frm-files-list');
+            var noFiles = document.getElementById('frm-no-files');
+
+            imgGrid.innerHTML = images.map(function (f) {
+                var nm = frmEscapeHtmlProfile(f.name || 'image');
+                return '<div class="relative group rounded-xl overflow-hidden border border-gray-700 aspect-video bg-gray-900 cursor-pointer" onclick="openFullReportLightboxAt(' + files.indexOf(f) + ')">' +
+                    '<img src="' + f.dataUrl + '" alt="' + nm + '" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">' +
+                    '<div class="absolute bottom-0 left-0 right-0 bg-black/60 px-2 py-1"><p class="text-white text-xs truncate">' + nm + '</p></div></div>';
+            }).join('');
+
+            fileList.innerHTML = nonImages.map(function (f) {
+                var t = f.type || '';
+                var icon = 'fa-file';
+                var color = 'text-gray-400';
+                if (t === 'application/pdf') { icon = 'fa-file-pdf'; color = 'text-red-400'; }
+                else if (t.indexOf('text/') === 0) { icon = 'fa-file-lines'; }
+                else if (t.indexOf('zip') !== -1 || (f.name && f.name.toLowerCase().slice(-4) === '.zip')) {
+                    icon = 'fa-file-zipper'; color = 'text-yellow-400';
+                }
+                var kb = ((f.size || 0) / 1024).toFixed(0);
+                var nm = frmEscapeHtmlProfile(f.name || 'file');
+                var dname = String(f.name || 'file').replace(/"/g, '').replace(/[\r\n]/g, '');
+                return '<div class="flex items-center gap-3 px-4 py-3 bg-gray-900/60 border border-gray-700 rounded-xl">' +
+                    '<i class="fas ' + icon + ' ' + color + ' text-lg flex-shrink-0"></i>' +
+                    '<div class="flex-1 min-w-0"><p class="text-gray-200 font-semibold text-sm truncate">' + nm + '</p>' +
+                    '<p class="text-gray-600 text-xs">' + kb + ' KB</p></div>' +
+                    '<a href="' + f.dataUrl + '" download="' + frmEscapeHtmlProfile(dname) + '" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-teal-600 text-gray-400 hover:text-white text-xs font-semibold transition-all">' +
+                    '<i class="fas fa-download text-xs"></i> Download</a></div>';
+            }).join('');
+
+            if (!files.length) {
+                noFiles.classList.remove('hidden');
+                imgGrid.innerHTML = '';
+                fileList.innerHTML = '';
+            } else { noFiles.classList.add('hidden'); }
+
+            var statusLabels = { submitted: 'Awaiting Review', under_review: 'Under Review', edit_requested: 'Edits Requested', approved: 'Approved', paid: 'Paid' };
+            document.getElementById('frm-status-label').textContent =
+                'Status: ' + (statusLabels[report.status] || report.status || '—');
+
+            var slot = document.getElementById('frm-action-slot');
+            var dashHasPayWorkflow = typeof window.openPaymentModal === 'function' && document.getElementById('payment-modal');
+            if (viewer === 'customer' && dashHasPayWorkflow && report.status !== 'approved' && report.status !== 'paid') {
+                currentReviewReportId = report.id;
+                slot.innerHTML =
+                    '<button type="button" onclick="customerRequestEditsFromFullViewer()" class="px-5 py-2.5 rounded-xl bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-600/40 text-yellow-400 hover:text-white text-sm font-semibold transition-all flex items-center gap-2">' +
+                    '<i class="fas fa-pen-to-square"></i> Request Edits</button>' +
+                    '<button type="button" onclick="customerApprovePayFromFullViewer()" class="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold transition-all flex items-center gap-2 shadow-lg shadow-teal-900/30">' +
+                    '<i class="fas fa-circle-check"></i> Approve & Pay</button>';
+            } else { slot.innerHTML = ''; }
+
+            document.getElementById('full-report-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.viewCustomerReportByEngagement = function (engId) {
+            var reports = JSON.parse(localStorage.getItem('ptjo_reports') || '[]');
+            var report = reports.find(function (r) { return r.engagementId === engId; });
+            if (!report) {
+                showToast('No report is linked to this engagement yet. After the pentester submits, it will open here.', 'warn');
+                return;
+            }
+            window.openFullReportViewer(report, 'customer');
+        };
+
+        // ── Orders Data ────────────────────────────────────────────
+        const orders = [
+            {
+                id: 'ENG-4F2A9B',
+                service: 'Web App Testing',
+                icon: 'fa-globe',
+                pentester: 'Khalid Al-Rashidi',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Khalid&backgroundColor=0d9488',
+                date: 'Mar 10, 2025',
+                deadline: 'Mar 24, 2025',
+                price: '$1,200',
+                status: 'completed',
+                statusLabel: 'Completed',
+                rating: 5,
+                note: 'Reflected XSS documented in the checkout flow — open View Report for full (display sample) details.'
+            },
+            {
+                id: 'ENG-7C1D3E',
+                service: 'Network Testing',
+                icon: 'fa-network-wired',
+                pentester: 'Sara Al-Mansoori',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Sara&backgroundColor=7c3aed',
+                date: 'Mar 18, 2025',
+                deadline: 'Apr 1, 2025',
+                price: '$850',
+                status: 'inprogress',
+                statusLabel: 'In Progress',
+                rating: null,
+                note: 'Assessment underway — external perimeter scan complete, internal phase starting.'
+            },
+            {
+                id: 'ENG-2B8F5A',
+                service: 'Cloud Testing',
+                icon: 'fa-cloud',
+                pentester: 'Pending Assignment',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=PA&backgroundColor=374151',
+                date: 'Mar 22, 2025',
+                deadline: 'Apr 5, 2025',
+                price: '$950',
+                status: 'pending',
+                statusLabel: 'Awaiting Pentester',
+                rating: null,
+                note: 'Waiting for a certified AWS/Azure pentester to accept the engagement.'
+            },
+            {
+                id: 'ENG-9E6C1D',
+                service: 'API Testing',
+                icon: 'fa-cube',
+                pentester: 'Omar Qasim',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Omar&backgroundColor=dc2626',
+                date: 'Mar 20, 2025',
+                deadline: 'Apr 3, 2025',
+                price: '$700',
+                status: 'pending',
+                statusLabel: 'Awaiting Start',
+                rating: null,
+                note: 'Pentester accepted. Engagement scheduled to begin Mar 28, 2025.'
+            },
+            {
+                id: 'ENG-0A3F7C',
+                service: 'Mobile App Testing',
+                icon: 'fa-mobile-alt',
+                pentester: 'Aisha Nour',
+                avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Aisha&backgroundColor=b45309',
+                date: 'Feb 5, 2025',
+                deadline: 'Feb 19, 2025',
+                price: '$600',
+                status: 'failed',
+                statusLabel: 'Failed',
+                rating: null,
+                note: 'Engagement cancelled — scope was out of bounds for the agreed budget. Refund issued.'
+            }
+        ];
+
+        function parseOrderPrice(str) {
+            const n = parseFloat(String(str || '').replace(/[^0-9.]/g, ''));
+            return isNaN(n) ? 0 : n;
+        }
+
+        /** Fills localStorage for any completed order missing a linked report (UI demo only; not a real pentester submission). */
+        function buildDisplayOnlyReport(order) {
+            const loremP1 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+            const loremP2 = 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+            const loremImpact = 'Integer nec odio praesent libero sed cursus ante dapibus diam. Sed nisi nulla quis sem at nibh elementum imperdiet. ' + loremP1;
+            const engSuffix = order.id.replace(/^ENG-/i, '');
+            return {
+                id: 'RPT-' + engSuffix,
+                engagementId: order.id,
+                service: order.service,
+                hackerName: order.pentester,
+                client: 'Al-Rashidi Corp',
+                submittedAt: '2025-03-23T16:00:00.000Z',
+                status: 'submitted',
+                severity: 'High',
+                priority: 2,
+                serviceType: order.service + ' — scoped web assessment',
+                vulnCategory: 'Cross-Site Scripting',
+                vulnSubcategory: 'Reflected XSS',
+                vulnVariant: 'HTML context',
+                vulnCategoryFull: 'A03:2021 — Injection (Cross-Site Scripting)',
+                vulnSubcategoryFull: 'Reflected cross-site scripting',
+                vulnVariantFull: 'Reflected — HTML sink',
+                vulnerabilityPath: 'XSS · Reflected · HTML context (checkout)',
+                title: 'Reflected XSS via unencoded query parameter on checkout review',
+                url: 'https://shop.example.com/checkout/review?q=',
+                description:
+                    "The `q` parameter is reflected into the page HTML without output encoding. Proof-of-concept: `https://shop.example.com/checkout/review?q=%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E` (escaped here for documentation).\n\n" +
+                    loremP1 + '\n\n' + loremP2,
+                impact:
+                    loremImpact + ' Attackers may execute scripts in victims\' browsers, steal session cookies where flags allow, deface the payment step, or redirect users to malicious sites.',
+                weakness: 'CWE-79: Improper neutralization of input during web page generation (cross-site scripting).',
+                recommendations:
+                    '1. Lorem ipsum — encode all dynamic output in HTML context (entity encoding or framework escapers).\n2. Dolor sit amet — deploy a strict Content-Security Policy (default-src, script-src) to mitigate inline abuse.\n3. Consectetur adipiscing — migrate the template to context-aware auto-escaping and add XSS regression tests on `q`.\n4. Sed do eiusmod — validate query length and character classes; reject markup on the server.',
+                agreedAmount: parseOrderPrice(order.price),
+                editNote: '',
+                paymentMethod: '',
+                paymentCard: '',
+                files: [],
+                submittedBy: order.pentester,
+                hackerAvatar: order.avatar || '',
+                isDisplaySeed: true
+            };
+        }
+
+        function ensureReportsForCompletedOrders() {
+            let reports = JSON.parse(localStorage.getItem('ptjo_reports') || '[]');
+            let changed = false;
+            const pruned = reports.filter(function (r) { return r.id !== 'RPT-DEMO01'; });
+            if (pruned.length !== reports.length) {
+                reports = pruned;
+                changed = true;
+            }
+            orders.filter(function (o) { return o.status === 'completed'; }).forEach(function (o) {
+                if (reports.some(function (r) { return r.engagementId === o.id; })) return;
+                reports.push(buildDisplayOnlyReport(o));
+                changed = true;
+            });
+            if (changed) localStorage.setItem('ptjo_reports', JSON.stringify(reports));
+        }
+
+        const badgeClass = { pending: 'badge-pending', inprogress: 'badge-inprogress', completed: 'badge-completed', failed: 'badge-failed' };
+
+        function renderOrders(filter = 'all') {
+            ensureReportsForCompletedOrders();
+            const list = document.getElementById('order-list');
+            const filtered = filter === 'all' ? orders : orders.filter(o => o.status === filter);
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="text-center py-16 text-gray-600">
+                    <i class="fas fa-folder-open text-4xl mb-3 block opacity-40"></i>
+                    <p class="font-medium">No ${filter} orders found.</p>
+                </div>`;
+                return;
+            }
+            list.innerHTML = filtered.map(o => `
+                <div class="order-card" data-status="${o.status}">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-11 h-11 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fas ${o.icon} text-teal-400"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="font-bold text-white text-sm">${o.service}</span>
+                                    <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${badgeClass[o.status]}">${o.statusLabel}</span>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    <span class="font-mono text-gray-600">${o.id}</span>
+                                    &nbsp;·&nbsp; Posted ${o.date}
+                                    &nbsp;·&nbsp; Deadline <span class="text-gray-400">${o.deadline}</span>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-2 max-w-lg">${o.note}</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end gap-2 flex-shrink-0">
+                            <span class="text-lg font-extrabold text-white">${o.price}</span>
+                            ${o.rating ? `<div class="flex gap-0.5">${'<i class="fas fa-star text-yellow-400" style="font-size:11px;"></i>'.repeat(o.rating)}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700/60">
+                        <div class="flex items-center gap-2">
+                            <img src="${o.avatar}" alt="${o.pentester}" class="w-7 h-7 rounded-full object-cover">
+                            <span class="text-xs text-gray-400 font-medium">${o.pentester}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            ${o.status === 'completed' ? `<button type="button" onclick="viewCustomerReportByEngagement('${o.id}')" class="text-xs text-teal-400 hover:text-teal-300 font-semibold flex items-center gap-1.5 border border-teal-600/30 rounded-lg px-3 py-1.5 hover:bg-teal-600/10 transition-colors"><i class="fas fa-file-shield"></i> View Report</button>` : ''}
+                            ${o.status === 'pending' ? `<button onclick="cancelOrder('${o.id}')" class="text-xs text-red-400 hover:text-red-300 transition-colors font-medium flex items-center gap-1.5"><i class="fas fa-xmark"></i> Cancel</button>` : ''}
+                            ${o.status === 'failed'  ? `<a href="../Customer_Dashboard/Customer_Dashboard.html" class="text-xs text-teal-400 hover:text-teal-300 transition-colors font-medium flex items-center gap-1.5"><i class="fas fa-rotate-right"></i> Reorder</a>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterOrders(filter, btn) {
+            document.querySelectorAll('.order-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderOrders(filter);
+        }
+
+        function cancelOrder(id) {
+            const idx = orders.findIndex(o => o.id === id);
+            if (idx !== -1) {
+                orders[idx].status = 'failed';
+                orders[idx].statusLabel = 'Cancelled';
+                orders[idx].note = 'Order cancelled by user.';
+            }
+            renderOrders('all');
+            document.querySelectorAll('.order-filter-btn').forEach((b, i) => { if (i === 0) b.classList.add('active'); else b.classList.remove('active'); });
+            showToast('Order cancelled.', 'warn');
+        }
+
+        // ── Dropdown ───────────────────────────────────────────────
+        ['products', 'industries'].forEach(id => {
+            const toggle = document.getElementById('dropdown-toggle-' + id);
+            const menu   = document.getElementById('dropdown-menu-' + id);
+            const arrow  = toggle.querySelector('.dropdown-toggle-svg');
+            toggle.addEventListener('click', e => {
+                e.stopPropagation();
+                const open = menu.classList.contains('dropdown-active');
+                document.querySelectorAll('.dropdown-menu').forEach(m => { m.classList.remove('dropdown-active'); m.previousElementSibling?.querySelector('.dropdown-toggle-svg')?.classList.remove('active'); });
+                if (!open) { menu.classList.add('dropdown-active'); arrow.classList.add('active'); }
+            });
+        });
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('dropdown-active'));
+            document.querySelectorAll('.dropdown-toggle-svg').forEach(a => a.classList.remove('active'));
+        });
+
+        // ── Init ───────────────────────────────────────────────────
+        renderOrders('all');
+        document.addEventListener('DOMContentLoaded', function () {
+            renderWallet();
+            if (typeof renderSavedCardsFromStorage === 'function') renderSavedCardsFromStorage();
+            document.addEventListener('keydown', function (e) {
+                if (e.key !== 'Escape') return;
+                var fr = document.getElementById('full-report-modal');
+                if (fr && !fr.classList.contains('hidden')) {
+                    closeFullReportModal();
+                    return;
+                }
+                var clb = document.getElementById('customer-lightbox');
+                if (clb && clb.classList.contains('open')) {
+                    closeCustomerLightbox();
+                }
+            });
+        });
+
+        // ── Payment & Wallet (shared: ptjo_customer_wallet, ptjo_customer_cards) ──
+        const TOPUP_AMOUNTS = [50, 100, 200, 500, 1000, 2000];
+        let selectedTopupAmount = 0;
+
+        function renderWallet() {
+            const bal = parseFloat(localStorage.getItem('ptjo_customer_wallet') || '0') || 0;
+            const el = document.getElementById('cust-wallet-balance');
+            if (el) el.textContent = '$' + bal.toFixed(2);
+            const grid = document.getElementById('topup-amount-grid');
+            if (grid) {
+                grid.innerHTML = TOPUP_AMOUNTS.map(amt => `
+                <button type="button" onclick="selectTopupAmount(${amt}, this)"
+                  id="topup-btn-${amt}"
+                  class="topup-btn py-3 rounded-xl border-2 border-gray-700 bg-gray-900/50 text-gray-300 font-bold text-sm hover:border-teal-500/50 hover:text-teal-400 transition-all cursor-pointer">
+                  $${amt}
+                </button>`).join('');
+            }
+            refreshWithdrawDestSelect();
+        }
+
+        function refreshWithdrawDestSelect() {
+            const sel = document.getElementById('c-withdraw-dest');
+            if (!sel) return;
+            const cards = JSON.parse(localStorage.getItem('ptjo_customer_cards') || '[]');
+            const current = sel.value;
+            sel.innerHTML = '<option value="">— Select saved card —</option>';
+            cards.forEach(function (c) {
+                if (!c || !c.id) return;
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.textContent = c.label || ('Card ···· ' + (c.last4 || ''));
+                sel.appendChild(opt);
+            });
+            if (current && cards.some(function (x) { return x.id === current; })) sel.value = current;
+        }
+
+        function openWithdrawCustomer() {
+            const form = document.getElementById('cust-withdraw-form');
+            if (!form) return;
+            const isHidden = form.classList.contains('hidden');
+            refreshWithdrawDestSelect();
+            form.classList.toggle('hidden');
+            if (isHidden) {
+                setTimeout(function () {
+                    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 50);
+            }
+        }
+
+        function processWithdrawCustomer() {
+            const amount = parseFloat(document.getElementById('c-withdraw-amount') && document.getElementById('c-withdraw-amount').value);
+            const dest = document.getElementById('c-withdraw-dest') && document.getElementById('c-withdraw-dest').value;
+            if (!amount || amount < 10) {
+                showToast('Minimum withdrawal is $10.00', 'warn');
+                return;
+            }
+            if (!dest) {
+                showToast('Please select a saved card.', 'warn');
+                return;
+            }
+            const bal = parseFloat(localStorage.getItem('ptjo_customer_wallet') || '0') || 0;
+            if (amount > bal) {
+                showToast('Insufficient wallet balance.', 'warn');
+                return;
+            }
+            localStorage.setItem('ptjo_customer_wallet', (bal - amount).toFixed(2));
+            renderWallet();
+            const form = document.getElementById('cust-withdraw-form');
+            if (form) form.classList.add('hidden');
+            const wInp = document.getElementById('c-withdraw-amount');
+            if (wInp) wInp.value = '';
+            showToast('Withdrawal of $' + amount.toFixed(2) + ' initiated to your saved card.');
+        }
+
+        function selectTopupAmount(amount, btn) {
+            selectedTopupAmount = amount;
+            document.querySelectorAll('.topup-btn').forEach(b => {
+                b.style.borderColor = '#374151';
+                b.style.color = '#d1d5db';
+                b.style.background = 'rgba(17,24,39,.5)';
+            });
+            btn.style.borderColor = '#0d9488';
+            btn.style.color = '#2dd4bf';
+            btn.style.background = 'rgba(13,148,136,.12)';
+            const custom = document.getElementById('topup-custom');
+            if (custom) custom.value = '';
+        }
+
+        function selectCustomTopup(val) {
+            selectedTopupAmount = parseFloat(val) || 0;
+            document.querySelectorAll('.topup-btn').forEach(b => {
+                b.style.borderColor = '#374151';
+                b.style.color = '#d1d5db';
+                b.style.background = 'rgba(17,24,39,.5)';
+            });
+        }
+
+        function processTopup() {
+            if (!selectedTopupAmount || selectedTopupAmount < 10) {
+                showToast('Please select or enter a minimum amount of $10.', 'warn');
+                return;
+            }
+            const added = selectedTopupAmount;
+            const bal = parseFloat(localStorage.getItem('ptjo_customer_wallet') || '0') || 0;
+            const newBal = bal + added;
+            localStorage.setItem('ptjo_customer_wallet', newBal.toFixed(2));
+            selectedTopupAmount = 0;
+            const custom = document.getElementById('topup-custom');
+            if (custom) custom.value = '';
+            document.querySelectorAll('.topup-btn').forEach(b => {
+                b.style.borderColor = '#374151';
+                b.style.color = '#d1d5db';
+                b.style.background = 'rgba(17,24,39,.5)';
+            });
+            renderWallet();
+            showToast('$' + added.toFixed(2) + ' added to your wallet!');
+        }
+
+        // Add Card toggle
+        function toggleAddCardC() {
+            var form = document.getElementById('c-add-card-form');
+            if (!form) return;
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Format card number — groups of 4, update preview + brand
+        function formatCardC(input) {
+            var raw = input.value.replace(/\D/g, '').substring(0, 16);
+            input.value = raw.match(/.{1,4}/g)?.join(' ') || raw;
+            var preview = document.getElementById('c-preview-number');
+            if (preview) {
+                var padded = raw.padEnd(16, '•');
+                preview.textContent = padded.match(/.{1,4}/g).join(' ');
+            }
+            // Brand detection
+            var brandIcon = document.getElementById('c-card-brand-icon');
+            var previewBrand = document.getElementById('c-preview-brand');
+            var card = document.getElementById('c-preview-card');
+            var brand = 'fa-credit-card'; var color = '#374151'; var name = '';
+            if (/^4/.test(raw))       { brand = 'fa-cc-visa';       color = '#1a56db'; name = 'VISA'; }
+            else if (/^5[1-5]/.test(raw)) { brand = 'fa-cc-mastercard'; color = '#dc2626'; name = 'MC'; }
+            else if (/^3/.test(raw))  { brand = 'fa-cc-amex';       color = '#93c5fd'; name = 'AMEX'; }
+            if (brandIcon)    { brandIcon.className = 'fab ' + brand; }
+            if (previewBrand) { previewBrand.className = 'fab ' + brand + ' text-3xl'; }
+            if (card)         { card.style.background = raw ? 'linear-gradient(135deg,' + color + ',#0f766e)' : ''; }
+        }
+
+        // Format expiry MM / YY
+        function formatExpiryC(input) {
+            var raw = input.value.replace(/\D/g, '').substring(0, 4);
+            if (raw.length >= 3) raw = raw.substring(0,2) + ' / ' + raw.substring(2);
+            input.value = raw;
+            var prev = document.getElementById('c-preview-expiry');
+            var digits = input.value.replace(/\D/g, '');
+            if (prev) prev.textContent = digits.length >= 3
+                ? digits.substring(0,2) + '/' + digits.substring(2)
+                : (digits || 'MM/YY');
+        }
+
+        // Show/hide CVV
+        function toggleCvvC() {
+            var inp  = document.getElementById('c-card-cvv');
+            var icon = document.getElementById('c-cvv-eye');
+            if (!inp) return;
+            if (inp.type === 'password') { inp.type = 'text'; if (icon) icon.className = 'fas fa-eye-slash'; }
+            else                         { inp.type = 'password'; if (icon) icon.className = 'fas fa-eye'; }
+        }
+
+        // Update preview name
+        function updateCPreviewName(input) {
+            var prev = document.getElementById('c-preview-name');
+            if (prev) prev.textContent = input.value.toUpperCase() || 'FULL NAME';
+        }
+
+        // Save card → ptjo_customer_cards (same key as Customer Dashboard payments)
+        function saveCardC() {
+            var num  = (document.getElementById('c-card-number')?.value || '').replace(/\s/g, '');
+            var name = (document.getElementById('c-card-name')?.value || '').trim();
+            var exp  = (document.getElementById('c-card-expiry')?.value || '').trim();
+            var cvv  = (document.getElementById('c-card-cvv')?.value || '').trim();
+            if (num.length < 16 || !name || exp.length < 7 || cvv.length < 3) {
+                showToast('Please fill in all card fields correctly.', 'warn');
+                return;
+            }
+            var last4 = num.slice(-4);
+            var brand = num.startsWith('4') ? 'visa' : (/^5[1-5]/.test(num) ? 'mastercard' : (num.startsWith('3') ? 'amex' : 'other'));
+            var label = (brand === 'visa' ? 'Visa' : brand === 'mastercard' ? 'Mastercard' : brand === 'amex' ? 'Amex' : 'Card') + ' ···· ' + last4;
+            var card = { id: 'CRD-' + Date.now(), label: label, brand: brand, last4: last4, expiry: exp, name: name };
+            var cards = JSON.parse(localStorage.getItem('ptjo_customer_cards') || '[]');
+            cards.push(card);
+            localStorage.setItem('ptjo_customer_cards', JSON.stringify(cards));
+            ['c-card-number', 'c-card-name', 'c-card-expiry', 'c-card-cvv'].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            var pn = document.getElementById('c-preview-number');
+            var pnm = document.getElementById('c-preview-name');
+            var pe = document.getElementById('c-preview-expiry');
+            if (pn) pn.textContent = '•••• •••• •••• ••••';
+            if (pnm) pnm.textContent = 'YOUR NAME';
+            if (pe) pe.textContent = 'MM / YY';
+            toggleAddCardC();
+            renderSavedCardsFromStorage();
+            showToast(label + ' saved!', 'success');
+        }
+
+        // Legacy: remove card row (if any static markup remains)
+        function removeCCard(btn) {
+            var id = btn.closest('[data-card-id]') && btn.closest('[data-card-id]').getAttribute('data-card-id');
+            if (id) removeCCardById(id);
+        }
+
+        function renderSavedCardsFromStorage() {
+            const list = document.getElementById('c-card-list');
+            if (!list) return;
+            const cards = JSON.parse(localStorage.getItem('ptjo_customer_cards') || '[]');
+            const brandGrad = { visa: 'from-blue-600 to-blue-800', mastercard: 'from-red-600 to-orange-700', amex: 'from-sky-600 to-blue-900', other: 'from-gray-600 to-gray-800' };
+            const fab = { visa: 'fa-cc-visa', mastercard: 'fa-cc-mastercard', amex: 'fa-cc-amex', other: 'fa-credit-card' };
+            if (!cards.length) {
+                list.innerHTML = '<p class="text-gray-500 text-sm py-4 text-center">No saved cards. Add one below — cards sync with the customer dashboard for report payments.</p>';
+                refreshWithdrawDestSelect();
+                return;
+            }
+            list.innerHTML = cards.map(c => `
+                <div class="flex items-center gap-4 p-4 bg-gray-900/60 border border-gray-700 rounded-2xl" data-card-id="${c.id}">
+                    <div class="w-12 h-8 rounded-md bg-gradient-to-br ${brandGrad[c.brand] || brandGrad.other} flex items-center justify-center flex-shrink-0">
+                        <i class="fab ${fab[c.brand] || fab.other} text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white font-semibold text-sm">${String(c.label || '').replace(/</g, '&lt;')}</p>
+                        <p class="text-gray-500 text-xs">Expires ${String(c.expiry || '').replace(/</g, '&lt;')} · ${String(c.name || '').replace(/</g, '&lt;')}</p>
+                    </div>
+                    <button type="button" onclick="removeCCardById('${c.id}')" class="text-gray-600 hover:text-red-400 transition-colors"><i class="fas fa-trash-can text-sm"></i></button>
+                </div>`).join('');
+            refreshWithdrawDestSelect();
+        }
+
+        function removeCCardById(id) {
+            const cards = JSON.parse(localStorage.getItem('ptjo_customer_cards') || '[]').filter(c => c.id !== id);
+            localStorage.setItem('ptjo_customer_cards', JSON.stringify(cards));
+            renderSavedCardsFromStorage();
+            showToast('Card removed.', 'warn');
+        }
+
+        // Expose to inline handlers
+        window.renderWallet           = renderWallet;
+        window.openWithdrawCustomer   = openWithdrawCustomer;
+        window.processWithdrawCustomer = processWithdrawCustomer;
+        window.selectTopupAmount      = selectTopupAmount;
+        window.selectCustomTopup      = selectCustomTopup;
+        window.processTopup           = processTopup;
+        window.renderSavedCardsFromStorage = renderSavedCardsFromStorage;
+        window.removeCCardById        = removeCCardById;
+        window.toggleAddCardC  = toggleAddCardC;
+        window.formatCardC     = formatCardC;
+        window.formatExpiryC   = formatExpiryC;
+        window.toggleCvvC      = toggleCvvC;
+        window.updateCPreviewName = updateCPreviewName;
+        window.saveCardC       = saveCardC;
+        window.removeCCard     = removeCCard;
+    </script>
+    <script>
+    </script>
+    <script src="../assets/lang.js"></script>
+    <script src="../assets/settings-panel.js"></script>
+    <script src="../assets/api.js"></script>
+    /* ── PTjo API Bridge — Customer Profile ─────────────────────────────────── */
+    (function () {
+        'use strict';
+
+        window.PTJO_API_BASE = '../api/';
+
+        /* ── Bootstrap ───────────────────────────────────────────────────────── */
+        document.addEventListener('DOMContentLoaded', async function () {
+            var session = await PTJO.init('customer');
+            if (!session) return;
+
+            var p = session.profile, u = session.user;
+
+            /* Hydrate profile fields */
+            _setVal('profileDisplayName', p.display_name);
+            _setVal('profileCompanyName', p.company_name);
+            _setVal('profileEmail', u.email);
+            _setVal('profilePhone', p.phone_e164 || p.phone);
+
+            /* Avatar */
+            var avatarEl = document.getElementById('profileAvatar') || document.querySelector('[data-user-avatar]');
+            if (avatarEl && p.avatar_url) avatarEl.src = p.avatar_url;
+
+            /* Wallet balance */
+            var walletEl = document.getElementById('walletBalance') || document.getElementById('customer-wallet-balance');
+            if (walletEl && p.wallet_balance !== undefined) walletEl.textContent = PTJO.formatUSD(p.wallet_balance);
+
+            /* Fix logout buttons */
+            document.querySelectorAll('button, a').forEach(function(el){
+                var oc = el.getAttribute('onclick') || '';
+                if (/logout|signOut|sign.out/i.test(oc) || el.id === 'logout-btn') {
+                    el.removeAttribute('onclick');
+                    el.addEventListener('click', function(e){ e.preventDefault(); PTJO.logout(); });
+                }
+            });
+
+            await loadPaymentMethodsReal();
+            await loadReportsReal();
+        });
+
+        function _setVal(id, val) {
+            var el = document.getElementById(id);
+            if (el && val !== undefined && val !== null) el.value = val;
+        }
+
+        /* ── Payment Methods ─────────────────────────────────────────────────── */
+        async function loadPaymentMethodsReal() {
+            try {
+                var res = await PTJO.customer.getProfile();
+                if (!res || !res.ok) return;
+                var p = res.profile || {};   /* PHP returns {ok, profile:{...}, user:{...}} */
+                var cards = (p.payment_methods || []).map(function(pm) {
+                    return {
+                        id: pm.id,
+                        brand: pm.brand,
+                        last4: pm.last4,
+                        exp_month: pm.exp_month,
+                        exp_year: pm.exp_year,
+                        cardholder_name: pm.cardholder_name,
+                        label: pm.label,
+                        is_default: !!pm.is_default
+                    };
+                });
+                localStorage.setItem('ptjo_customer_cards', JSON.stringify(cards));
+                if (typeof renderPaymentMethods === 'function') renderPaymentMethods();
+                /* Also update wallet balance from full profile */
+                var walletEl = document.getElementById('walletBalance') || document.getElementById('customer-wallet-balance');
+                if (walletEl && p.wallet_balance !== undefined) walletEl.textContent = PTJO.formatUSD(p.wallet_balance);
+            } catch(e) { console.warn('[Bridge] getProfile (payment):', e); }
+        }
+
+        /* ── Reports ─────────────────────────────────────────────────────────── */
+        async function loadReportsReal() {
+            try {
+                var res = await PTJO.customer.getReports();
+                if (!res || !res.ok) return;
+                var reports = (res.reports || []).map(function(r) {
+                    return {
+                        id: r.id,
+                        engagementId: r.engagement_id,
+                        title: r.title,
+                        severity: r.severity,
+                        status: r.status,
+                        description: r.description || '',
+                        submittedBy: r.hacker_display || r.hacker_handle || 'Hacker',
+                        createdAt: r.created_at,
+                        attachments: r.attachments || []
+                    };
+                });
+                localStorage.setItem('ptjo_reports', JSON.stringify(reports));
+                if (typeof renderCustomerReports === 'function') renderCustomerReports();
+            } catch(e) { console.warn('[Bridge] getReports:', e); }
+        }
+
+        /* ── Override saveCardC (add payment method) ──────────────────────────── */
+        var _origSaveCard = window.saveCardC;
+        window.saveCardC = async function () {
+            /* Run original first (local UI) */
+            if (_origSaveCard) _origSaveCard();
+            /* Then persist to API */
+            var brand  = document.getElementById('cardBrand')  || document.getElementById('cardType');
+            var last4  = document.getElementById('cardLast4')  || document.getElementById('cardNumber');
+            var expM   = document.getElementById('cardExpMonth')|| document.getElementById('expMonth');
+            var expY   = document.getElementById('cardExpYear') || document.getElementById('expYear');
+            var nameEl = document.getElementById('cardHolderName') || document.getElementById('cardName');
+            var labelEl= document.getElementById('cardLabel');
+            if (!brand && !last4) return;
+            var last4val = (last4 && last4.value) ? last4.value.replace(/\s/g,'').slice(-4) : '';
+            try {
+                await PTJO.customer.addPaymentMethod({
+                    brand:           (brand   && brand.value)   || 'Visa',
+                    last4:           last4val,
+                    exp_month:       parseInt((expM   && expM.value)   || 0),
+                    exp_year:        parseInt((expY   && expY.value)   || 0),
+                    cardholder_name: (nameEl  && nameEl.value)  || '',
+                    label:           (labelEl && labelEl.value) || ''
+                });
+                await loadPaymentMethodsReal();
+            } catch(e) { console.warn('[Bridge] addPaymentMethod:', e); }
+        };
+
+        /* ── Override doTopupWallet ───────────────────────────────────────────── */
+        var _origTopup = window.doTopupWallet;
+        window.doTopupWallet = async function (amount) {
+            try {
+                var res = await PTJO.customer.topupWallet(parseFloat(amount) || 0);
+                if (res && res.ok) {
+                    PTJO.toast('Wallet topped up!', 'success');
+                    var walletEl = document.getElementById('walletBalance') || document.getElementById('customer-wallet-balance');
+                    if (walletEl && res.balance !== undefined) walletEl.textContent = PTJO.formatUSD(res.balance);
+                } else {
+                    PTJO.toast((res && res.error) || 'Top-up failed.', 'error');
+                }
+            } catch(e) { console.warn('[Bridge] topupWallet:', e); }
+            if (_origTopup) _origTopup(amount);
+        };
+
+        /* ── Override updateCustomerProfile (save profile) ────────────────────── */
+        var _origSaveProfile = window.saveCustomerProfile || window.updateCustomerProfile;
+        var _profileSaveKey = window.saveCustomerProfile ? 'saveCustomerProfile' : 'updateCustomerProfile';
+        window[_profileSaveKey] = async function () {
+            var nameEl = document.getElementById('profileDisplayName');
+            var compEl = document.getElementById('profileCompanyName');
+            var phoneEl= document.getElementById('profilePhone');
+            var avatarEl= document.getElementById('profileAvatarUrl') || document.getElementById('avatarUrl');
+            try {
+                var res = await PTJO.customer.updateProfile({
+                    display_name: (nameEl  && nameEl.value)  || '',
+                    company_name: (compEl  && compEl.value)  || '',
+                    phone_e164:   (phoneEl && phoneEl.value) || '',
+                    avatar_url:   (avatarEl&& avatarEl.value)|| ''
+                });
+                if (res && res.ok) PTJO.toast('Profile saved!', 'success');
+                else PTJO.toast((res && res.error) || 'Save failed.', 'error');
+            } catch(e) { console.warn('[Bridge] updateProfile:', e); }
+            if (_origSaveProfile) _origSaveProfile();
+        };
+
+        /* ── Override customerApproveReport ──────────────────────────────────── */
+        var _origApprove = window.customerApproveReport;
+        window.customerApproveReport = async function (reportId, approved) {
+            if (/^[0-9a-f]{8}-/.test(String(reportId))) {
+                try {
+                    var res = await PTJO.customer.approveReport({ report_id: reportId, approved: !!approved });
+                    if (res && res.ok) {
+                        PTJO.toast(approved ? 'Report approved!' : 'Edits requested.', 'success');
+                        await loadReportsReal();
+                    } else {
+                        PTJO.toast((res && res.error) || 'Action failed.', 'error');
+                    }
+                } catch(e) { console.warn('[Bridge] approveReport:', e); }
+            }
+            if (_origApprove) _origApprove(reportId, approved);
+        };
+
+    })();
+    </script>
+</body>
+</html>

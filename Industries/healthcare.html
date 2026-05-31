@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTjo — Healthcare &amp; MedTech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+  <script src="../assets/theme.js"></script>
+  <script src="../assets/lang.js"></script>
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-gray-900 text-gray-200 font-sans; }
+      .container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+      .btn { @apply px-6 py-3 font-semibold text-white rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg active:scale-95; }
+      .btn-primary { @apply bg-teal-600 hover:bg-teal-500; }
+    }
+  </style>
+  <style>
+    .dropdown-menu { opacity:0; transform:translateY(-10px); transition:opacity .3s ease-out, transform .3s ease-out; min-width:220px; background:#1f2937; border:1px solid #374151; border-radius:.75rem; box-shadow:0 25px 50px -12px rgba(0,0,0,.5); z-index:10; }
+    .dropdown-active { display:block !important; opacity:1; transform:translateY(0); }
+    .dropdown-toggle-svg { transition:transform .3s; }
+    .dropdown-toggle-svg.active { transform:rotate(180deg); }
+    .dropdown-item-pro { display:flex; align-items:center; padding:.75rem 1.25rem; font-size:.95rem; color:#e5e7eb; transition:background-color .2s,color .2s; }
+    .dropdown-item-pro:hover { background:#0d9488; color:#fff; }
+    .dropdown-icon { width:1.5rem; text-align:center; margin-right:1rem; font-size:1.1rem; flex-shrink:0; color:#2dd4bf; }
+    .dropdown-item-pro:hover .dropdown-icon { color:#fff; }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#1f2937; }
+    ::-webkit-scrollbar-thumb { background:#0d9488; border-radius:10px; }
+  </style>
+</head>
+<body>
+  <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
+    <div class="container flex justify-between items-center h-20">
+      <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium">Home</a>
+        <div class="relative">
+          <button id="dropdown-toggle-products" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+            <span>Products</span>
+            <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span>Network Testing</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span>Active Directory</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span>Cloud Testing</span></a>
+            <div class="h-px bg-gray-700 my-1"></div>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span>Web App</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span>Mobile App</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span>API Testing</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span>IoT Testing</span></a>
+          </div>
+        </div>
+        <div class="relative">
+          <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+            <span>Industries</span>
+            <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+            <a href="index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span>All Industries</span></a>
+            <div class="h-px bg-gray-700 my-1"></div>
+            <a href="finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span>Finance</span></a>
+            <a href="healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span>Healthcare</span></a>
+            <a href="retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span>Retail</span></a>
+            <a href="technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span>Technology</span></a>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4 ml-4">
+          <a href="../Settings/Settings.html" class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 text-gray-300 hover:text-white transition-all rounded-xl font-semibold text-sm">Settings</a>
+          <a href="../SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white text-sm font-medium">Log In as Hacker</a>
+          <a href="../SignUp_Customer/SignupC.html" class="text-teal-400 hover:text-white text-sm font-medium">Log In as Customer</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container pt-8 pb-2">
+    <div class="flex items-center gap-2 text-sm text-gray-500">
+      <a href="../index.html" class="hover:text-teal-400 transition-colors">Home</a><i class="fas fa-chevron-right text-xs"></i>
+      <a href="index.html" class="hover:text-teal-400 transition-colors">Industries</a><i class="fas fa-chevron-right text-xs"></i>
+      <span class="text-gray-300 font-medium">Healthcare</span>
+    </div>
+  </div>
+
+  <section class="container py-16 md:py-20">
+    <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+      <div class="lg:w-3/5 w-full">
+        <p class="text-teal-400 text-xs font-bold uppercase tracking-[0.2em] mb-4">Healthcare &amp; MedTech</p>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">Securing Patient Data and Connected Medical Systems</h1>
+        <p class="text-gray-400 text-lg leading-relaxed mb-4">Healthcare organizations manage the most sensitive personal data on earth. Ransomware attacks and data breaches in this sector can directly endanger patient lives and violate HIPAA.</p>
+        <div class="flex flex-wrap gap-4 mt-8">
+          <a href="../SignUp_Customer/SignupC.html" class="btn btn-primary">Start Testing</a>
+          <a href="../index.html#services" class="px-6 py-3 font-semibold rounded-xl bg-gray-700 hover:bg-gray-600 text-white transition-all duration-200">View Our Services</a>
+        </div>
+      </div>
+      <div class="lg:w-2/5 w-full flex justify-center">
+        <div class="w-48 h-48 rounded-full bg-teal-500/10 border-2 border-teal-500/30 flex items-center justify-center shadow-[0_0_40px_rgba(20,184,166,.15)]">
+          <i class="fas fa-heart-pulse text-teal-400 text-7xl"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-3">Top Security Threats in Healthcare</h2>
+    <p class="text-gray-500 text-center mb-12 max-w-2xl mx-auto">Our hackers specialize in finding these vulnerabilities</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-virus text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Ransomware Entry Points</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Phishing and unpatched systems allow ransomware to encrypt hospital systems and halt patient care.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">Critical</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-heartbeat text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">IoT Medical Device Exploits</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Connected medical devices run outdated firmware vulnerable to remote hijacking and data theft.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">Critical</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-file-medical text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Patient Data Exposure</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Misconfigured databases and APIs expose PHI records in violation of HIPAA and GDPR regulations.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">Critical</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-desktop text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Insecure Remote Access</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">VPNs and RDP endpoints left exposed are primary entry points for healthcare network breaches.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30">High</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-plug text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Third-Party Integrations</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Medical software vendors with weak security become attack vectors into hospital core systems.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30">High</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-fingerprint text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Weak Authentication</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Shared credentials and lack of MFA on clinical systems enable unauthorized access to patient records.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-yellow-500/15 text-yellow-400 border border-yellow-500/30">Medium</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-16">How PTjo Secures Healthcare Organizations</h2>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="absolute top-8 left-[12%] right-[12%] border-t-2 border-dashed border-teal-600/30 hidden md:block"></div>
+      <div class="grid md:grid-cols-3 gap-10 relative z-10">
+        <div class="text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-teal-600 text-white font-extrabold flex items-center justify-center mb-4">1</div>
+          <div class="w-14 h-14 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-4"><i class="fas fa-clipboard-list text-teal-400 text-xl"></i></div>
+          <h3 class="font-bold text-white mb-2">Submit Request</h3>
+          <p class="text-gray-500 text-sm">Post your scope and budget on the platform.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-teal-600 text-white font-extrabold flex items-center justify-center mb-4">2</div>
+          <div class="w-14 h-14 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-4"><i class="fas fa-user-shield text-teal-400 text-xl"></i></div>
+          <h3 class="font-bold text-white mb-2">Hacker Assigned</h3>
+          <p class="text-gray-500 text-sm">A vetted specialist is matched to your engagement.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-teal-600 text-white font-extrabold flex items-center justify-center mb-4">3</div>
+          <div class="w-14 h-14 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-4"><i class="fas fa-file-shield text-teal-400 text-xl"></i></div>
+          <h3 class="font-bold text-white mb-2">Report Delivered</h3>
+          <p class="text-gray-500 text-sm">Actionable findings and remediation guidance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-3">Companies in Healthcare That Trust PTjo</h2>
+    <p class="text-gray-500 text-center mb-12 max-w-2xl mx-auto">Leading organizations use PTjo to stay ahead of threats</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Philips Healthcare</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Medical Device Manufacturer</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo's IoT testing team secured our connected device fleet before FDA submission.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Epic Systems</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Electronic Health Records</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">We use PTjo to test our EHR platform APIs against real-world attack patterns.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Cerner</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Healthcare IT Solutions</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo identified critical misconfigurations in our cloud-hosted patient data systems.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Siemens Healthineers</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Medical Technology</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">Crowdsourced testing via PTjo gives us coverage no internal team can match.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Teladoc Health</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Telehealth Platform</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo testers found authentication weaknesses in our patient portal within days.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">GE Healthcare</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Medical Imaging &amp; Diagnostics</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo's network testing secured our hospital-connected imaging systems globally.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-10">Our Services for Healthcare</h2>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-wifi text-teal-400"></i> IoT Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-network-wired text-teal-400"></i> Network Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-globe text-teal-400"></i> Web App Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-cloud text-teal-400"></i> Cloud Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-cube text-teal-400"></i> API Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+    </div>
+  </section>
+
+  <section class="container py-16">
+    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-12 text-center">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4">Ready to Secure Your Organization?</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto mb-8">Join hundreds of companies that trust PTjo to find vulnerabilities before attackers do.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="../SignUp_Customer/SignupC.html" class="btn btn-primary">Start as Customer</a>
+        <a href="../SignUp_Hacker/SignUpH.html" class="px-6 py-3 font-semibold rounded-xl bg-gray-700 hover:bg-gray-600 text-white transition-all duration-200">Join as Hacker</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gray-800/80 border-t border-gray-700 mt-12 py-8">
+    <div class="container flex flex-col md:flex-row items-center justify-between gap-4">
+      <a href="../index.html" class="text-2xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
+        <a href="finance.html" class="hover:text-teal-400 transition-colors">Finance</a>
+        <a href="healthcare.html" class="hover:text-teal-400 transition-colors">Healthcare</a>
+        <a href="retail.html" class="hover:text-teal-400 transition-colors">Retail</a>
+        <a href="technology.html" class="hover:text-teal-400 transition-colors">Technology</a>
+      </div>
+      <p class="text-gray-600 text-xs text-center md:text-right">© 2025 PTjo. All rights reserved.<br><span class="text-gray-500">Company names shown are for illustrative purposes.</span></p>
+    </div>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function wire(toggleId, menuId) {
+      var t = document.getElementById(toggleId), m = document.getElementById(menuId), a = t && t.querySelector('.dropdown-toggle-svg');
+      if (!t || !m) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = m.classList.contains('_dropdown_open');
+        document.querySelectorAll('.dropdown-menu').forEach(function (el) { el.classList.remove('dropdown-active', '_dropdown_open'); el.classList.add('hidden'); });
+        document.querySelectorAll('.dropdown-toggle-svg').forEach(function (s) { s.classList.remove('active'); });
+        if (!open) { m.classList.remove('hidden'); m.classList.add('dropdown-active', '_dropdown_open'); a && a.classList.add('active'); }
+      });
+    }
+    wire('dropdown-toggle-products', 'dropdown-menu-products');
+    wire('dropdown-toggle-industries', 'dropdown-menu-industries');
+    document.addEventListener('click', function () {
+      document.querySelectorAll('.dropdown-menu').forEach(function (el) { el.classList.remove('dropdown-active', '_dropdown_open'); el.classList.add('hidden'); });
+      document.querySelectorAll('.dropdown-toggle-svg').forEach(function (s) { s.classList.remove('active'); });
+    });
+  });
+  </script>
+</body>
+</html>

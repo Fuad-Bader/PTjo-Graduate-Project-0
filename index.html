@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTjo - Offensive Security Platform</title>
+    <script src="./assets/theme.js"></script>
+    <script src="./assets/vuln-taxonomy.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style type="text/tailwindcss">
+        /* Dark color scheme and basic styling */ @layer base { body { @apply bg-gray-900 text-gray-200 font-sans; } .section { @apply min-h-[50vh] py-24; } .container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; } .btn { @apply px-7 py-3 font-medium text-white
+        rounded-full transition-all duration-300 transform hover:scale-[1.03] shadow-lg hover:shadow-xl; } .btn-primary { @apply bg-teal-600 hover:bg-teal-700; } .btn-secondary { @apply bg-gray-800 hover:bg-gray-700 border border-teal-600/50; } }
+    </style>
+    <style>
+        /* Custom styles for professional dropdowns */
+        
+        .dropdown-menu {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            min-width: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            background-color: #1f2937;
+            /* gray-800 */
+            border: 1px solid #374151;
+            /* gray-700 */
+            border-radius: 0.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        
+        .dropdown-active {
+            display: block !important;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .dropdown-toggle-svg.active {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-toggle-svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .dropdown-item-pro {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            color: #e5e7eb;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .dropdown-item-pro:hover {
+            background-color: #0d9488;
+            color: #ffffff;
+        }
+        
+        .dropdown-icon {
+            width: 1.5rem;
+            text-align: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            color: #2dd4bf;
+        }
+        
+        .dropdown-item-pro:hover .dropdown-icon {
+            color: #ffffff;
+        }
+        
+        .dropdown-title {
+            font-weight: 600;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #0d9488;
+            border-radius: 10px;
+        }
+        /* 3D LOGO STYLING */
+        
+        .logo-3d-main {
+            text-shadow: -2px 2px 0 #0d9488, -4px 4px 0 #0d9488, -6px 6px 0 #0d9488, -8px 8px 0 #0d9488, -10px 10px 0 #0f766e;
+        }
+        /* Pulse animation for the crowd icon */
+        
+        @keyframes pulse-teal {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+        
+        .animate-pulse-teal {
+            animation: pulse-teal 3s infinite ease-in-out;
+        }
+        /* Ad Banner Glassmorphism & Carousel */
+        
+        .ad-banner-glass {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(45, 212, 191, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ad-banner-glass::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(45, 212, 191, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .ad-slide {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        
+        .ad-slide.hidden {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        
+        .ad-slide.active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        /* Clean Arrow Buttons */
+        
+        .ad-nav-btn {
+            @apply w-12 h-12 flex items-center justify-center rounded-full bg-gray-800/50 border border-teal-500/20 text-teal-400 transition-all duration-300 hover: bg-teal-600 hover: text-white hover: scale-110 z-20;
+        }
+        /* Service Filter Buttons */
+        
+        .service-filter-btn {
+            padding: 0.55rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #9ca3af;
+            background: #1f2937;
+            border: 1px solid #374151;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        
+        .service-filter-btn:hover {
+            color: #2dd4bf;
+            border-color: #2dd4bf;
+        }
+        
+        .service-filter-btn.active {
+            background: #0d9488;
+            color: #ffffff;
+            border-color: #0d9488;
+            box-shadow: 0 0 20px rgba(13, 148, 136, 0.35);
+        }
+        /* Service Panels */
+        
+        .service-panel {
+            display: none;
+        }
+        
+        .service-panel.active {
+            display: block;
+            animation: fadeInUp 0.35s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
+        <div class="container flex justify-between items-center h-20">
+            <a href="index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium" data-i18n="nav.home">Home</a>
+
+                <div class="relative">
+                    <button id="dropdown-toggle-products" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                    <span data-i18n="nav.products">Products</span>
+                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                    <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                        <a href="#services" class="dropdown-item-pro service-nav-link" data-service="network">
+                            <span class="dropdown-icon"><i class="fas fa-network-wired"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.network">Network Testing</span>
+                        </a>
+                        <a href="#services" class="dropdown-item-pro service-nav-link" data-service="ad">
+                            <span class="dropdown-icon"><i class="fas fa-users-cog"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.ad">Active Directory</span>
+                        </a>
+                        <a href="#services" class="dropdown-item-pro service-nav-link" data-service="cloud">
+                            <span class="dropdown-icon"><i class="fas fa-cloud"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.cloud">Cloud Testing</span>
+                        </a>
+                        <div class="h-px bg-gray-700 my-1"></div>
+                        <a href="#services" class="dropdown-item-pro service-nav-link" data-service="webapp">
+                            <span class="dropdown-icon"><i class="fas fa-globe"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.webapp">Web App</span>
+                        </a>
+                        <a href="#services" class="dropdown-item-pro service-nav-link" data-service="mobile">
+                            <span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.mobile">Mobile App</span>
+                        </a>
+                        <a href="#services" class="dropdown-item-pro service-nav-link" data-service="api">
+                            <span class="dropdown-icon"><i class="fas fa-cube"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.api">API Testing</span>
+                        </a>
+                        <a href="#services" class="dropdown-item-pro service-nav-link" data-service="iot">
+                            <span class="dropdown-icon"><i class="fas fa-wifi"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.iot">IoT Testing</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <button id="dropdown-toggle-industries" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                    <span data-i18n="nav.industries">Industries</span>
+                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                    <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                        <a href="Industries/finance.html" class="dropdown-item-pro">
+                            <span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.finance">Finance</span>
+                        </a>
+                        <a href="Industries/healthcare.html" class="dropdown-item-pro">
+                            <span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.healthcare">Healthcare</span>
+                        </a>
+                        <a href="Industries/retail.html" class="dropdown-item-pro">
+                            <span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.retail">Retail</span>
+                        </a>
+                        <a href="Industries/technology.html" class="dropdown-item-pro">
+                            <span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span>
+                            <span class="dropdown-title" data-i18n="nav.technology">Technology</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 ml-4">
+                    <a href="./Settings/Settings.html" class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
+                        title="Settings">
+                        <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
+                        <span data-i18n="nav.settings">Settings</span>
+                    </a>
+                    <a id="nav-hacker-btn" href="SignUp_Hacker/SignUpH.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.hacker-login">Log In as Hacker</span></a>
+                    <a id="nav-customer-btn" href="SignUp_Customer/SignupC.html" class="text-teal-400 hover:text-white transition duration-300 font-medium"><span data-i18n="nav.customer-login">Log In as Customer</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="section bg-gray-900 flex items-center relative overflow-hidden" style="min-height: 90vh;">
+        <div class="absolute inset-0 bg-repeat opacity-5" style="background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);"></div>
+
+        <div class="container text-center relative z-10">
+            <a href="index.html" class="text-8xl md:text-[10rem] font-extrabold text-teal-400 tracking-widest logo-3d-main transition-all duration-300 hover:text-teal-300 block mb-12 mx-auto">PTjo</a>
+
+            <h1 class="text-6xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
+                Offensive Security <span class="text-teal-400">Pioneered</span> by PTjo
+            </h1>
+
+            <p class="text-lg text-teal-300 mb-10 max-w-4xl mx-auto font-medium italic">
+                "Discover your vulnerabilities before attackers do. Transform your defense from mere reaction to perpetual proactivity."
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="Customer_Dashboard/Customer_Dashboard.html" class="btn btn-primary text-xl px-10">Start Your Assessment Now <i class="fas fa-arrow-right ml-2"></i></a>
+                <a href="#site-explanation" class="btn btn-secondary text-xl px-10">
+                    <i class="fas fa-play-circle mr-2"></i> A 5-minute tour
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Explanation Section -->
+    <section id="site-explanation" class="section bg-gray-900 border-t border-gray-800">
+        <div class="container">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2">
+                    <h2 class="text-4xl font-bold text-white mb-6">What is <span class="text-teal-400">PTjo</span>?</h2>
+                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                        PTjo is a premier Offensive Security Platform designed to bridge the gap between enterprise security needs and world-class cybersecurity talent. Unlike traditional, one-time penetration tests, PTjo provides a dynamic environment for continuous vulnerability
+                        discovery.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-900/50 rounded-lg flex items-center justify-center border border-teal-500/30">
+                                <i class="fas fa-shield-alt text-teal-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold">Continuous Protection</h4>
+                                <p class="text-gray-500">We don't just test once; we monitor your perimeter 24/7 using elite pentesters.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-900/50 rounded-lg flex items-center justify-center border border-teal-500/30">
+                                <i class="fas fa-user-secret text-teal-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold">The "Hacker" Perspective</h4>
+                                <p class="text-gray-500">By inviting ethical hackers to test your systems, you see your infrastructure exactly as an attacker would.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 bg-gray-800 p-8 rounded-3xl border border-gray-700 shadow-2xl relative">
+                    <div class="absolute -top-4 -right-4 bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Core Mission</div>
+                    <h3 class="text-2xl font-bold text-teal-400 mb-4">How it works</h3>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start">
+                            <span class="text-teal-500 font-bold mr-3">1.</span>
+                            <span>Onboarding: Define your scope—be it Network, AD, Cloud, or Mobile.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-teal-500 font-bold mr-3">2.</span>
+                            <span>Engagement: Our pre-vetted elite hackers begin deep-dive testing into your assets.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-teal-500 font-bold mr-3">3.</span>
+                            <span>Reporting: Real-time vulnerability findings appear on your dashboard with severity levels.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-teal-500 font-bold mr-3">4.</span>
+                            <span>Remediation: Collaborate with experts to fix issues and re-test immediately.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Filter Section -->
+    <section id="services" class="section bg-gray-900 border-t border-gray-800">
+        <div class="container">
+            <div class="text-center mb-12">
+                <span class="text-teal-400 font-bold tracking-widest uppercase text-sm mb-2 block">What We Test</span>
+                <h2 class="text-4xl font-bold text-white">Explore Our <span class="text-teal-400">Services</span></h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Select a service below to see how PTjo's elite pentesters protect your assets.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-14" id="service-filters">
+                <button class="service-filter-btn active" data-service="network"><i class="fas fa-network-wired mr-2"></i>Network Testing</button>
+                <button class="service-filter-btn" data-service="ad"><i class="fas fa-users-cog mr-2"></i>Active Directory</button>
+                <button class="service-filter-btn" data-service="cloud"><i class="fas fa-cloud mr-2"></i>Cloud Testing</button>
+                <button class="service-filter-btn" data-service="webapp"><i class="fas fa-globe mr-2"></i>Web App</button>
+                <button class="service-filter-btn" data-service="mobile"><i class="fas fa-mobile-alt mr-2"></i>Mobile App</button>
+                <button class="service-filter-btn" data-service="api"><i class="fas fa-cube mr-2"></i>API Testing</button>
+                <button class="service-filter-btn" data-service="iot"><i class="fas fa-wifi mr-2"></i>IoT Testing</button>
+            </div>
+
+            <!-- Service Panels -->
+            <div id="service-panels">
+
+                <!-- Network Testing -->
+                <div class="service-panel active" data-panel="network">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-md mb-4">Infrastructure</span>
+                            <h3 class="text-3xl font-bold text-white mb-4">Fortify Your Network Perimeter</h3>
+                            <p class="text-gray-400 text-lg mb-6 leading-relaxed">Comprehensive penetration testing across your entire network infrastructure — from edge firewalls to internal segments. Our pentesters simulate real-world attacks to uncover hidden vulnerabilities before attackers do.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>External & internal network scanning</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Firewall and IDS/IPS evasion testing</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>VLAN hopping & segmentation bypass</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Man-in-the-Middle attack simulation</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Service exploitation & lateral movement</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl"></div>
+                                <div class="w-20 h-20 bg-teal-900/50 rounded-2xl flex items-center justify-center border border-teal-500/30 mb-6">
+                                    <i class="fas fa-network-wired text-4xl text-teal-400"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">47+</div>
+                                        <div class="text-xs text-gray-500 mt-1">Avg. findings per test</div>
+                                    </div>
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">92%</div>
+                                        <div class="text-xs text-gray-500 mt-1">Client satisfaction</div>
+                                    </div>
+                                </div>
+                                <a href="Customer_Dashboard/Customer_Dashboard.html?service=network" class="btn btn-primary w-full text-center block">Start Network Assessment <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Directory -->
+                <div class="service-panel" data-panel="ad">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-md mb-4">Identity & Access</span>
+                            <h3 class="text-3xl font-bold text-white mb-4">Secure Your Identity Infrastructure</h3>
+                            <p class="text-gray-400 text-lg mb-6 leading-relaxed">Active Directory is the backbone of enterprise identity — and the #1 target for attackers. Our specialists use real attacker toolchains to map your exposure and uncover every privilege escalation path.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Kerberoasting & AS-REP Roasting</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Pass-the-Hash / Pass-the-Ticket attacks</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>BloodHound attack path analysis</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Domain privilege escalation paths</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>GPO & ACL abuse detection</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl"></div>
+                                <div class="w-20 h-20 bg-teal-900/50 rounded-2xl flex items-center justify-center border border-teal-500/30 mb-6">
+                                    <i class="fas fa-users-cog text-4xl text-teal-400"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">78%</div>
+                                        <div class="text-xs text-gray-500 mt-1">Breaches involve AD</div>
+                                    </div>
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">3+</div>
+                                        <div class="text-xs text-gray-500 mt-1">Critical paths avg.</div>
+                                    </div>
+                                </div>
+                                <a href="Customer_Dashboard/Customer_Dashboard.html?service=ad" class="btn btn-primary w-full text-center block">Start AD Assessment <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Testing -->
+                <div class="service-panel" data-panel="cloud">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-md mb-4">Cloud Security</span>
+                            <h3 class="text-3xl font-bold text-white mb-4">Protect Your Cloud Assets</h3>
+                            <p class="text-gray-400 text-lg mb-6 leading-relaxed">Whether on AWS, Azure, or GCP, misconfigurations and over-permissioned roles can expose your entire cloud estate. Our cloud security experts find what automated scanners miss.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>IAM misconfiguration & privilege audit</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>S3 / Blob / GCS storage exposure</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Serverless & function security review</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Container & Kubernetes security</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Cloud-to-cloud attack path mapping</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl"></div>
+                                <div class="w-20 h-20 bg-teal-900/50 rounded-2xl flex items-center justify-center border border-teal-500/30 mb-6">
+                                    <i class="fas fa-cloud text-4xl text-teal-400"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">95%</div>
+                                        <div class="text-xs text-gray-500 mt-1">Cloud breaches from misconfiguration</div>
+                                    </div>
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">3</div>
+                                        <div class="text-xs text-gray-500 mt-1">Major platforms covered</div>
+                                    </div>
+                                </div>
+                                <a href="Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="btn btn-primary w-full text-center block">Start Cloud Assessment <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web App -->
+                <div class="service-panel" data-panel="webapp">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-md mb-4">Application Security</span>
+                            <h3 class="text-3xl font-bold text-white mb-4">Bulletproof Your Web Applications</h3>
+                            <p class="text-gray-400 text-lg mb-6 leading-relaxed">Covering the full OWASP Top 10 and beyond, our pentesters perform manual and automated testing on your web applications to find critical vulnerabilities before attackers do.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>SQL Injection, XSS, and CSRF testing</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Authentication & session management flaws</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Business logic vulnerability analysis</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>SSRF, XXE, and IDOR exploitation</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Full OWASP Top 10 coverage</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl"></div>
+                                <div class="w-20 h-20 bg-teal-900/50 rounded-2xl flex items-center justify-center border border-teal-500/30 mb-6">
+                                    <i class="fas fa-globe text-4xl text-teal-400"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">#1</div>
+                                        <div class="text-xs text-gray-500 mt-1">Most requested service</div>
+                                    </div>
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">12h</div>
+                                        <div class="text-xs text-gray-500 mt-1">Avg. time to first finding</div>
+                                    </div>
+                                </div>
+                                <a href="Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="btn btn-primary w-full text-center block">Start Web App Assessment <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile App -->
+                <div class="service-panel" data-panel="mobile">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-md mb-4">Mobile Security</span>
+                            <h3 class="text-3xl font-bold text-white mb-4">Secure Your Mobile Applications</h3>
+                            <p class="text-gray-400 text-lg mb-6 leading-relaxed">iOS and Android applications require a unique approach. Our mobile specialists reverse-engineer your apps and assess both client-side and server-side components for critical vulnerabilities.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Reverse engineering & decompilation</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Insecure local data storage</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Network traffic interception (MitM)</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Authentication & session token flaws</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Third-party SDK security analysis</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl"></div>
+                                <div class="w-20 h-20 bg-teal-900/50 rounded-2xl flex items-center justify-center border border-teal-500/30 mb-6">
+                                    <i class="fas fa-mobile-alt text-4xl text-teal-400"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">70%</div>
+                                        <div class="text-xs text-gray-500 mt-1">Apps have high-risk vulns</div>
+                                    </div>
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">iOS+</div>
+                                        <div class="text-xs text-gray-500 mt-1">Android coverage</div>
+                                    </div>
+                                </div>
+                                <a href="Customer_Dashboard/Customer_Dashboard.html?service=mobile" class="btn btn-primary w-full text-center block">Start Mobile Assessment <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Testing -->
+                <div class="service-panel" data-panel="api">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-md mb-4">API Security</span>
+                            <h3 class="text-3xl font-bold text-white mb-4">Lock Down Your API Endpoints</h3>
+                            <p class="text-gray-400 text-lg mb-6 leading-relaxed">APIs are the new attack surface. From REST to GraphQL to SOAP, our specialists test every endpoint for broken auth, injection flaws, and business logic vulnerabilities.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Broken Object Level Auth (BOLA/IDOR)</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Mass assignment & parameter tampering</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Injection attacks via API parameters</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Rate limiting & DoS resilience testing</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>JWT, OAuth & API key misconfigurations</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl"></div>
+                                <div class="w-20 h-20 bg-teal-900/50 rounded-2xl flex items-center justify-center border border-teal-500/30 mb-6">
+                                    <i class="fas fa-cube text-4xl text-teal-400"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">681%</div>
+                                        <div class="text-xs text-gray-500 mt-1">API attack growth (YoY)</div>
+                                    </div>
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">3</div>
+                                        <div class="text-xs text-gray-500 mt-1">API types covered</div>
+                                    </div>
+                                </div>
+                                <a href="Customer_Dashboard/Customer_Dashboard.html?service=api" class="btn btn-primary w-full text-center block">Start API Assessment <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IoT Testing -->
+                <div class="service-panel" data-panel="iot">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="lg:w-1/2">
+                            <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-widest rounded-md mb-4">Embedded Systems</span>
+                            <h3 class="text-3xl font-bold text-white mb-4">Harden Your Connected Devices</h3>
+                            <p class="text-gray-400 text-lg mb-6 leading-relaxed">IoT devices are notoriously difficult to secure. Our specialists assess hardware, firmware, and communication protocols to identify real-world attack paths into your infrastructure.</p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Firmware extraction & binary analysis</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Hardware interface attacks (JTAG, UART)</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Protocol fuzzing (MQTT, CoAP, Zigbee)</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>Default credential & hardcoded secret audits</li>
+                                <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-teal-400 mr-3"></i>OTA update mechanism security review</li>
+                            </ul>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl"></div>
+                                <div class="w-20 h-20 bg-teal-900/50 rounded-2xl flex items-center justify-center border border-teal-500/30 mb-6">
+                                    <i class="fas fa-wifi text-4xl text-teal-400"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">300%</div>
+                                        <div class="text-xs text-gray-500 mt-1">IoT attacks up YoY</div>
+                                    </div>
+                                    <div class="bg-gray-900/50 rounded-xl p-4 text-center">
+                                        <div class="text-3xl font-bold text-teal-400">57%</div>
+                                        <div class="text-xs text-gray-500 mt-1">Devices are vulnerable</div>
+                                    </div>
+                                </div>
+                                <a href="Customer_Dashboard/Customer_Dashboard.html?service=iot" class="btn btn-primary w-full text-center block">Start IoT Assessment <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- end #service-panels -->
+        </div>
+    </section>
+
+    <!-- Business Advertising Section -->
+    <section id="business-ads" class="py-20 bg-gradient-to-b from-gray-900 to-gray-800 border-t border-teal-900/40">
+        <div class="container">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div class="max-w-2xl">
+                    <span class="text-teal-400 font-bold tracking-widest uppercase text-sm mb-2 block">For Enterprises & Partners</span>
+                    <h2 class="text-4xl font-bold text-white leading-tight">Elevate Your Security <br><span class="text-teal-500">Business Presence</span></h2>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <a href="Resources/CaseStudies.html" class="text-teal-400 hover:text-white flex items-center font-semibold transition group">
+                    View Partner Opportunities <i class="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition"></i>
+                </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature Card 1 -->
+                <div class="group relative bg-gray-800/40 backdrop-blur-sm border border-gray-700 p-8 rounded-2xl hover:border-teal-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(20,184,166,0.1)]">
+                    <div class="w-14 h-14 bg-teal-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-teal-500 transition-colors duration-300">
+                        <i class="fas fa-bullhorn text-2xl text-teal-400 group-hover:text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Targeted Advertising</h3>
+                    <p class="text-gray-400 mb-6">Promote your security tools and services directly to our global community of CISOs, CTOs, and elite pentesters.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-8">
+                        <li><i class="fas fa-check text-teal-500 mr-2"></i> In-platform banner slots</li>
+                        <li><i class="fas fa-check text-teal-500 mr-2"></i> Sponsored expert webinars</li>
+                    </ul>
+                    <a href="Resources/Support.html" class="inline-block font-bold text-teal-400 group-hover:underline">Contact Ad Sales</a>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="group relative bg-gray-800/40 backdrop-blur-sm border border-gray-700 p-8 rounded-2xl hover:border-teal-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(20,184,166,0.1)]">
+                    <div class="w-14 h-14 bg-teal-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-teal-500 transition-colors duration-300">
+                        <i class="fas fa-handshake text-2xl text-teal-400 group-hover:text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">White Label Solutions</h3>
+                    <p class="text-gray-400 mb-6">Empower your consultancy with PTjo’s infrastructure. Offer a customized offensive portal under your own brand.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-8">
+                        <li><i class="fas fa-check text-teal-500 mr-2"></i> Fully brandable dashboard</li>
+                        <li><i class="fas fa-check text-teal-500 mr-2"></i> API-driven reporting engine</li>
+                    </ul>
+                    <a href="Resources/CaseStudies.html" class="inline-block font-bold text-teal-400 group-hover:underline">Explore Partnership</a>
+                </div>
+
+                <!-- Feature Card 3 (Prominent CTA) -->
+                <div class="relative bg-teal-600 p-8 rounded-2xl flex flex-col justify-center items-center text-center overflow-hidden">
+                    <!-- Background decoration -->
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-teal-400/20 rounded-full blur-3xl"></div>
+                    <div class="absolute -left-10 -top-10 w-40 h-40 bg-teal-800/40 rounded-full blur-3xl"></div>
+
+                    <h3 class="text-2xl font-bold text-white mb-4 relative z-10">Grow With PTjo</h3>
+                    <p class="text-teal-50 mb-8 relative z-10">Join our ecosystem of trusted security providers and reach a niche audience of decision-makers.</p>
+                    <a href="Customer_Dashboard/Customer_Dashboard.html" class="w-full btn bg-white text-teal-700 hover:bg-teal-50 font-bold relative z-10">
+                    Get Started Today
+                </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPONSORED ADVERTISEMENT BREAK (CAROUSEL) -->
+    <section class="py-12 bg-gray-900 border-y border-gray-800/50">
+        <div class="container relative group">
+            <!-- Navigation Arrows -->
+            <div class="absolute inset-y-0 left-0 md:-left-8 flex items-center z-20">
+                <button id="ad-prev" class="ad-nav-btn" aria-label="Previous offer">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            </div>
+            <div class="absolute inset-y-0 right-0 md:-right-8 flex items-center z-20">
+                <button id="ad-next" class="ad-nav-btn" aria-label="Next offer">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            </div>
+
+            <div id="ad-carousel" class="ad-banner-glass p-8 md:p-12 rounded-3xl min-h-[300px]">
+                <!-- Slide 1: IronGuard AI -->
+                <div class="ad-slide active flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-[10px] font-black uppercase tracking-widest rounded-md mb-4">Sponsored Advertisement</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Shield Your Assets with <span class="text-teal-400">IronGuard AI</span></h2>
+                        <p class="text-gray-400 text-lg max-w-2xl leading-relaxed">
+                            The world's first autonomous threat intelligence platform that predicts breaches before they happen. Seamlessly integrates with PTjo workflows.
+                        </p>
+                    </div>
+                    <div class="relative z-10 flex-shrink-0">
+                        <div class="text-center md:text-right mb-6">
+                            <span class="text-gray-500 line-through text-lg">$2,499</span>
+                            <span class="text-3xl font-bold text-white ml-2">$1,899/mo</span>
+                            <p class="text-teal-400 text-sm font-bold">PTjo Exclusive Partner Pricing</p>
+                        </div>
+                        <a href="Resources/Support.html" class="btn btn-primary w-full md:w-auto text-center flex items-center justify-center">
+                        Get Free Demo <i class="fas fa-external-link-alt ml-3"></i>
+                    </a>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Nexus VPN -->
+                <div class="ad-slide hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-[10px] font-black uppercase tracking-widest rounded-md mb-4">Partner Spotlight</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Enterprise Connectivity by <span class="text-teal-400">NexusVPN</span></h2>
+                        <p class="text-gray-400 text-lg max-w-2xl leading-relaxed">
+                            Scale your remote engineering teams without compromising security. Zero-latency tunnels with military-grade encryption for all PTjo users.
+                        </p>
+                    </div>
+                    <div class="relative z-10 flex-shrink-0">
+                        <div class="text-center md:text-right mb-6">
+                            <span class="text-gray-500 line-through text-lg">$499</span>
+                            <span class="text-3xl font-bold text-white ml-2">$299/mo</span>
+                            <p class="text-teal-400 text-sm font-bold">New Customer Discount</p>
+                        </div>
+                        <a href="Resources/Support.html" class="btn btn-primary w-full md:w-auto text-center flex items-center justify-center">
+                        Secure My Team <i class="fas fa-shield-alt ml-3"></i>
+                    </a>
+                    </div>
+                </div>
+
+                <!-- Slide 3: CodeSentinel -->
+                <div class="ad-slide hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-[10px] font-black uppercase tracking-widest rounded-md mb-4">Security Tooling</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Automate Static Analysis with <span class="text-teal-400">CodeSentinel</span></h2>
+                        <p class="text-gray-400 text-lg max-w-2xl leading-relaxed">
+                            Find zero-day vulnerabilities in your source code during the CI/CD pipeline. The perfect companion to your manual PTjo audits.
+                        </p>
+                    </div>
+                    <div class="relative z-10 flex-shrink-0">
+                        <div class="text-center md:text-right mb-6">
+                            <span class="text-3xl font-bold text-white">7-Day Trial</span>
+                            <p class="text-teal-400 text-sm font-bold">No Credit Card Required</p>
+                        </div>
+                        <a href="Resources/Support.html" class="btn btn-primary w-full md:w-auto text-center flex items-center justify-center">
+                        Try For Free <i class="fas fa-code ml-3"></i>
+                    </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Dots -->
+            <div class="flex justify-center mt-6 space-x-2">
+                <div class="ad-dot w-2 h-2 rounded-full bg-teal-400 transition-all duration-300"></div>
+                <div class="ad-dot w-2 h-2 rounded-full bg-gray-700 transition-all duration-300"></div>
+                <div class="ad-dot w-2 h-2 rounded-full bg-gray-700 transition-all duration-300"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features-section" class="section bg-gray-800 border-t border-gray-700">
+        <div class="container">
+            <h2 class="text-4xl font-bold text-center text-teal-400 mb-16">The PTjo Advantage</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+
+                <!-- Elite Crowd Sourced with Visual -->
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl transition duration-300 transform hover:scale-[1.02] border border-gray-700 hover:border-teal-600 flex flex-col items-center">
+                    <div class="w-full mb-6 relative h-40 flex items-center justify-center overflow-hidden rounded-xl bg-gray-800/50 border border-teal-500/20">
+                        <svg viewBox="0 0 200 120" class="w-full h-full animate-pulse-teal advantage-svg">
+                        <defs>
+                            <radialGradient id="nodeGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#2dd4bf" />
+                                <stop offset="100%" stop-color="#0d9488" />
+                            </radialGradient>
+                        </defs>
+                        <path d="M40 30 L100 60 M160 30 L100 60 M100 60 L100 100 M40 90 L100 60 M160 90 L100 60" stroke="#0d9488" stroke-width="1" stroke-dasharray="4" />
+                        <circle cx="100" cy="60" r="8" fill="url(#nodeGrad)" />
+                        <circle cx="40" cy="30" r="5" fill="#2dd4bf" opacity="0.7" />
+                        <circle cx="160" cy="30" r="5" fill="#2dd4bf" opacity="0.7" />
+                        <circle cx="40" cy="90" r="5" fill="#2dd4bf" opacity="0.7" />
+                        <circle cx="160" cy="90" r="5" fill="#2dd4bf" opacity="0.7" />
+                        <circle cx="100" cy="100" r="5" fill="#2dd4bf" opacity="0.7" />
+                    </svg>
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent advantage-overlay"></div>
+                        <i class="fas fa-users-crown text-3xl text-teal-400 absolute bottom-4"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-white mb-3">Elite Crowd Sourced</h3>
+                    <p class="text-gray-400 text-base">Access thousands of skilled, pre-vetted security pentesters globally for comprehensive coverage.</p>
+                </div>
+
+                <!-- Continuous Testing -->
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl transition duration-300 transform hover:scale-[1.02] border border-gray-700 hover:border-teal-600">
+                    <div class="w-full mb-6 h-40 flex items-center justify-center bg-gray-800/30 rounded-xl">
+                        <i class="fas fa-sync-alt text-6xl text-teal-400/20 absolute"></i>
+                        <i class="fas fa-shield-virus text-5xl text-teal-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-white mb-3">Continuous Testing</h3>
+                    <p class="text-gray-400 text-base">Ensure security is an ongoing, adaptive process, not just a periodic, static audit.</p>
+                </div>
+
+                <!-- Rapid Remediation -->
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl transition duration-300 transform hover:scale-[1.02] border border-gray-700 hover:border-teal-600">
+                    <div class="w-full mb-6 h-40 flex items-center justify-center bg-gray-800/30 rounded-xl">
+                        <i class="fas fa-bolt text-6xl text-teal-400/20 absolute"></i>
+                        <i class="fas fa-tools text-5xl text-teal-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-white mb-3">Rapid Remediation</h3>
+                    <p class="text-gray-400 text-base">Get rapid vulnerability discovery and a streamlined workflow for fast and efficient fixing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials-section" class="py-24 bg-teal-600/10 border-t border-b border-teal-600">
+        <div class="container">
+            <h2 class="text-4xl font-bold text-center text-white mb-16">What Our Customers Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl border-l-4 border-teal-400">
+                    <p class="text-xl text-gray-300 italic mb-6">"PTjo revolutionized our security program. The continuous testing and elite crowd-sourced talent gave us a level of assurance we could never achieve with traditional audits."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-teal-400 rounded-full flex items-center justify-center text-gray-900 font-bold text-xl mr-4">J</div>
+                        <div>
+                            <p class="font-semibold text-white">James K.</p>
+                            <p class="text-sm text-teal-200">CTO, <span class="text-teal-400">Innovatech Solutions</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl border-l-4 border-teal-400">
+                    <p class="text-xl text-gray-300 italic mb-6">"The platform’s streamlined workflow for vulnerability intake and rapid remediation has cut our time-to-fix by over 50%. Incredible depth of talent."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-teal-400 rounded-full flex items-center justify-center text-gray-900 font-bold text-xl mr-4">S</div>
+                        <div>
+                            <p class="font-semibold text-white">Sarah M.</p>
+                            <p class="text-sm text-teal-200">VP of Security, <span class="text-teal-400">Global FinCo</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 py-10">
+        <div class="container grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+            <div>
+                <h3 class="text-xl font-bold text-teal-400 mb-4">PTjo</h3>
+                <p class="text-gray-500 text-sm">Offensive Security Platform</p>
+                <div class="flex space-x-4 mt-4 justify-center md:justify-start">
+                    <a href="Resources/Support.html" class="text-gray-500 hover:text-teal-400"><i class="fab fa-twitter"></i></a>
+                    <a href="Resources/Support.html" class="text-gray-500 hover:text-teal-400"><i class="fab fa-linkedin"></i></a>
+                    <a href="Resources/Support.html" class="text-gray-500 hover:text-teal-400"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Products</h3>
+                <ul class="space-y-2 text-gray-500">
+                    <li><a href="Customer_Dashboard/Customer_Dashboard.html?service=network" class="hover:text-teal-400 transition">Network Testing</a></li>
+                    <li><a href="Customer_Dashboard/Customer_Dashboard.html?service=ad" class="hover:text-teal-400 transition">Active Directory</a></li>
+                    <li><a href="Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="hover:text-teal-400 transition">Cloud Testing</a></li>
+                    <li><a href="Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="hover:text-teal-400 transition">Web App Pen Test</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Resources</h3>
+                <ul class="space-y-2 text-gray-500">
+                    <li><a href="Resources/Blog.html" class="hover:text-teal-400 transition">Blog</a></li>
+                    <li><a href="Resources/CaseStudies.html" class="hover:text-teal-400 transition">Case Studies</a></li>
+                    <li><a href="Resources/Support.html" class="hover:text-teal-400 transition">Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Legal</h3>
+                <ul class="space-y-2 text-gray-500">
+                    <li><a href="Legal/PrivacyPolicy.html" class="hover:text-teal-400 transition">Privacy Policy</a></li>
+                    <li><a href="Legal/TermsOfService.html" class="hover:text-teal-400 transition">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container text-center text-gray-600 mt-10 border-t border-gray-700 pt-6">
+            <p>&copy; 2025 PTjo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dropdown Logic
+            const dropdowns = [{
+                toggle: document.getElementById('dropdown-toggle-products'),
+                menu: document.getElementById('dropdown-menu-products')
+            }, {
+                toggle: document.getElementById('dropdown-toggle-industries'),
+                menu: document.getElementById('dropdown-menu-industries')
+            }];
+
+            const toggleDropdown = (targetToggle, targetMenu) => {
+                dropdowns.forEach(dropdown => {
+                    if (dropdown.menu !== targetMenu) {
+                        dropdown.menu.classList.add('hidden');
+                        dropdown.menu.classList.remove('dropdown-active');
+                        dropdown.toggle.querySelector('svg').classList.remove('active');
+                    }
+                });
+                const isHidden = targetMenu.classList.toggle('hidden');
+                targetMenu.classList.toggle('dropdown-active');
+                targetToggle.querySelector('svg').classList.toggle('active', !isHidden);
+            };
+
+            dropdowns.forEach(dropdown => {
+                dropdown.toggle.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    toggleDropdown(dropdown.toggle, dropdown.menu);
+                });
+            });
+
+            document.addEventListener('click', () => {
+                dropdowns.forEach(dropdown => {
+                    dropdown.menu.classList.add('hidden');
+                    dropdown.menu.classList.remove('dropdown-active');
+                    dropdown.toggle.querySelector('svg').classList.remove('active');
+                });
+            });
+
+            // Ad Carousel Logic
+            const slides = document.querySelectorAll('.ad-slide');
+            const dots = document.querySelectorAll('.ad-dot');
+            const prevBtn = document.getElementById('ad-prev');
+            const nextBtn = document.getElementById('ad-next');
+            let currentSlide = 0;
+
+            const updateSlides = (index) => {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    slide.classList.add('hidden');
+                    dots[i].classList.remove('bg-teal-400');
+                    dots[i].classList.add('bg-gray-700');
+                });
+                slides[index].classList.remove('hidden');
+                slides[index].classList.add('active');
+                dots[index].classList.add('bg-teal-400');
+                dots[index].classList.remove('bg-gray-700');
+            };
+
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlides(currentSlide);
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateSlides(currentSlide);
+            });
+
+            // Optional Auto-rotation
+            let autoPlay = setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlides(currentSlide);
+            }, 8000);
+
+            const stopAutoPlay = () => clearInterval(autoPlay);
+            prevBtn.addEventListener('mouseenter', stopAutoPlay);
+            nextBtn.addEventListener('mouseenter', stopAutoPlay);
+
+            // Service Filter Logic
+            const filterBtns = document.querySelectorAll('.service-filter-btn');
+            const servicePanels = document.querySelectorAll('.service-panel');
+
+            const activateService = (serviceKey) => {
+                filterBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.service === serviceKey);
+                });
+                servicePanels.forEach(panel => {
+                    panel.classList.toggle('active', panel.dataset.panel === serviceKey);
+                });
+            };
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => activateService(btn.dataset.service));
+            });
+
+            // Nav dropdown links → scroll to section & activate filter
+            document.querySelectorAll('.service-nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    activateService(link.dataset.service);
+                    document.getElementById('services').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Smooth scroll for the tour button
+            document.querySelector('a[href="#site-explanation"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector('#site-explanation');
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        (function() {
+            var r = localStorage.getItem('ptjo_role');
+            if (r === 'hacker') {
+                var h = document.getElementById('nav-hacker-btn');
+                if (h) h.style.display = 'none';
+            }
+            if (r === 'customer') {
+                var c = document.getElementById('nav-customer-btn');
+                if (c) c.style.display = 'none';
+            }
+        })();
+    </script>
+    <script src="assets/lang.js"></script>
+    <script src="assets/settings-panel.js"></script>
+</body>
+
+</html>
