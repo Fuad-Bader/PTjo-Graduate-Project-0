@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTjo - Login</title>
+    <script src="../assets/theme.js"></script>
+    <script src="../assets/vuln-taxonomy.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-gray-900 text-gray-200 font-sans;
+            }
+            .section {
+                @apply min-h-screen py-24 flex items-center justify-center;
+            }
+            .container {
+                @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+            }
+            .input-field {
+                @apply w-full px-4 py-3 rounded-xl bg-gray-800 border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-200;
+            }
+            .btn {
+                @apply px-6 py-3 font-medium text-white rounded-xl transition-transform transform hover:scale-105;
+            }
+            .btn-primary {
+                @apply bg-teal-600 hover:bg-teal-700;
+            }
+            .btn-secondary {
+                @apply bg-gray-700 hover:bg-gray-800;
+            }
+        }
+    </style>
+    <style>
+        .dropdown-menu { opacity:0; transform:translateY(-10px); transition:opacity .3s ease-out, transform .3s ease-out; min-width:220px; background:#1f2937; border:1px solid #374151; border-radius:.75rem; box-shadow:0 25px 50px -12px rgba(0,0,0,.5); z-index:50; }
+        .dropdown-active { display:block !important; opacity:1; transform:translateY(0); }
+        .dropdown-toggle-svg { transition:transform .3s; }
+        .dropdown-toggle-svg.active { transform:rotate(180deg); }
+        .dropdown-item-pro { display:flex; align-items:center; padding:.75rem 1.25rem; font-size:.95rem; color:#e5e7eb; transition:background-color .2s,color .2s; }
+        .dropdown-item-pro:hover { background:#0d9488; color:#fff; }
+        .dropdown-icon { width:1.5rem; text-align:center; margin-right:1rem; font-size:1.1rem; flex-shrink:0; color:#2dd4bf; }
+        .dropdown-item-pro:hover .dropdown-icon { color:#fff; }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+<nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
+    <div class="container flex justify-between items-center h-20">
+        <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+        <div class="hidden md:flex items-center space-x-8">
+            <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium">Home</a>
+            <div class="relative">
+                <button id="dropdown-toggle-products" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                    <span>Products</span>
+                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span>Network Testing</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span>Active Directory</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span>Cloud Testing</span></a>
+                    <div class="h-px bg-gray-700 my-1"></div>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span>Web App</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span>Mobile App</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span>API Testing</span></a>
+                    <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span>IoT Testing</span></a>
+                </div>
+            </div>
+            <div class="relative">
+                <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+                    <span>Industries</span>
+                    <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+                    <a href="../Industries/index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span>All Industries</span></a>
+                    <div class="h-px bg-gray-700 my-1"></div>
+                    <a href="../Industries/finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span>Finance</span></a>
+                    <a href="../Industries/healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span>Healthcare</span></a>
+                    <a href="../Industries/retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span>Retail</span></a>
+                    <a href="../Industries/technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span>Technology</span></a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 ml-4">
+                <a href="../SignUp_Customer/SignupC.html" class="text-gray-400 hover:text-teal-400 transition duration-300 font-medium text-sm">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="section min-h-[calc(100vh-5rem)] py-16">
+    <div class="max-w-md w-full p-8 space-y-8 bg-gray-800 rounded-2xl shadow-lg border border-gray-700">
+        
+        <div id="success-message" class="hidden bg-green-700 text-white p-3 rounded-xl text-center font-medium">
+            Account created successfully! Please sign in.
+        </div>
+        
+        <div id="error-message" class="hidden bg-red-800 text-white p-3 rounded-xl text-center font-medium" role="alert"></div>
+
+        <div id="login-page" class="space-y-6">
+            <h2 class="text-3xl font-bold text-center text-teal-400">Welcome Back!</h2>
+            
+            <form id="login-form" class="space-y-4" method="POST" action="CheckLogin.php">
+                <div>
+                    <label for="login-email" class="block text-sm font-medium text-gray-400">Email Address</label>
+                    <input type="email" id="login-email" name="email" class="input-field mt-1" required>
+                </div>
+                <div>
+                    <label for="login-password" class="block text-sm font-medium text-gray-400">Password</label>
+                    <input type="password" id="login-password" name="password" class="input-field mt-1" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-sm">
+                        <a href="../Resources/Support.html" class="font-medium text-teal-500 hover:text-teal-400">Forgot your password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="w-full btn btn-primary">Sign In</button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-400">Don't have an account? 
+                    <a href="../SignUp_Customer/SignupC.html?tab=signup" class="font-medium text-teal-500 hover:text-teal-400">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const errorMessageDiv = document.getElementById('error-message');
+    const successMessageDiv = document.getElementById('success-message');
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Check for login errors from CheckLogin.php
+    const error = urlParams.get('error');
+    if (error) {
+        errorMessageDiv.textContent = decodeURIComponent(error);
+        errorMessageDiv.classList.remove('hidden');
+    }
+
+    // Check for signup success from Signup.php
+    const signupSuccess = urlParams.get('signup');
+    if (signupSuccess === 'success') {
+        successMessageDiv.classList.remove('hidden');
+    }
+    
+    // Clear URL parameters after showing messages (optional but cleaner)
+    if (error || signupSuccess) {
+        window.history.replaceState(null, null, window.location.pathname);
+    }
+
+    const dropdowns = [
+        { toggle: document.getElementById('dropdown-toggle-products'), menu: document.getElementById('dropdown-menu-products') },
+        { toggle: document.getElementById('dropdown-toggle-industries'), menu: document.getElementById('dropdown-menu-industries') }
+    ].filter(d => d.toggle && d.menu);
+    const closeAllDd = () => {
+        dropdowns.forEach(d => {
+            d.menu.classList.remove('dropdown-active');
+            d.menu.classList.add('hidden');
+            d.toggle.querySelector('.dropdown-toggle-svg')?.classList.remove('active');
+        });
+    };
+    dropdowns.forEach(d => {
+        d.toggle.addEventListener('click', e => {
+            e.stopPropagation();
+            const open = d.menu.classList.contains('dropdown-active') && !d.menu.classList.contains('hidden');
+            closeAllDd();
+            if (!open) {
+                d.menu.classList.remove('hidden');
+                d.menu.classList.add('dropdown-active');
+                d.toggle.querySelector('.dropdown-toggle-svg')?.classList.add('active');
+            }
+        });
+    });
+    document.addEventListener('click', closeAllDd);
+});
+
+</script>
+<script src="../assets/lang.js"></script>
+<script src="../assets/settings-panel.js"></script>
+
+</body>
+</html>

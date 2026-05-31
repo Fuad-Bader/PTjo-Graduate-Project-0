@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTjo — Technology &amp; SaaS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+  <script src="../assets/theme.js"></script>
+  <script src="../assets/lang.js"></script>
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-gray-900 text-gray-200 font-sans; }
+      .container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+      .btn { @apply px-6 py-3 font-semibold text-white rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg active:scale-95; }
+      .btn-primary { @apply bg-teal-600 hover:bg-teal-500; }
+    }
+  </style>
+  <style>
+    .dropdown-menu { opacity:0; transform:translateY(-10px); transition:opacity .3s ease-out, transform .3s ease-out; min-width:220px; background:#1f2937; border:1px solid #374151; border-radius:.75rem; box-shadow:0 25px 50px -12px rgba(0,0,0,.5); z-index:10; }
+    .dropdown-active { display:block !important; opacity:1; transform:translateY(0); }
+    .dropdown-toggle-svg { transition:transform .3s; }
+    .dropdown-toggle-svg.active { transform:rotate(180deg); }
+    .dropdown-item-pro { display:flex; align-items:center; padding:.75rem 1.25rem; font-size:.95rem; color:#e5e7eb; transition:background-color .2s,color .2s; }
+    .dropdown-item-pro:hover { background:#0d9488; color:#fff; }
+    .dropdown-icon { width:1.5rem; text-align:center; margin-right:1rem; font-size:1.1rem; flex-shrink:0; color:#2dd4bf; }
+    .dropdown-item-pro:hover .dropdown-icon { color:#fff; }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#1f2937; }
+    ::-webkit-scrollbar-thumb { background:#0d9488; border-radius:10px; }
+  </style>
+</head>
+<body>
+  <nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
+    <div class="container flex justify-between items-center h-20">
+      <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="../index.html" class="text-gray-300 hover:text-teal-400 transition duration-300 font-medium">Home</a>
+        <div class="relative">
+          <button id="dropdown-toggle-products" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+            <span>Products</span>
+            <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="dropdown-menu-products" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-network-wired"></i></span><span>Network Testing</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-users-cog"></i></span><span>Active Directory</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cloud"></i></span><span>Cloud Testing</span></a>
+            <div class="h-px bg-gray-700 my-1"></div>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-globe"></i></span><span>Web App</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=mobile" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-mobile-alt"></i></span><span>Mobile App</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-cube"></i></span><span>API Testing</span></a>
+            <a href="../Customer_Dashboard/Customer_Dashboard.html?service=iot" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-wifi"></i></span><span>IoT Testing</span></a>
+          </div>
+        </div>
+        <div class="relative">
+          <button id="dropdown-toggle-industries" type="button" class="text-gray-300 hover:text-teal-400 transition duration-300 flex items-center focus:outline-none font-medium">
+            <span>Industries</span>
+            <svg class="ml-2 w-4 h-4 dropdown-toggle-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="dropdown-menu-industries" class="absolute left-1/2 -translate-x-1/2 mt-3 hidden dropdown-menu">
+            <a href="index.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-layer-group"></i></span><span>All Industries</span></a>
+            <div class="h-px bg-gray-700 my-1"></div>
+            <a href="finance.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-dollar-sign"></i></span><span>Finance</span></a>
+            <a href="healthcare.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-heart-pulse"></i></span><span>Healthcare</span></a>
+            <a href="retail.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-bag-shopping"></i></span><span>Retail</span></a>
+            <a href="technology.html" class="dropdown-item-pro"><span class="dropdown-icon"><i class="fas fa-laptop-code"></i></span><span>Technology</span></a>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4 ml-4">
+          <a href="../Settings/Settings.html" class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 text-gray-300 hover:text-white transition-all rounded-xl font-semibold text-sm">Settings</a>
+          <a id="nav-login-btn" href="../LogIn/Login.html" class="text-teal-400 hover:text-white text-sm font-medium flex items-center gap-1.5"><i class="fas fa-sign-in-alt"></i> Log In</a>
+          <a id="nav-signup-btn" href="../SignUp_Customer/SignupC.html" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold py-2 px-4 rounded-xl transition-all text-sm">Sign Up</a>
+          <a id="nav-dashboard-btn" href="#" class="hidden text-gray-300 hover:text-teal-400 transition font-medium text-sm flex items-center gap-2"><i class="fas fa-gauge-high text-sm"></i> Dashboard</a>
+          <a id="nav-profile-btn" href="#" class="hidden flex items-center gap-2 px-4 py-2 bg-teal-600/20 border border-teal-600/40 hover:bg-teal-600 text-teal-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm"><i class="fas fa-user-circle mr-1"></i>My Profile</a>
+          <button id="nav-logout-btn" onclick="ptjoNavLogout()" class="hidden text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container pt-8 pb-2">
+    <div class="flex items-center gap-2 text-sm text-gray-500">
+      <a href="../index.html" class="hover:text-teal-400 transition-colors">Home</a><i class="fas fa-chevron-right text-xs"></i>
+      <a href="index.html" class="hover:text-teal-400 transition-colors">Industries</a><i class="fas fa-chevron-right text-xs"></i>
+      <span class="text-gray-300 font-medium">Technology</span>
+    </div>
+  </div>
+
+  <section class="container py-16 md:py-20">
+    <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+      <div class="lg:w-3/5 w-full">
+        <p class="text-teal-400 text-xs font-bold uppercase tracking-[0.2em] mb-4">Technology &amp; SaaS</p>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">Securing SaaS Platforms and Cloud Infrastructure</h1>
+        <p class="text-gray-400 text-lg leading-relaxed mb-4">Technology companies build the platforms everyone else depends on. A single breach in your SaaS product or cloud infrastructure can cascade into your customers' systems and destroy market trust overnight.</p>
+        <div class="flex flex-wrap gap-4 mt-8">
+          <a href="../SignUp_Customer/SignupC.html" class="btn btn-primary">Start Testing</a>
+          <a href="../index.html#services" class="px-6 py-3 font-semibold rounded-xl bg-gray-700 hover:bg-gray-600 text-white transition-all duration-200">View Our Services</a>
+        </div>
+      </div>
+      <div class="lg:w-2/5 w-full flex justify-center">
+        <div class="w-48 h-48 rounded-full bg-teal-500/10 border-2 border-teal-500/30 flex items-center justify-center shadow-[0_0_40px_rgba(20,184,166,.15)]">
+          <i class="fas fa-laptop-code text-teal-400 text-7xl"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-3">Top Security Threats in Technology</h2>
+    <p class="text-gray-500 text-center mb-12 max-w-2xl mx-auto">Our hackers specialize in finding these vulnerabilities</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-cloud text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Cloud Misconfiguration</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Exposed S3 buckets, overpermissive IAM roles, and open management ports are the leading cause of cloud breaches.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">Critical</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-user-gear text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Privilege Escalation</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Attackers who gain low-level access escalate to admin roles through misconfigured RBAC policies.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">Critical</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-bug text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Zero-Day Exploits</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Unpatched vulnerabilities in open-source dependencies are actively weaponized against SaaS.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">Critical</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-cube text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">API Security Failures</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Broken object-level authorization in multi-tenant APIs exposes one customer's data to another.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30">High</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-link text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">Subdomain Takeover</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Abandoned DNS records pointing to deprovisioned cloud services allow attackers to serve malicious content.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30">High</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,.1)]">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-4"><i class="fas fa-code-branch text-teal-400"></i></div>
+        <h3 class="font-bold text-white mb-2">CI/CD Pipeline Attacks</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">Injection into build pipelines can compromise software supply chains and distribute backdoored releases.</p>
+        <span class="inline-flex text-xs font-bold px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30">High</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-16">How PTjo Secures Technology Organizations</h2>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="absolute top-8 left-[12%] right-[12%] border-t-2 border-dashed border-teal-600/30 hidden md:block"></div>
+      <div class="grid md:grid-cols-3 gap-10 relative z-10">
+        <div class="text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-teal-600 text-white font-extrabold flex items-center justify-center mb-4">1</div>
+          <div class="w-14 h-14 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-4"><i class="fas fa-clipboard-list text-teal-400 text-xl"></i></div>
+          <h3 class="font-bold text-white mb-2">Submit Request</h3>
+          <p class="text-gray-500 text-sm">Post your scope and budget on the platform.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-teal-600 text-white font-extrabold flex items-center justify-center mb-4">2</div>
+          <div class="w-14 h-14 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-4"><i class="fas fa-user-shield text-teal-400 text-xl"></i></div>
+          <h3 class="font-bold text-white mb-2">Hacker Assigned</h3>
+          <p class="text-gray-500 text-sm">A vetted specialist is matched to your engagement.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-teal-600 text-white font-extrabold flex items-center justify-center mb-4">3</div>
+          <div class="w-14 h-14 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-4"><i class="fas fa-file-shield text-teal-400 text-xl"></i></div>
+          <h3 class="font-bold text-white mb-2">Report Delivered</h3>
+          <p class="text-gray-500 text-sm">Actionable findings and remediation guidance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-3">Companies in Technology That Trust PTjo</h2>
+    <p class="text-gray-500 text-center mb-12 max-w-2xl mx-auto">Leading organizations use PTjo to stay ahead of threats</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Atlassian</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Collaboration Software</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo's cloud testing team secured our Jira and Confluence infrastructure globally.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Twilio</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Cloud Communications API</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">We use PTjo to continuously test our API endpoints against OWASP Top 10 threats.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">HubSpot</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">CRM &amp; Marketing Platform</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo found subdomain takeover vulnerabilities across our marketing subdomain fleet.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Cloudflare</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Internet Security &amp; CDN</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo provides an external attacker perspective on our edge infrastructure.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Notion</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Productivity SaaS</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">PTjo's testers identified privilege escalation in our workspace sharing model.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+      <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40">
+        <h3 class="text-lg font-bold text-white">Zoom</h3>
+        <p class="text-teal-400/80 text-xs font-semibold mt-1">Video Communications</p>
+        <p class="text-gray-400 text-sm mt-4 leading-relaxed">Quarterly API and web app assessments via PTjo keep our platform secure at scale.</p>
+        <span class="inline-block mt-4 text-xs font-bold px-2.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400">Verified Client</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-16 md:py-20">
+    <h2 class="text-3xl font-extrabold text-white text-center mb-10">Our Services for Technology</h2>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=cloud" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-cloud text-teal-400"></i> Cloud Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=api" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-cube text-teal-400"></i> API Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=webapp" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-globe text-teal-400"></i> Web App Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=network" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-network-wired text-teal-400"></i> Network Testing <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html?service=ad" class="inline-flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-xl px-5 py-3 text-gray-200 hover:border-teal-500/40 hover:text-teal-400 transition-all duration-200"><i class="fas fa-users-cog text-teal-400"></i> Active Directory <i class="fas fa-arrow-right text-xs opacity-60"></i></a>
+    </div>
+  </section>
+
+  <section class="container py-16">
+    <div class="bg-gray-800/60 border border-gray-700 rounded-2xl p-12 text-center">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4">Ready to Secure Your Organization?</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto mb-8">Join hundreds of companies that trust PTjo to find vulnerabilities before attackers do.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="../SignUp_Customer/SignupC.html" class="btn btn-primary">Start as Customer</a>
+        <a href="../SignUp_Customer/SignupC.html?role=hacker" class="px-6 py-3 font-semibold rounded-xl bg-gray-700 hover:bg-gray-600 text-white transition-all duration-200">Join as Hacker</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gray-800/80 border-t border-gray-700 mt-12 py-8">
+    <div class="container flex flex-col md:flex-row items-center justify-between gap-4">
+      <a href="../index.html" class="text-2xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
+        <a href="finance.html" class="hover:text-teal-400 transition-colors">Finance</a>
+        <a href="healthcare.html" class="hover:text-teal-400 transition-colors">Healthcare</a>
+        <a href="retail.html" class="hover:text-teal-400 transition-colors">Retail</a>
+        <a href="technology.html" class="hover:text-teal-400 transition-colors">Technology</a>
+      </div>
+      <p class="text-gray-600 text-xs text-center md:text-right">© 2025 PTjo. All rights reserved.<br><span class="text-gray-500">Company names shown are for illustrative purposes.</span></p>
+    </div>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function wire(toggleId, menuId) {
+      var t = document.getElementById(toggleId), m = document.getElementById(menuId), a = t && t.querySelector('.dropdown-toggle-svg');
+      if (!t || !m) return;
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = m.classList.contains('_dropdown_open');
+        document.querySelectorAll('.dropdown-menu').forEach(function (el) { el.classList.remove('dropdown-active', '_dropdown_open'); el.classList.add('hidden'); });
+        document.querySelectorAll('.dropdown-toggle-svg').forEach(function (s) { s.classList.remove('active'); });
+        if (!open) { m.classList.remove('hidden'); m.classList.add('dropdown-active', '_dropdown_open'); a && a.classList.add('active'); }
+      });
+    }
+    wire('dropdown-toggle-products', 'dropdown-menu-products');
+    wire('dropdown-toggle-industries', 'dropdown-menu-industries');
+    document.addEventListener('click', function () {
+      document.querySelectorAll('.dropdown-menu').forEach(function (el) { el.classList.remove('dropdown-active', '_dropdown_open'); el.classList.add('hidden'); });
+      document.querySelectorAll('.dropdown-toggle-svg').forEach(function (s) { s.classList.remove('active'); });
+    });
+  });
+  </script>
+<script src="../assets/nav-auth.js"></script>
+</body>
+</html>
+

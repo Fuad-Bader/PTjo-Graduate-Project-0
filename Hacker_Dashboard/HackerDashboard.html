@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTjo - Hacker Dashboard</title>
+    <script src="../assets/theme.js"></script>
+    <script src="../assets/vuln-taxonomy.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-gray-900 text-gray-200 font-sans; }
+            .container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+            .btn { @apply px-6 py-3 font-semibold text-white rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg active:scale-95; }
+            .btn-primary { @apply bg-teal-600 hover:bg-teal-500; }
+            .btn-secondary { @apply bg-gray-700 hover:bg-gray-600 border border-gray-600; }
+        }
+    </style>
+
+    <style>
+        /* Dropdown */
+        .dropdown-menu { opacity: 0; transform: translateY(-10px); transition: opacity .3s, transform .3s; min-width: 270px; background: #1f2937; border: 1px solid #374151; border-radius: .75rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,.5); z-index: 10; }
+        .dropdown-active { display: block !important; opacity: 1; transform: translateY(0); }
+        .dropdown-toggle-svg { transition: transform .3s; }
+        .dropdown-toggle-svg.active { transform: rotate(180deg); }
+        .dropdown-item-pro { display: flex; align-items: center; padding: .75rem 1.25rem; font-size: .95rem; color: #e5e7eb; transition: background-color .2s, color .2s; }
+        .dropdown-item-pro:hover { background: #0d9488; color: #fff; }
+        .dropdown-icon { width: 1.5rem; text-align: center; margin-right: 1rem; font-size: 1.1rem; flex-shrink: 0; color: #2dd4bf; }
+        .dropdown-item-pro:hover .dropdown-icon { color: #fff; }
+        .dropdown-title { font-weight: 600; }
+
+        /* Job card */
+        .job-card { background: rgba(31,41,55,0.7); border: 1px solid #374151; border-radius: 1rem; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; transition: border-color .2s, box-shadow .2s; }
+        .job-card:hover { border-color: rgba(20,184,166,0.4); box-shadow: 0 0 22px rgba(20,184,166,0.08); }
+
+        /* Filter tabs */
+        .filter-tab { padding: .375rem 1rem; border-radius: 9999px; font-size: .75rem; font-weight: 700; background: #1f2937; color: #9ca3af; border: 1px solid #374151; cursor: pointer; transition: all .2s; }
+        .filter-tab.active, .filter-tab:hover { background: #0d9488; color: #fff; border-color: #0d9488; }
+
+        /* Main tab bar */
+        .main-tab { padding: .625rem 1.5rem; font-size: .875rem; font-weight: 700; color: #6b7280; border-bottom: 2px solid transparent; cursor: pointer; transition: all .2s; }
+        .main-tab.active { color: #2dd4bf; border-bottom-color: #0d9488; }
+        .main-tab:hover:not(.active) { color: #d1d5db; }
+
+        /* Urgency badges */
+        .badge-high   { background: rgba(239,68,68,.15);  color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+        .badge-medium { background: rgba(234,179,8,.15);  color: #fbbf24; border: 1px solid rgba(234,179,8,.3); }
+        .badge-low    { background: rgba(34,197,94,.15);  color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
+
+        /* Engagement status badges */
+        .badge-active    { background: rgba(20,184,166,.15); color: #2dd4bf; border: 1px solid rgba(20,184,166,.3); }
+        .badge-completed { background: rgba(34,197,94,.15);  color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
+        .badge-pending   { background: rgba(234,179,8,.15);  color: #fbbf24; border: 1px solid rgba(234,179,8,.3); }
+
+        /* Toast */
+        .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; padding: .875rem 1.25rem; border-radius: .75rem; font-size: .875rem; font-weight: 600; display: flex; align-items: center; gap: .75rem; box-shadow: 0 10px 40px rgba(0,0,0,.4); transform: translateY(2rem); opacity: 0; transition: all .3s ease; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 10px; }
+
+        /* Fade */
+        .fade-in { animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+        /* Stat card */
+        .stat-card { background: rgba(31,41,55,0.7); border: 1px solid #374151; border-radius: 1rem; padding: 1.25rem 1.5rem; transition: border-color .2s, box-shadow .2s; }
+        .stat-card:hover { border-color: rgba(20,184,166,0.3); box-shadow: 0 0 18px rgba(20,184,166,0.07); }
+
+        /* Skill tag */
+        .skill-tag { display: inline-flex; align-items: center; padding: 3px 10px; background: rgba(20,184,166,.1); border: 1px solid rgba(20,184,166,.2); border-radius: 999px; font-size: .7rem; font-weight: 700; color: #5eead4; }
+
+        /* Engagement card */
+        .eng-card { background: rgba(31,41,55,0.7); border: 1px solid #374151; border-radius: 1rem; padding: 1.5rem; transition: border-color .2s, box-shadow .2s; }
+        .eng-card:hover { border-color: rgba(20,184,166,.35); box-shadow: 0 0 20px rgba(20,184,166,.08); }
+    </style>
+</head>
+
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="bg-gray-800 shadow-xl sticky top-0 z-50 border-b border-teal-600/30">
+    <div class="container flex justify-between items-center h-20">
+        <a href="../index.html" class="text-3xl font-extrabold text-teal-400 tracking-wider">PTjo</a>
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="../Settings/Settings.html"
+               class="flex items-center gap-2 px-4 py-2 bg-gray-700/50 border border-gray-600/40 hover:bg-teal-600 hover:border-teal-600 text-gray-300 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm group"
+               title="Settings">
+                <i class="fas fa-gear text-teal-400 group-hover:text-white transition-colors duration-200"></i>
+                <span data-i18n="nav.settings">Settings</span>
+            </a>
+            <a id="nav-profile-btn" href="../My_ProfileHacker/MyProfile.html" class="flex items-center gap-2.5 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl px-4 py-2 font-semibold text-sm group">
+                <img id="nav-avatar" data-hacker-avatar src="https://api.dicebear.com/7.x/initials/svg?seed=HK&backgroundColor=0f766e&fontFamily=Arial&fontSize=40&fontWeight=700" alt="Profile" class="w-7 h-7 rounded-full object-cover ring-2 ring-teal-500/40 group-hover:ring-white/30">
+                <span data-i18n="nav.my-profile">My Profile</span>
+            </a>
+            <button id="nav-logout-btn" onclick="PTJO.logout()" class="text-gray-400 hover:text-red-400 transition duration-300 font-medium text-sm flex items-center gap-1.5"><i class="fas fa-sign-out-alt"></i>Log Out</button>
+        </div>
+    </div>
+</nav>
+
+<!-- ── Dashboard Header Strip ── -->
+<div class="bg-gray-800/60 border-b border-gray-700/60 py-6">
+    <div class="container">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <!-- Left: Identity -->
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <img id="hacker-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=hacker01&backgroundColor=0d9488" alt="Avatar" class="w-14 h-14 rounded-full object-cover ring-2 ring-teal-500/50 shadow-lg">
+                    <span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-teal-500 rounded-full border-2 border-gray-800"></span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="hacker-handle" class="text-white font-bold text-lg">@0xAbdul</span>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-500/10 border border-teal-500/30 rounded-full text-teal-400 text-xs font-bold"><i class="fas fa-shield-alt text-xs"></i> Verified</span>
+                    </div>
+                    <p class="text-gray-400 text-sm font-medium mt-0.5" data-i18n="hd.title">Security Pentester</p>
+                </div>
+            </div>
+            <!-- Center: Stat chips -->
+            <div class="flex flex-wrap gap-3">
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-700/60 border border-gray-600/50 rounded-full text-sm font-semibold text-gray-300">
+                    <i class="fas fa-briefcase text-teal-400 text-xs"></i>
+                    <span id="chip-jobs-done">— Jobs Done</span>
+                </div>
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-700/60 border border-gray-600/50 rounded-full text-sm font-semibold text-gray-300">
+                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                    <span id="chip-rating">—★ Rating</span>
+                </div>
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-700/60 border border-gray-600/50 rounded-full text-sm font-semibold text-gray-300">
+                    <i class="fas fa-dollar-sign text-green-400 text-xs"></i>
+                    <span id="chip-earned">$— Earned</span>
+                </div>
+            </div>
+            <!-- Right: My Profile button -->
+            <a href="../My_ProfileHacker/MyProfile.html" class="flex items-center gap-2 px-4 py-2 bg-teal-600/10 border border-teal-500/30 hover:bg-teal-600 hover:border-teal-600 text-teal-400 hover:text-white transition-all duration-200 rounded-xl font-semibold text-sm whitespace-nowrap">
+                <i class="fas fa-user-circle"></i>
+                <span data-i18n="hd.my-profile">My Profile</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ── Stats Row ── -->
+<div class="container mt-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="stat-card flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-teal-600/15 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-briefcase text-teal-400"></i>
+            </div>
+            <div>
+                <div id="stat-available" class="text-2xl font-extrabold text-white">6</div>
+                <div class="text-xs text-gray-400 font-semibold mt-0.5" data-i18n="hd.stat.available">Available Jobs</div>
+            </div>
+        </div>
+        <div class="stat-card flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-blue-600/15 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-tasks text-blue-400"></i>
+            </div>
+            <div>
+                <div id="stat-active" class="text-2xl font-extrabold text-white">0</div>
+                <div class="text-xs text-gray-400 font-semibold mt-0.5" data-i18n="hd.stat.active">My Active</div>
+            </div>
+        </div>
+        <div class="stat-card flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-yellow-600/15 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-star text-yellow-400"></i>
+            </div>
+            <div>
+                <div id="stat-rating" class="text-2xl font-extrabold text-white">—</div>
+                <div class="text-xs text-gray-400 font-semibold mt-0.5" data-i18n="hd.stat.rating">Avg Rating</div>
+            </div>
+        </div>
+        <div class="stat-card flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-green-600/15 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-dollar-sign text-green-400"></i>
+            </div>
+            <div>
+                <div id="stat-earned" class="text-2xl font-extrabold text-white">$—</div>
+                <div class="text-xs text-gray-400 font-semibold mt-0.5" data-i18n="hd.stat.earned">Total Earned</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Main Content ── -->
+<div class="container mt-8 pb-16">
+
+    <!-- Tab Bar -->
+    <div class="flex border-b border-gray-700 mb-6">
+        <button class="main-tab active" id="tab-available-btn" onclick="switchTab('available')">
+            <i class="fas fa-search mr-2"></i><span data-i18n="hd.tab.jobs">Available Jobs</span>
+        </button>
+        <button class="main-tab" id="tab-queue-btn" onclick="switchTab('queue')">
+            <i class="fas fa-hand-paper mr-2"></i><span data-i18n="hd.tab.queue">My Queue</span>
+        </button>
+        <button class="main-tab" id="tab-engagements-btn" onclick="switchTab('engagements')">
+            <i class="fas fa-clipboard-list mr-2"></i><span data-i18n="hd.tab.engage">My Engagements</span>
+        </button>
+        <button class="main-tab relative" id="tab-notifications-btn" onclick="switchTab('notifications')">
+            <i class="fas fa-bell mr-2"></i><span data-i18n="hd.tab.notif">Notifications</span>
+            <span id="notif-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full items-center justify-center" style="display:none">0</span>
+        </button>
+    </div>
+
+    <!-- ── Available Jobs Tab ── -->
+    <div id="tab-available" class="fade-in">
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap gap-2 mb-6">
+            <button class="filter-tab active" data-filter="all"             onclick="filterJobs('all', this)">All</button>
+            <button class="filter-tab"        data-filter="Network Testing"  onclick="filterJobs('Network Testing', this)"><i class="fas fa-network-wired mr-1"></i>Network</button>
+            <button class="filter-tab"        data-filter="Web App Testing"  onclick="filterJobs('Web App Testing', this)"><i class="fas fa-globe mr-1"></i>Web App</button>
+            <button class="filter-tab"        data-filter="Cloud Testing"    onclick="filterJobs('Cloud Testing', this)"><i class="fas fa-cloud mr-1"></i>Cloud</button>
+            <button class="filter-tab"        data-filter="Active Directory" onclick="filterJobs('Active Directory', this)"><i class="fas fa-users-cog mr-1"></i>Active Directory</button>
+            <button class="filter-tab"        data-filter="Mobile App Testing" onclick="filterJobs('Mobile App Testing', this)"><i class="fas fa-mobile-alt mr-1"></i>Mobile</button>
+            <button class="filter-tab"        data-filter="API Testing"      onclick="filterJobs('API Testing', this)"><i class="fas fa-cube mr-1"></i>API</button>
+            <button class="filter-tab"        data-filter="IoT Testing"      onclick="filterJobs('IoT Testing', this)"><i class="fas fa-wifi mr-1"></i>IoT</button>
+        </div>
+
+        <!-- Jobs Grid -->
+        <div id="jobs-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Empty state -->
+        <div id="jobs-empty" class="hidden text-center py-16">
+            <div class="w-16 h-16 mx-auto bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
+                <i class="fas fa-briefcase text-2xl text-gray-600"></i>
+            </div>
+            <p class="text-gray-400 font-semibold text-lg">No jobs available in this category</p>
+            <p class="text-gray-600 text-sm mt-1">Check back later or browse a different filter</p>
+        </div>
+    </div>
+
+    <!-- ── My Queue (Applied Jobs) Tab ── -->
+    <div id="tab-queue" class="hidden fade-in">
+        <div id="queue-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- Rendered by JS -->
+        </div>
+        <div id="queue-empty" class="hidden text-center py-16">
+            <div class="w-16 h-16 mx-auto bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
+                <i class="fas fa-hand-paper text-2xl text-gray-600"></i>
+            </div>
+            <p class="text-gray-400 font-semibold text-lg">You haven't applied to any bounties yet</p>
+            <p class="text-gray-600 text-sm mt-1">Join the queue on a job from the Available Jobs tab to see it here</p>
+        </div>
+    </div>
+
+    <!-- ── My Engagements Tab ── -->
+    <div id="tab-engagements" class="hidden fade-in">
+        <div id="engagements-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- Rendered by JS -->
+        </div>
+        <div id="engagements-empty" class="hidden text-center py-16">
+            <div class="w-16 h-16 mx-auto bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
+                <i class="fas fa-clipboard-list text-2xl text-gray-600"></i>
+            </div>
+            <p class="text-gray-400 font-semibold text-lg">No engagements yet</p>
+            <p class="text-gray-600 text-sm mt-1">Accept a job from the Available Jobs tab to get started</p>
+        </div>
+    </div>
+
+    <!-- ── Notifications Tab ── -->
+    <div id="tab-notifications" class="hidden fade-in">
+        <div id="notifications-list" class="flex flex-col gap-3 max-w-2xl">
+            <!-- Rendered by JS -->
+        </div>
+        <div id="notifications-empty" class="hidden text-center py-16">
+            <div class="w-16 h-16 mx-auto bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
+                <i class="fas fa-bell text-2xl text-gray-600"></i>
+            </div>
+            <p class="text-gray-400 font-semibold text-lg">No notifications yet</p>
+            <p class="text-gray-600 text-sm mt-1">You'll be notified when a customer selects you</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── Toast ── -->
+<div id="toast" class="toast"></div>
+
+<!-- ── Scripts ── -->
+<script>
+    // ── Service icon map ─────────────────────────────────────────────────────
+    const serviceIcons = {
+        'Network Testing': 'fa-network-wired', 'network': 'fa-network-wired',
+        'Web App Testing': 'fa-globe',          'webapp': 'fa-globe',
+        'Cloud Testing':   'fa-cloud',          'cloud':  'fa-cloud',
+        'Active Directory':'fa-users-cog',      'ad':     'fa-users-cog',
+        'Mobile App Testing':'fa-mobile-alt',   'mobile': 'fa-mobile-alt',
+        'API Testing':     'fa-cube',           'api':    'fa-cube',
+        'IoT Testing':     'fa-wifi',           'iot':    'fa-wifi',
+    };
+
+    let jobs = [];
+    let currentFilter = 'all';
+    let myHackerId = null;
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        // Get or create hacker ID
+        myHackerId = localStorage.getItem('ptjo_hacker_id');
+        if (!myHackerId) {
+            myHackerId = 'h_' + Math.random().toString(36).slice(2, 8);
+            localStorage.setItem('ptjo_hacker_id', myHackerId);
+        }
+        loadProfile();
+        loadJobs();
+        updateStats();
+        renderQueue();
+        renderEngagements();
+        renderNotifications();
+        initDropdown();
+    });
+
+    // ── loadProfile — no-op here; profile is hydrated by the API bridge below ──
+    function loadProfile() {}
+
+    // ── Load Jobs — data comes from the API bridge (PTJO.hacker.getBounties) ──
+    // The bridge writes to localStorage after the API call and then calls renderJobs().
+    // This local version just renders whatever is already in the store.
+    function loadJobs() {
+        const store = JSON.parse(localStorage.getItem('ptjo_customer_requests') || '[]');
+        jobs = store.filter(r => r.status === 'open' || !r.status).map(r => ({
+            id:       r.id,
+            service:  r.serviceLabel || r.service || r.title || 'Engagement',
+            icon:     serviceIcons[r.serviceType] || serviceIcons[r.serviceKey] || serviceIcons[r.service] || 'fa-briefcase',
+            company:  r.customerName || 'Client (Verified)',
+            budget:   r.budget || ('$' + (r.price_amount || r.price || 0)),
+            urgency:  r.urgency || r.priority_text || 'Medium',
+            timeline: r.deadline ? 'Due ' + new Date(r.deadline).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '—',
+            scope:    r.description || r.scope_details || r.scope || '',
+            skills:   r.skills || [],
+            postedAt: timeAgo(r.createdAt || r.submittedAt),
+            isReal:   true
+        }));
+        renderJobs();
+        updateStats();
+    }
+
+    function timeAgo(isoString) {
+        if (!isoString) return 'recently';
+        const diff = Date.now() - new Date(isoString).getTime();
+        const mins = Math.floor(diff / 60000);
+        if (mins < 1) return 'just now';
+        if (mins < 60) return mins + 'm ago';
+        const hrs = Math.floor(mins / 60);
+        if (hrs < 24) return hrs + 'h ago';
+        return Math.floor(hrs / 24) + 'd ago';
+    }
+
+    // ── Update Stats ─────────────────────────────────────────────────────────
+    function updateStats() {
+        document.getElementById('stat-available').textContent = jobs.length;
+        const myApps = JSON.parse(localStorage.getItem('ptjo_hacker_applications') || '[]');
+        const active = myApps.filter(a => a.hackerId === myHackerId && a.status === 'selected').length;
+        document.getElementById('stat-active').textContent = active;
+
+        // Update notification badge
+        const notifs = JSON.parse(localStorage.getItem('ptjo_notifications') || '[]');
+        const unread = notifs.filter(n => n.hackerId === myHackerId && !n.read).length;
+        const badge = document.getElementById('notif-badge');
+        if (badge) {
+            badge.textContent = unread;
+            badge.style.display = unread > 0 ? 'flex' : 'none';
+        }
+    }
+
+    // ── Tab switching ─────────────────────────────────────────────────────────
+    function switchTab(tab) {
+        ['available','queue','engagements','notifications'].forEach(t => {
+            document.getElementById('tab-' + t).classList.add('hidden');
+            document.getElementById('tab-' + t + '-btn').classList.remove('active');
+        });
+        document.getElementById('tab-' + tab).classList.remove('hidden');
+        document.getElementById('tab-' + tab + '-btn').classList.add('active');
+
+        if (tab === 'queue') renderQueue();
+        if (tab === 'engagements') renderEngagements();
+        if (tab === 'notifications') {
+            markNotificationsRead();
+            renderNotifications();
+        }
+    }
+
+    // ── Filter Jobs ──────────────────────────────────────────────────────────
+    function filterJobs(filter, btn) {
+        currentFilter = filter;
+        document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderJobs();
+    }
+
+    // ── Render Jobs ──────────────────────────────────────────────────────────
+    function renderJobs() {
+        const grid  = document.getElementById('jobs-grid');
+        const empty = document.getElementById('jobs-empty');
+
+        let filtered = jobs;
+        if (currentFilter !== 'all') filtered = jobs.filter(j => j.service === currentFilter);
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        empty.classList.add('hidden');
+
+        grid.innerHTML = filtered.map((job, i) => {
+            const urgency = (job.urgency || 'Medium');
+            const urgencyClass = urgency === 'High' ? 'badge-high' : urgency === 'Medium' ? 'badge-medium' : 'badge-low';
+            const urgencyIcon  = urgency === 'High' ? 'fa-fire' : urgency === 'Medium' ? 'fa-bolt' : 'fa-leaf';
+            const realBadge = job.isReal ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-500/15 border border-blue-500/30 text-blue-400 text-[10px] font-bold rounded-full"><i class="fas fa-circle text-[6px]"></i> Live Request</span>` : '';
+            return `
+            <div class="job-card fade-in" style="animation-delay:${i * 0.05}s" id="job-card-${job.id}">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-teal-600/15 flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${job.icon} text-teal-400"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-white text-sm">${job.service}</div>
+                            <div class="text-gray-500 text-xs mt-0.5">${job.company} &nbsp;·&nbsp; ${job.postedAt}</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${urgencyClass}">
+                            <i class="fas ${urgencyIcon} text-xs"></i>${urgency}
+                        </span>
+                        ${realBadge}
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                        <i class="fas fa-dollar-sign text-green-400 text-xs w-4 text-center"></i>
+                        <span class="font-semibold">${job.budget}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                        <i class="fas fa-clock text-blue-400 text-xs w-4 text-center"></i>
+                        <span>${job.timeline}</span>
+                    </div>
+                </div>
+
+                <p class="text-gray-400 text-sm leading-relaxed line-clamp-2">${job.scope}</p>
+
+                ${job.skills && job.skills.length > 0 ? `
+                <div class="flex flex-wrap gap-1.5">
+                    ${job.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+                </div>` : ''}
+
+                <div class="flex gap-3 pt-1">
+                    <button onclick="passJob('${job.id}')" class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-700/60 hover:bg-gray-700 border border-gray-600/50 hover:border-gray-500 text-gray-300 hover:text-white font-semibold text-sm rounded-xl transition-all duration-200">
+                        <i class="fas fa-times text-xs"></i> Pass
+                    </button>
+                    <button onclick="joinQueue('${job.id}')" class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm rounded-xl transition-all duration-200 shadow-md hover:shadow-teal-600/25">
+                        <i class="fas fa-hand-paper text-xs"></i> Join Queue
+                    </button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // ── Join Queue ────────────────────────────────────────────────────────────
+    // Real UUID bounties are intercepted by the API bridge below.
+    // This local path is kept only for any non-UUID IDs that may still appear.
+    function joinQueue(jobId) {
+        const job = jobs.find(j => String(j.id) === String(jobId));
+        if (!job) return;
+
+        // Pull real profile data from the active session (set by PTJO.init)
+        const sess    = (window.PTJO && PTJO.session && PTJO.session()) || {};
+        const profile = sess.profile || {};
+        const user    = sess.user    || {};
+
+        const handle = profile.handle || user.email || 'hacker';
+        const pfp    = profile.avatar_url || ('https://api.dicebear.com/7.x/avataaars/svg?seed=' + encodeURIComponent(handle) + '&backgroundColor=0d9488');
+
+        const apps = JSON.parse(localStorage.getItem('ptjo_hacker_applications') || '[]');
+        if (!apps.find(a => a.requestId === String(jobId) && a.hackerId === myHackerId)) {
+            apps.push({
+                requestId:         String(jobId),
+                hackerId:          myHackerId,
+                hackerName:        handle,
+                hackerPfp:         pfp,
+                hackerRating:      profile.avg_rating      || null,
+                hackerReviews:     profile.review_count    || 0,
+                hackerJobs:        profile.jobs_done       || 0,
+                hackerResponseTime:'< 2 hours',
+                hackerCerts:       (profile.certifications || []).map(c => c.name || c),
+                hackerBio:         profile.bio             || '',
+                hackerSpecialties: (profile.skills         || []).map(s => s.skill_code || s),
+                hackerPhone:       profile.phone_e164      || '',
+                availability:      'Available Now',
+                status:            'pending',
+                appliedAt:         new Date().toISOString()
+            });
+            localStorage.setItem('ptjo_hacker_applications', JSON.stringify(apps));
+        }
+
+        jobs = jobs.filter(j => String(j.id) !== String(jobId));
+        renderJobs();
+        updateStats();
+        renderEngagements();
+        showToast('Joined the queue! The customer can now see your profile.', 'success');
+    }
+
+    // ── Pass Job ─────────────────────────────────────────────────────────────
+    function passJob(jobId) {
+        jobs = jobs.filter(j => String(j.id) !== String(jobId));
+        renderJobs();
+        updateStats();
+        showToast('Job skipped.', 'info');
+    }
+
+    // ── Accept / Refuse a pending engagement ─────────────────────────────────
+    // Accept / Refuse now route through a details + confirmation modal so the
+    // hacker reviews the job before committing, and misclicks can be cancelled.
+    var __engPendingChoice = null; // { engId, action }
+
+    function __engFmtMoney(v) {
+        if (v === undefined || v === null || v === '') return null;
+        var n = Number(v);
+        if (isNaN(n)) return String(v);
+        return '$' + n.toLocaleString();
+    }
+    function __engPick(obj, keys) {
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            if (obj && obj[k] !== undefined && obj[k] !== null && obj[k] !== '') return obj[k];
+        }
+        return null;
+    }
+    function __engEsc(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+
+    function __ensureEngConfirmModal() {
+        if (document.getElementById('eng-confirm-modal')) return;
+        var html = '' +
+        '<div id="eng-confirm-modal" class="fixed inset-0 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4" style="z-index:70">' +
+          '<div class="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">' +
+            '<div class="px-6 py-4 border-b border-gray-700 flex items-center gap-3">' +
+              '<div id="eng-confirm-icon" class="w-11 h-11 rounded-xl flex items-center justify-center text-lg"></div>' +
+              '<div class="min-w-0">' +
+                '<h3 id="eng-confirm-title" class="text-lg font-bold text-white"></h3>' +
+                '<p id="eng-confirm-sub" class="text-sm text-gray-400"></p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="px-6 py-5 max-h-[60vh] overflow-y-auto">' +
+              '<div id="eng-confirm-details" class="space-y-3"></div>' +
+            '</div>' +
+            '<div class="px-6 py-4 border-t border-gray-700 flex gap-3 justify-end">' +
+              '<button onclick="closeEngConfirm()" class="px-4 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold text-sm transition-colors">Cancel</button>' +
+              '<button id="eng-confirm-go" onclick="confirmEngChoice()" class="px-5 py-2.5 rounded-xl text-white font-semibold text-sm transition-colors"></button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+        document.body.insertAdjacentHTML('beforeend', html);
+    }
+
+    window.closeEngConfirm = function () {
+        var m = document.getElementById('eng-confirm-modal');
+        if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+        __engPendingChoice = null;
+    };
+
+    // Step 1 — show job details and ask for confirmation.
+    window.respondEngagement = async function (engId, action) {
+        __ensureEngConfirmModal();
+        __engPendingChoice = { engId: engId, action: action };
+        var isAccept = action === 'accept';
+
+        var icon = document.getElementById('eng-confirm-icon');
+        icon.className = 'w-11 h-11 rounded-xl flex items-center justify-center text-lg ' + (isAccept ? 'bg-teal-500/20 text-teal-400' : 'bg-red-500/20 text-red-400');
+        icon.innerHTML = '<i class="fas ' + (isAccept ? 'fa-check' : 'fa-xmark') + '"></i>';
+        document.getElementById('eng-confirm-title').textContent = isAccept ? 'Accept this engagement?' : 'Refuse this engagement?';
+        document.getElementById('eng-confirm-sub').textContent = isAccept
+            ? 'Review the job details below, then confirm to take the job.'
+            : 'Review the job details below. The client will be notified.';
+        var goBtn = document.getElementById('eng-confirm-go');
+        goBtn.disabled = false;
+        goBtn.classList.remove('hidden');
+        goBtn.textContent = isAccept ? 'Confirm & Accept' : 'Confirm & Refuse';
+        goBtn.className = 'px-5 py-2.5 rounded-xl text-white font-semibold text-sm transition-colors ' + (isAccept ? 'bg-teal-600 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-500');
+
+        var box = document.getElementById('eng-confirm-details');
+        box.innerHTML = '<div class="text-sm text-gray-400">Loading job details…</div>';
+
+        var m = document.getElementById('eng-confirm-modal');
+        m.classList.remove('hidden'); m.classList.add('flex');
+
+        var eng = null;
+        try {
+            var res = await PTJO.hacker.getEngagements();
+            var list = (res && (res.engagements || res.data || res.items)) || (Array.isArray(res) ? res : []);
+            for (var i = 0; i < list.length; i++) {
+                if (String(list[i].id) === String(engId) || String(list[i].public_id) === String(engId)) { eng = list[i]; break; }
+            }
+        } catch (e) { /* fall back to confirm-only */ }
+
+        // Merge the already-rendered local item (guaranteed clean fields) with the
+        // raw API row; local values win since they match what the card shows.
+        var local = {};
+        try {
+            var stored = JSON.parse(localStorage.getItem('ptjo_hacker_applications') || '[]');
+            for (var li = 0; li < stored.length; li++) {
+                if (String(stored[li].id) === String(engId) || String(stored[li].publicId) === String(engId)) { local = stored[li]; break; }
+            }
+        } catch (e) {}
+        var src = Object.assign({}, eng || {}, local);
+        if (!eng && !local.id) { box.innerHTML = '<div class="text-sm text-gray-400">Job details are unavailable right now, but you can still confirm your choice.</div>'; return; }
+
+        var title    = __engPick(src, ['serviceLabel', 'service_label', 'serviceType', 'service_type', 'service', 'title', 'category']);
+        var client   = __engPick(src, ['customerName', 'customer_name', 'client_name', 'customer', 'client', 'company_name']);
+        var price    = __engFmtMoney(__engPick(src, ['agreedPrice', 'price_amount', 'budget', 'amount', 'price', 'reward']));
+        var deadline = __engPick(src, ['deadline', 'due_date', 'due']);
+        if (deadline) { var _d = new Date(deadline); if (!isNaN(_d.getTime())) deadline = _d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+        var priority = __engPick(src, ['priorityText', 'priority_text', 'priority', 'urgency']);
+        var scope    = __engPick(src, ['scope', 'scope_details', 'description', 'details', 'notes']);
+        var pid      = __engPick(src, ['publicId', 'public_id', 'id']);
+
+        function row(label, value, ic) {
+            if (value === null) return '';
+            return '<div class="flex items-start gap-3">' +
+                   '<div class="w-8 text-center text-gray-500 pt-0.5"><i class="fas ' + ic + '"></i></div>' +
+                   '<div class="min-w-0"><div class="text-xs uppercase tracking-wide text-gray-500">' + __engEsc(label) + '</div>' +
+                   '<div class="text-sm text-gray-200 break-words">' + __engEsc(value) + '</div></div></div>';
+        }
+
+        var rows = '';
+        rows += row('Service', title, 'fa-shield-halved');
+        rows += row('Client', client, 'fa-user');
+        rows += row('Payout', price, 'fa-dollar-sign');
+        rows += row('Deadline', deadline, 'fa-clock');
+        rows += row('Priority', priority, 'fa-flag');
+        if (pid) rows += row('Reference', pid, 'fa-hashtag');
+        if (scope) {
+            rows += '<div class="pt-3 border-t border-gray-800">' +
+                    '<div class="text-xs uppercase tracking-wide text-gray-500 mb-1">Job Description</div>' +
+                    '<div class="text-sm text-gray-300 whitespace-pre-wrap break-words">' + __engEsc(scope) + '</div></div>';
+        }
+        box.innerHTML = rows || '<div class="text-sm text-gray-400">No additional details were provided for this job.</div>';
+    };
+
+    // Read-only details view — lets the hacker re-open the full job details at any
+    // status (pending, accepted, in progress, completed), not just before deciding.
+    window.viewEngagementDetails = async function (engId) {
+        __ensureEngConfirmModal();
+        __engPendingChoice = null;
+        var icon = document.getElementById('eng-confirm-icon');
+        icon.className = 'w-11 h-11 rounded-xl flex items-center justify-center text-lg bg-teal-500/20 text-teal-400';
+        icon.innerHTML = '<i class="fas fa-circle-info"></i>';
+        document.getElementById('eng-confirm-title').textContent = 'Job Details';
+        document.getElementById('eng-confirm-sub').textContent = 'Full details for this engagement.';
+        var goBtn = document.getElementById('eng-confirm-go');
+        if (goBtn) goBtn.classList.add('hidden');   // no action button in read-only mode
+        var box = document.getElementById('eng-confirm-details');
+        box.innerHTML = '<div class="text-sm text-gray-400">Loading job details…</div>';
+        var m = document.getElementById('eng-confirm-modal');
+        m.classList.remove('hidden'); m.classList.add('flex');
+
+        var eng = null;
+        try {
+            var res = await PTJO.hacker.getEngagements();
+            var list = (res && (res.engagements || res.data || res.items)) || (Array.isArray(res) ? res : []);
+            for (var i = 0; i < list.length; i++) {
+                if (String(list[i].id) === String(engId) || String(list[i].public_id) === String(engId)) { eng = list[i]; break; }
+            }
+        } catch (e) {}
+        var local = {};
+        try {
+            var stored = JSON.parse(localStorage.getItem('ptjo_hacker_applications') || '[]');
+            for (var li = 0; li < stored.length; li++) {
+                if (String(stored[li].id) === String(engId) || String(stored[li].publicId) === String(engId)) { local = stored[li]; break; }
+            }
+        } catch (e) {}
+        var src = Object.assign({}, eng || {}, local);
+        if (!eng && !local.id) { box.innerHTML = '<div class="text-sm text-gray-400">Job details are unavailable right now.</div>'; return; }
+
+        var title    = __engPick(src, ['serviceLabel', 'service_label', 'serviceType', 'service_type', 'service', 'title', 'category']);
+        var client   = __engPick(src, ['customerName', 'customer_name', 'client_name', 'customer', 'client', 'company_name']);
+        var price    = __engFmtMoney(__engPick(src, ['agreedPrice', 'price_amount', 'budget', 'amount', 'price', 'reward']));
+        var deadline = __engPick(src, ['deadline', 'due_date', 'due']);
+        if (deadline) { var _d = new Date(deadline); if (!isNaN(_d.getTime())) deadline = _d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+        var priority = __engPick(src, ['priorityText', 'priority_text', 'priority', 'urgency']);
+        var scope    = __engPick(src, ['scope', 'scope_details', 'description', 'details', 'notes']);
+        var pid      = __engPick(src, ['publicId', 'public_id', 'id']);
+        var statusLabel = __engPick(src, ['status']);
+        if (statusLabel) statusLabel = String(statusLabel).replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+
+        function row(label, value, ic) {
+            if (value === null) return '';
+            return '<div class="flex items-start gap-3">' +
+                   '<div class="w-8 text-center text-gray-500 pt-0.5"><i class="fas ' + ic + '"></i></div>' +
+                   '<div class="min-w-0"><div class="text-xs uppercase tracking-wide text-gray-500">' + __engEsc(label) + '</div>' +
+                   '<div class="text-sm text-gray-200 break-words">' + __engEsc(value) + '</div></div></div>';
+        }
+
+        var rows = '';
+        rows += row('Service', title, 'fa-shield-halved');
+        rows += row('Client', client, 'fa-user');
+        rows += row('Status', statusLabel, 'fa-circle-dot');
+        rows += row('Payout', price, 'fa-dollar-sign');
+        rows += row('Deadline', deadline, 'fa-clock');
+        rows += row('Priority', priority, 'fa-flag');
+        if (pid) rows += row('Reference', pid, 'fa-hashtag');
+        if (scope) {
+            rows += '<div class="pt-3 border-t border-gray-800">' +
+                    '<div class="text-xs uppercase tracking-wide text-gray-500 mb-1">Job Description</div>' +
+                    '<div class="text-sm text-gray-300 whitespace-pre-wrap break-words">' + __engEsc(scope) + '</div></div>';
+        }
+        box.innerHTML = rows || '<div class="text-sm text-gray-400">No additional details were provided for this job.</div>';
+    };
+
+    // Step 2 — actually perform the chosen action against the API.
+    window.confirmEngChoice = async function () {
+        if (!__engPendingChoice) { closeEngConfirm(); return; }
+        var engId = __engPendingChoice.engId, action = __engPendingChoice.action;
+        var goBtn = document.getElementById('eng-confirm-go');
+        if (goBtn) { goBtn.disabled = true; goBtn.textContent = 'Working…'; }
+
+        // Tolerate either verb-style ('accept') or status-style ('accepted') backends.
+        var attempts = action === 'accept' ? ['accept', 'accepted'] : ['decline', 'declined'];
+        var ok = false, err = '';
+        for (var i = 0; i < attempts.length && !ok; i++) {
+            try {
+                var res = await PTJO.hacker.updateEngagementStatus(engId, attempts[i], '');
+                if (res && res.ok) ok = true; else err = (res && res.error) || err;
+            } catch (e) { err = String(e); }
+        }
+        closeEngConfirm();
+        if (ok) {
+            if (window.PTJO && PTJO.toast) PTJO.toast(action === 'accept' ? 'Engagement accepted!' : 'Engagement refused.', 'success');
+            if (typeof window.loadEngagementsFromAPI === 'function') await window.loadEngagementsFromAPI();
+            if (typeof window.loadQueueFromAPI === 'function') await window.loadQueueFromAPI();
+        } else {
+            if (window.PTJO && PTJO.toast) PTJO.toast(err || 'Could not update the engagement.', 'error');
+        }
+    };
+
+    // ── Render Engagements (hired jobs) ──────────────────────────────────────
+    // Data comes from the API bridge (PTJO.hacker.getEngagements) written into
+    // ptjo_hacker_applications. The API already scopes rows to this hacker, so
+    // render them all — do NOT filter by the local mock id.
+    function renderEngagements() {
+        const grid  = document.getElementById('engagements-grid');
+        const empty = document.getElementById('engagements-empty');
+        if (!grid || !empty) return;
+        const items = JSON.parse(localStorage.getItem('ptjo_hacker_applications') || '[]');
+
+        if (items.length === 0) {
+            grid.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        empty.classList.add('hidden');
+
+        const STATUS = {
+            pending:     { label: 'Pending',     cls: 'badge-pending',   icon: 'fa-hourglass-half' },
+            accepted:    { label: 'Accepted',    cls: 'badge-active',    icon: 'fa-check-circle' },
+            in_progress: { label: 'In Progress', cls: 'badge-active',    icon: 'fa-spinner' },
+            completed:   { label: 'Completed',   cls: 'badge-completed', icon: 'fa-flag-checkered' },
+            declined:    { label: 'Declined',    cls: 'badge-high',      icon: 'fa-times-circle' },
+            cancelled:   { label: 'Cancelled',   cls: 'badge-high',      icon: 'fa-ban' }
+        };
+
+        grid.innerHTML = items.map((e, i) => {
+            const sc = STATUS[e.status] || STATUS.pending;
+            const icon = serviceIcons[e.serviceType] || 'fa-briefcase';
+            const service = e.serviceLabel || e.serviceType || 'Engagement';
+            const budget = e.agreedPrice ? ('$' + Number(e.agreedPrice).toLocaleString()) : 'N/A';
+            const deadline = e.deadline ? new Date(e.deadline).toLocaleDateString('en-US', { month:'short', day:'numeric' }) : '—';
+            const customer = e.customerName || 'Client';
+            const nameArg = String(customer).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+            return `
+            <div class="eng-card fade-in" style="animation-delay:${i * 0.05}s">
+                <div class="flex items-start justify-between gap-3 mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-teal-600/15 flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${icon} text-teal-400"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-white text-sm">${service}</div>
+                            <div class="text-gray-500 text-xs mt-0.5">${customer}${e.publicId ? ' · ' + e.publicId : ''}</div>
+                        </div>
+                    </div>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${sc.cls}">
+                        <i class="fas ${sc.icon} text-xs"></i>${sc.label}
+                    </span>
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                        <i class="fas fa-dollar-sign text-green-400 text-xs"></i>
+                        <span class="font-semibold">${budget}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                        <i class="fas fa-clock text-blue-400 text-xs"></i>
+                        <span>Due ${deadline}</span>
+                    </div>
+                </div>
+                ${e.status === 'pending' ? `
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <button onclick="respondEngagement('${e.id}','accept')" class="flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm rounded-xl transition-all duration-200"><i class="fas fa-check"></i> Accept</button>
+                    <button onclick="respondEngagement('${e.id}','decline')" class="flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600/20 hover:bg-red-600 border border-red-600/40 text-red-300 hover:text-white font-semibold text-sm rounded-xl transition-all duration-200"><i class="fas fa-xmark"></i> Refuse</button>
+                </div>` : ''}
+                <button onclick="viewEngagementDetails('${e.id}')"
+                    class="w-full flex items-center justify-center gap-2 px-4 py-2.5 mb-2 bg-gray-700/60 hover:bg-gray-600 text-gray-100 font-semibold text-sm rounded-xl transition-all duration-200">
+                    <i class="fas fa-circle-info"></i> View Details
+                </button>
+                <button onclick="if(window.openEngagementChat)openEngagementChat('${e.id}','${nameArg}')"
+                    class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-semibold text-sm rounded-xl transition-all duration-200">
+                    <i class="fas fa-comments"></i> Chat with Client
+                </button>
+            </div>`;
+        }).join('');
+    }
+
+    // ── My Queue (Applied Jobs) ──────────────────────────────────────────────
+    // Data is loaded by the API bridge (PTJO.hacker.getApplications) into
+    // ptjo_hacker_queue; this just renders whatever is in the store.
+    function renderQueue() {
+        const grid  = document.getElementById('queue-grid');
+        const empty = document.getElementById('queue-empty');
+        if (!grid || !empty) return;
+        const items = JSON.parse(localStorage.getItem('ptjo_hacker_queue') || '[]');
+
+        if (items.length === 0) {
+            grid.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        empty.classList.add('hidden');
+
+        grid.innerHTML = items.map((a, i) => {
+            const st = a.applicationStatus;
+            let label, cls, icon, banner;
+            if (st === 'accepted') {
+                label = 'Selected'; cls = 'badge-completed'; icon = 'fa-check-circle';
+                banner = `<div class="flex items-center gap-2 px-3 py-2 bg-teal-500/10 border border-teal-500/30 rounded-xl text-teal-400 text-sm font-semibold"><i class="fas fa-check-circle"></i> You were selected for this engagement!</div>`;
+            } else if (st === 'rejected') {
+                label = 'Not Selected'; cls = 'badge-high'; icon = 'fa-times-circle';
+                banner = `<div class="flex items-center gap-2 px-3 py-2 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm"><i class="fas fa-info-circle"></i> Another pentester was selected for this request.</div>`;
+            } else {
+                label = 'In Queue'; cls = 'badge-pending'; icon = 'fa-hourglass-half';
+                banner = `<div class="flex items-center gap-2 px-3 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-yellow-400 text-sm"><i class="fas fa-hourglass-half"></i> Waiting for the customer to review applicants.</div>`;
+            }
+            const cardIcon = serviceIcons[a.serviceType] || a.icon || 'fa-briefcase';
+            const service  = a.serviceLabel || a.serviceType || 'Engagement';
+            const budget   = a.budget ? ('$' + Number(a.budget).toLocaleString()) : 'N/A';
+            const applied  = a.appliedAt ? new Date(a.appliedAt).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : 'recently';
+            const deadline = a.deadline ? new Date(a.deadline).toLocaleDateString('en-US', { month:'short', day:'numeric' }) : '—';
+            return `
+            <div class="eng-card fade-in" style="animation-delay:${i * 0.05}s">
+                <div class="flex items-start justify-between gap-3 mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-teal-600/15 flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${cardIcon} text-teal-400"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-white text-sm">${service}</div>
+                            <div class="text-gray-500 text-xs mt-0.5">${a.customerName || 'Client'} &nbsp;·&nbsp; Applied ${applied}</div>
+                        </div>
+                    </div>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${cls}">
+                        <i class="fas ${icon} text-xs"></i>${label}
+                    </span>
+                </div>
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                        <i class="fas fa-dollar-sign text-green-400 text-xs"></i>
+                        <span class="font-semibold">${budget}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-sm text-gray-300">
+                        <i class="fas fa-clock text-blue-400 text-xs"></i>
+                        <span>Due ${deadline}</span>
+                    </div>
+                </div>
+                ${a.scope ? `<p class="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-3">${a.scope}</p>` : ''}
+                ${banner}
+            </div>`;
+        }).join('');
+    }
+
+    // ── Notifications ─────────────────────────────────────────────────────────
+    function renderNotifications() {
+        const container = document.getElementById('notifications-list');
+        const empty     = document.getElementById('notifications-empty');
+        const notifs = JSON.parse(localStorage.getItem('ptjo_notifications') || '[]')
+            .filter(n => n.hackerId === myHackerId)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        if (notifs.length === 0) {
+            container.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        empty.classList.add('hidden');
+
+        container.innerHTML = notifs.map((n, i) => {
+            const isSelected = n.type === 'selected';
+            const bgClass   = isSelected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-gray-800/60 border-gray-700';
+            const iconClass = isSelected ? 'fas fa-check-circle text-teal-400' : 'fas fa-times-circle text-gray-500';
+            const readDot   = !n.read ? '<span class="w-2 h-2 bg-teal-400 rounded-full flex-shrink-0"></span>' : '';
+            const timeStr   = timeAgo(n.createdAt);
+            return `
+            <div class="flex items-start gap-4 p-4 border ${bgClass} rounded-xl fade-in" style="animation-delay:${i*0.04}s">
+                <div class="w-10 h-10 rounded-xl ${isSelected ? 'bg-teal-600/20' : 'bg-gray-700/60'} flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <i class="${iconClass} text-lg"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between gap-2 mb-1">
+                        <span class="font-bold text-sm ${isSelected ? 'text-teal-300' : 'text-gray-300'}">${isSelected ? 'You were selected!' : 'Not selected'}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-600">${timeStr}</span>
+                            ${readDot}
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">${n.message}</p>
+                    <div class="mt-1.5 text-xs text-gray-600 font-medium"><i class="fas fa-briefcase mr-1.5"></i>${n.service}</div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function markNotificationsRead() {
+        const notifs = JSON.parse(localStorage.getItem('ptjo_notifications') || '[]');
+        notifs.forEach(n => { if (n.hackerId === myHackerId) n.read = true; });
+        localStorage.setItem('ptjo_notifications', JSON.stringify(notifs));
+        const badge = document.getElementById('notif-badge');
+        if (badge) { badge.textContent = '0'; badge.style.display = 'none'; }
+    }
+
+    // ── Toast ─────────────────────────────────────────────────────────────────
+    function showToast(msg, type) {
+        const toast = document.getElementById('toast');
+        const bg    = type === 'success' ? 'background:#0f766e; color:#ccfbf1;' : 'background:#374151; color:#e5e7eb;';
+        const icon  = type === 'success' ? 'fa-check-circle' : 'fa-info-circle';
+        toast.setAttribute('style', bg);
+        toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ── Dropdown ─────────────────────────────────────────────────────────────
+    function initDropdown() {
+        const dropdowns = [
+            { toggle: document.getElementById('dropdown-toggle-products'), menu: document.getElementById('dropdown-menu-products') },
+            { toggle: document.getElementById('dropdown-toggle-industries'), menu: document.getElementById('dropdown-menu-industries') }
+        ].filter(d => d.toggle && d.menu);
+        const closeAll = () => {
+            dropdowns.forEach(d => {
+                d.menu.classList.remove('dropdown-active');
+                d.menu.classList.add('hidden');
+                d.toggle.querySelector('.dropdown-toggle-svg')?.classList.remove('active');
+            });
+        };
+        dropdowns.forEach(d => {
+            d.toggle.addEventListener('click', e => {
+                e.stopPropagation();
+                const isOpen = !d.menu.classList.contains('hidden');
+                closeAll();
+                if (!isOpen) {
+                    d.menu.classList.remove('hidden');
+                    d.menu.classList.add('dropdown-active');
+                    d.toggle.querySelector('.dropdown-toggle-svg')?.classList.add('active');
+                }
+            });
+            d.menu.addEventListener('click', e => e.stopPropagation());
+        });
+        document.addEventListener('click', closeAll);
+    }
+</script>
+
+<!-- ── Chat Modal ── -->
+<div id="chat-modal" class="hidden fixed inset-0 z-[400] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-lg h-[70vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="bg-gray-900 px-5 py-3 border-b border-gray-700 flex items-center justify-between flex-shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-teal-500/15 flex items-center justify-center"><i class="fas fa-comments text-teal-400 text-sm"></i></div>
+        <div><h3 class="text-white font-bold text-sm">Chat</h3><p id="chat-with" class="text-gray-500 text-xs"></p></div>
+      </div>
+      <button type="button" onclick="closeChat()" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-white hover:bg-gray-700 transition-all"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-900/40">
+      <div id="chat-empty" class="hidden text-center text-gray-600 text-sm py-10"><i class="fas fa-comment-dots text-2xl mb-2 block opacity-40"></i>No messages yet. Say hello!</div>
+    </div>
+    <form id="chat-form" onsubmit="sendChat(event)" class="flex items-center gap-2 px-3 py-3 border-t border-gray-700 bg-gray-900 flex-shrink-0">
+      <input id="chat-input" type="text" autocomplete="off" placeholder="Type a message…" class="flex-1 bg-gray-800 border border-gray-700 rounded-xl py-2.5 px-4 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-teal-500">
+      <button type="submit" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold transition-all"><i class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ── PTjo — Engagement chat (hacker side) ──────────────────────────────── */
+(function () {
+    'use strict';
+    var engId = null, poll = null, lastCount = -1;
+    function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function fmtTime(s){ if(!s) return ''; try { return new Date(String(s).replace(' ','T') + 'Z').toLocaleString(); } catch(e){ return s; } }
+
+    window.openEngagementChat = function (id, name) {
+        if (!id) return;
+        engId = id;
+        document.getElementById('chat-with').textContent = name ? ('with ' + name) : '';
+        document.getElementById('chat-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        lastCount = -1;
+        loadChat();
+        clearInterval(poll); poll = setInterval(loadChat, 4000);
+        setTimeout(function(){ var i = document.getElementById('chat-input'); if (i) i.focus(); }, 60);
+    };
+
+    window.closeChat = function () {
+        document.getElementById('chat-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+        clearInterval(poll); poll = null; engId = null;
+    };
+
+    async function loadChat() {
+        if (!engId) return;
+        try {
+            var res = await PTJO.hacker.getMessages(engId);
+            if (!res || !res.ok) return;
+            var msgs = res.messages || [];
+            if (msgs.length === lastCount) return;
+            lastCount = msgs.length;
+            var box = document.getElementById('chat-messages');
+            var empty = document.getElementById('chat-empty');
+            box.querySelectorAll('.chat-bubble-row').forEach(function(n){ n.remove(); });
+            if (!msgs.length) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            msgs.forEach(function(m){
+                var mine = !!m.mine;
+                var row = document.createElement('div');
+                row.className = 'chat-bubble-row flex ' + (mine ? 'justify-end' : 'justify-start');
+                row.innerHTML = '<div class="max-w-[75%]">' +
+                    '<div class="' + (mine ? 'bg-teal-600 text-white' : 'bg-gray-700 text-gray-100') + ' rounded-2xl px-4 py-2 text-sm whitespace-pre-wrap break-words">' + esc(m.body) + '</div>' +
+                    '<div class="text-[10px] text-gray-500 mt-1 ' + (mine ? 'text-right' : '') + '">' + (mine ? 'You' : esc(m.sender_name || '')) + ' · ' + fmtTime(m.created_at) + '</div>' +
+                    '</div>';
+                box.appendChild(row);
+            });
+            box.scrollTop = box.scrollHeight;
+        } catch (e) { console.warn('[Chat] load:', e); }
+    }
+
+    window.sendChat = async function (ev) {
+        if (ev) ev.preventDefault();
+        var input = document.getElementById('chat-input');
+        var text = input.value.trim();
+        if (!text || !engId) return;
+        input.value = '';
+        try {
+            var res = await PTJO.hacker.sendMessage(engId, text);
+            if (res && res.ok) { lastCount = -1; loadChat(); }
+            else { input.value = text; if (window.PTJO && PTJO.toast) PTJO.toast((res && res.error) || 'Could not send.', 'error'); }
+        } catch (e) { input.value = text; console.warn('[Chat] send:', e); }
+    };
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var m = document.getElementById('chat-modal');
+        if (m && !m.classList.contains('hidden')) closeChat();
+    });
+    document.addEventListener('click', function (e) {
+        var m = document.getElementById('chat-modal');
+        if (m && e.target === m) closeChat();
+    });
+})();
+</script>
+
+<script src="../assets/lang.js"></script>
+<script src="../assets/settings-panel.js"></script>
+<script src="../assets/api.js"></script>
+<script>
+/* ── PTjo API Bridge — Hacker Dashboard ─────────────────────────────────────
+   PTJO_API_BASE overrides auto-detection for correct path on XAMPP.       */
+(function () {
+    'use strict';
+
+    window.PTJO_API_BASE = '../api/';
+
+    /* ── Bootstrap ─────────────────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', async function () {
+        var session = await PTJO.init('hacker');
+        if (!session) return;
+
+        /* Hydrate nav avatar */
+        var _pBtn = document.getElementById('nav-profile-btn');
+        if (_pBtn) _pBtn.classList.remove('hidden');
+
+        /* Nav hydration */
+        var p = session.profile, u = session.user;
+        var handleEl = document.getElementById('hacker-handle') || document.querySelector('[data-hacker-handle]');
+        if (handleEl) handleEl.textContent = '@' + (p.handle || u.email);
+        var nameEl = document.getElementById('hacker-name') || document.querySelector('[data-hacker-name]');
+        if (nameEl) nameEl.textContent = p.display_name || p.handle || u.email;
+        var avatarEl = document.getElementById('hacker-avatar');
+        if (avatarEl && p.avatar_url) avatarEl.src = p.avatar_url;
+        document.querySelectorAll('[data-user-avatar],[data-hacker-avatar]').forEach(function(el){
+            if (p.avatar_url) el.src = p.avatar_url;
+        });
+
+        /* Stat chips (header strip) */
+        var jobsDone = parseInt(p.jobs_done) || 0;
+        var avgRating = parseFloat(p.avg_rating) || 0;
+        var chipJobs = document.getElementById('chip-jobs-done');
+        var chipRating = document.getElementById('chip-rating');
+        var chipEarned = document.getElementById('chip-earned');
+        if (chipJobs)   chipJobs.textContent   = jobsDone + ' Jobs Done';
+        if (chipRating) chipRating.textContent = (avgRating > 0 ? avgRating.toFixed(1) : '—') + '★ Rating';
+
+        /* Stat cards (main row) */
+        var statRatingEl = document.getElementById('stat-rating');
+        var statEarnedEl = document.getElementById('stat-earned');
+        if (statRatingEl) statRatingEl.textContent = avgRating > 0 ? avgRating.toFixed(1) + '★' : '—';
+
+        /* Wallet balance — fetched separately */
+        PTJO.hacker.getWallet().then(function(wr) {
+            if (!wr || !wr.ok) return;
+            // get_wallet.php returns the balance nested under `wallet`.
+            var bal = parseFloat((wr.wallet && wr.wallet.balance) != null ? wr.wallet.balance : wr.balance) || 0;
+            var fmt = PTJO.formatUSD(bal);
+            if (chipEarned)   chipEarned.textContent   = fmt + ' Earned';
+            if (statEarnedEl) statEarnedEl.textContent = fmt;
+            var walletEl = document.getElementById('hacker-wallet-balance');
+            if (walletEl) walletEl.textContent = fmt;
+        }).catch(function(){});
+
+        /* Fix logout buttons */
+        document.querySelectorAll('button, a').forEach(function(el){
+            var oc = el.getAttribute('onclick') || '';
+            if (/logout|signOut|sign.out/i.test(oc) || el.id === 'logout-btn' || (el.classList && el.classList.contains('logout-btn'))) {
+                el.removeAttribute('onclick');
+                el.addEventListener('click', function(e){ e.preventDefault(); PTJO.logout(); });
+            }
+        });
+
+        /* Load data */
+        await loadJobsFromAPI();
+        await loadEngagementsFromAPI();
+        await loadQueueFromAPI();
+        await loadNotifsFromAPI();
+
+        setInterval(loadNotifsFromAPI, 30000);
+    });
+
+    /* ── Bounties (open jobs) ───────────────────────────────────────────────── */
+    async function loadJobsFromAPI() {
+        try {
+            var res = await PTJO.hacker.getBounties();
+            if (!res || !res.ok) return;
+            var jobs = (res.bounties || []).map(function(b) {
+                return {
+                    id: b.id,
+                    serviceType: b.service_key,
+                    serviceLabel: b.service_label,
+                    title: b.service_label,          /* bounty_requests has no title col */
+                    description: b.scope_details || '',
+                    budget: parseFloat(b.price_amount) || 0,
+                    deadline: b.deadline,
+                    status: b.status,
+                    createdAt: b.created_at,
+                    already_applied: !!b.already_applied,
+                    customerName: b.customer_name || 'Client'  /* aliased from display_name */
+                };
+            });
+            localStorage.setItem('ptjo_customer_requests', JSON.stringify(jobs));
+            if (typeof renderJobs === 'function') renderJobs();
+            else if (typeof renderAvailableJobs === 'function') renderAvailableJobs();
+        } catch(e) { console.warn('[Bridge] getBounties:', e); }
+    }
+
+    /* ── Engagements ────────────────────────────────────────────────────────── */
+    async function loadEngagementsFromAPI() {
+        try {
+            var res = await PTJO.hacker.getEngagements();
+            if (!res || !res.ok) return;
+            var apps = (res.engagements || []).map(function(eng) {
+                return {
+                    id: eng.id,
+                    publicId: eng.public_id,
+                    bountyId: eng.bounty_request_id,
+                    status: eng.status,
+                    serviceType: eng.service_type,
+                    serviceLabel: eng.service_type,
+                    customerName: eng.customer_name || eng.client_display_name || 'Client',
+                    agreedPrice: parseFloat(eng.agreed_price_usd) || 0,
+                    deadline: eng.deadline,
+                    createdAt: eng.created_at,
+                    reportCount: parseInt(eng.report_count) || 0
+                };
+            });
+            localStorage.setItem('ptjo_hacker_applications', JSON.stringify(apps));
+            if (typeof renderEngagements === 'function') renderEngagements();
+            else if (typeof renderMyApplications === 'function') renderMyApplications();
+        } catch(e) { console.warn('[Bridge] getEngagements:', e); }
+    }
+
+    /* ── My Queue (applications) ────────────────────────────────────────────── */
+    async function loadQueueFromAPI() {
+        try {
+            var res = await PTJO.hacker.getApplications();
+            if (!res || !res.ok) return;
+            var items = (res.applications || []).map(function(a) {
+                return {
+                    applicationId:     a.application_id,
+                    applicationStatus: a.application_status,
+                    bountyId:          a.bounty_id,
+                    serviceType:       a.service_key,
+                    serviceLabel:      a.service_label,
+                    icon:              a.icon,
+                    budget:            parseFloat(a.price_amount) || 0,
+                    deadline:          a.deadline,
+                    priorityText:      a.priority_text,
+                    scope:             a.scope_details || '',
+                    customerName:      a.customer_name || 'Client',
+                    bountyStatus:      a.bounty_status,
+                    appliedAt:         a.applied_at
+                };
+            });
+            localStorage.setItem('ptjo_hacker_queue', JSON.stringify(items));
+            if (typeof renderQueue === 'function') renderQueue();
+        } catch(e) { console.warn('[Bridge] getApplications:', e); }
+    }
+    window.loadQueueFromAPI = loadQueueFromAPI;
+    window.loadEngagementsFromAPI = loadEngagementsFromAPI;
+
+    /* ── Notifications ──────────────────────────────────────────────────────── */
+    async function loadNotifsFromAPI() {
+        try {
+            var res = await PTJO.hacker.getNotifications(false);
+            if (!res || !res.ok) return;
+            var notifs = (res.notifications || []).map(function(n) {
+                return {
+                    id: n.id,
+                    type: n.type,
+                    title: n.title,
+                    message: n.body,
+                    timestamp: n.created_at,
+                    read: !!n.read_at,
+                    payload: n.payload || {}
+                };
+            });
+            localStorage.setItem('ptjo_notifications', JSON.stringify(notifs));
+            if (typeof renderNotifications === 'function') renderNotifications();
+            else if (typeof loadHackerNotifs === 'function') loadHackerNotifs();
+            var badge = document.getElementById('hacker-notif-badge') || document.querySelector('.notif-badge');
+            var unread = notifs.filter(function(n){ return !n.read; }).length;
+            if (badge) { badge.textContent = unread || ''; badge.style.display = unread ? '' : 'none'; }
+        } catch(e) { console.warn('[Bridge] getNotifications:', e); }
+    }
+
+    /* ── Override joinQueue (apply for a bounty) ────────────────────────────── */
+    var _origJoinQueue = window.joinQueue;
+    window.joinQueue = async function (jobId, note) {
+        /* Real UUID → call real API; integer/mock → fall through to original */
+        var isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(jobId));
+        if (isUUID) {
+            try {
+                var res = await PTJO.hacker.applyBounty(jobId, note || '');
+                if (res && res.ok) {
+                    PTJO.toast('Application submitted!', 'success');
+                    await loadJobsFromAPI();
+                    await loadEngagementsFromAPI();
+                    await loadQueueFromAPI();
+                } else {
+                    PTJO.toast((res && res.error) || 'Could not apply. Please try again.', 'error');
+                }
+            } catch(err) {
+                console.error('[Bridge] applyBounty:', err);
+                PTJO.toast('Network error. Please try again.', 'error');
+            }
+            return;
+        }
+        /* Fallback: mock behaviour */
+        if (_origJoinQueue) _origJoinQueue(jobId, note);
+    };
+
+    /* ── Override updateEngagementStatus ────────────────────────────────────── */
+    var _origUpdateStatus = window.updateEngagementStatus;
+    window.updateEngagementStatus = async function (engId, action, note) {
+        if (/^[0-9a-f]{8}-/.test(String(engId))) {
+            try {
+                var res = await PTJO.hacker.updateEngagementStatus(engId, action, note || '');
+                if (res && res.ok) {
+                    PTJO.toast('Status updated.', 'success');
+                    await loadEngagementsFromAPI();
+                } else {
+                    PTJO.toast((res && res.error) || 'Update failed.', 'error');
+                }
+            } catch(e) { console.error('[Bridge] updateEngagementStatus:', e); }
+            return;
+        }
+        if (_origUpdateStatus) _origUpdateStatus(engId, action, note);
+    };
+
+    /* ── Override markNotificationsRead ────────────────────────────────────── */
+    var _origMarkRead = window.markNotificationsRead;
+    window.markNotificationsRead = async function () {
+        try { await PTJO.hacker.markNotificationRead(null, true); } catch(e) {}
+        if (_origMarkRead) _origMarkRead();
+    };
+
+})();
+</script>
+</body>
+</html>

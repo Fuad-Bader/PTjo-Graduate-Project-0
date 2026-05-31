@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTjo — Load example report (demo)</title>
+  <script src="example-ptjo-report.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 2rem auto; padding: 0 1rem; background: #111827; color: #e5e7eb; }
+    a { color: #2dd4bf; }
+    button { margin-top: 1rem; padding: 0.6rem 1.2rem; border-radius: 10px; border: 1px solid #0d9488; background: #0f766e; color: #fff; font-weight: 600; cursor: pointer; }
+    button:hover { background: #14b8a6; }
+    pre { background: #1f2937; padding: 1rem; border-radius: 8px; overflow: auto; font-size: 11px; color: #9ca3af; max-height: 320px; }
+    .ok { color: #86efac; }
+    code { background: #1f2937; padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <nav style="display:flex; gap:14px; align-items:center; justify-content:space-between; padding:0.75rem 0; margin-bottom:1.25rem; border-bottom:1px solid #1f2937;">
+    <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+      <a href="../index.html" style="font-weight:800; letter-spacing:.08em;">PTjo</a>
+      <a href="../Industries/index.html">Industries</a>
+      <a href="../Customer_Dashboard/Customer_Dashboard.html">Customer Dashboard</a>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <span style="color:#9ca3af; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;">Industries</span>
+      <a href="../Industries/finance.html">Finance</a>
+      <a href="../Industries/healthcare.html">Healthcare</a>
+      <a href="../Industries/retail.html">Retail</a>
+      <a href="../Industries/technology.html">Technology</a>
+    </div>
+  </nav>
+
+  <h1>Example vulnerability report</h1>
+  <p>Appends the demo object from <code>example-ptjo-report.js</code> into <code>localStorage.ptjo_reports</code> if <code>id</code> <code>RPT-4F2A9B</code> is not already stored. (The customer profile also auto-creates this sample when a completed order has no report.)</p>
+  <p>Open <a href="../My_ProfileCustomer/MyProfileC.html">Customer profile → Orders</a> and click <strong>View Report</strong> on <strong>Web App Testing</strong> (<code>ENG-4F2A9B</code>), or use the <a href="../Customer_Dashboard/Customer_Dashboard.html">Customer Dashboard</a> full viewer.</p>
+  <button type="button" id="seed">Load example into localStorage</button>
+  <p id="out"></p>
+  <pre id="log"></pre>
+  <script>
+    document.getElementById('seed').onclick = function () {
+      var examples = window.PTJO_EXAMPLE_REPORTS;
+      if (!examples || !examples.length) {
+        document.getElementById('out').textContent = 'example-ptjo-report.js did not load.';
+        return;
+      }
+      var existing = JSON.parse(localStorage.getItem('ptjo_reports') || '[]');
+      var added = 0;
+      examples.forEach(function (rep) {
+        if (existing.some(function (x) { return x.id === rep.id; })) return;
+        existing.push(JSON.parse(JSON.stringify(rep)));
+        added++;
+      });
+      localStorage.setItem('ptjo_reports', JSON.stringify(existing));
+      document.getElementById('out').innerHTML = '<span class="ok">Done.</span> Added ' + added + ' report(s).';
+      document.getElementById('log').textContent = JSON.stringify(examples[0], null, 2);
+    };
+  </script>
+</body>
+</html>
