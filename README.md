@@ -52,58 +52,19 @@ Configure your web server to serve files from the project directory.
 
 Then open `http://localhost:5500/` and start from `index.html`.
 
-### Docker
+### Docker Compose
 
-**1. Create a Dockerfile** in the project root:
-```dockerfile
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+**1. Run Docker Compose:**
+```bash
+docker compose up --build -d
 ```
 
-**2. Build the Docker image:**
+**2. Access the application:**
+Open `http://localhost:5500/` in your browser and start from `index.html`.
+
+**3. Stop the container:**
 ```bash
-docker build -t ptjo-app .
-```
-
-**3. Run the container:**
-```bash
-docker run -p 5500:80 ptjo-app
-```
-
-Then open `http://localhost:5500/` in your browser.
-
-### Docker Desktop
-
-**1. Ensure Docker Desktop is installed and running**
-
-**2. Create a Dockerfile** in the project root (same as Docker section above)
-
-**3. Build the image:**
-```bash
-docker build -t ptjo-app .
-```
-
-**4. Run the container from Docker Desktop:**
-- Open Docker Desktop
-- Go to **Images** tab
-- Find `ptjo-app` image
-- Click the **Run** button
-- Set **Host Port** to `5500` and **Container Port** to `80`
-- Click **Run**
-
-Or use the command line:
-```bash
-docker run -p 5500:80 ptjo-app
-```
-
-Then open `http://localhost:5500/` in your browser.
-
-**Optional: Stop and remove the container**
-```bash
-docker stop <container-id>
-docker rm <container-id>
+docker compose down
 ```
 
 ## Main pages
