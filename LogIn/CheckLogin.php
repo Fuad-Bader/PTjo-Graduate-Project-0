@@ -74,6 +74,6 @@ exit;
 // ── Helper ────────────────────────────────────────────────────────────────────
 function redirect_error(string $msg): never
 {
-    header('Location: Login.html?error=' . urlencode($msg));
+    header('Location: Login.html?tab=login&error=' . urlencode($msg));
     exit;
 }

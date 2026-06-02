@@ -1,13 +1,13 @@
 <?php
 /**
  * PTjo — Hacker signup handler
- * Handles POST from SignUp_Hacker/SignUpH.html
+ * Handles POST from the hacker signup tab on LogIn/Login.html
  */
 
 require_once __DIR__ . '/../config/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: SignUpH.html');
+    header('Location: ../LogIn/Login.html?tab=signup&role=hacker');
     exit;
 }
 
@@ -99,6 +99,6 @@ exit;
 
 function redirect_error(string $msg): never
 {
-    header('Location: SignUpH.html?error=' . urlencode($msg));
+    header('Location: ../LogIn/Login.html?tab=signup&role=hacker&error=' . urlencode($msg));
     exit;
 }

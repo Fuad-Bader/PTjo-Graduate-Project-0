@@ -3359,7 +3359,7 @@ document.addEventListener('keydown', e => {
                         issuer: c.issuing_org || c.issuer || '',
                         date:   c.issued_on ? c.issued_on.substring(0,7) : '',
                         credId: c.credential_id || c.credId || '',
-                        img:    c.badge_image_url || c.img || ''
+                        img:    c.image_url || c.badge_image_url || c.img || ''
                     };
                 });
                 renderCerts();
@@ -3536,7 +3536,15 @@ document.addEventListener('keydown', e => {
                     recommendation: r.recommendation || '',
                     createdAt:    r.created_at || '',
                     submittedBy:  getHackerProfileName(),
-                    agreedAmount: parseFloat(r.agreed_price_usd || 0)
+                    agreedAmount: parseFloat(r.agreed_price_usd || 0),
+                    files: (r.attachments || []).map(function(a) {
+                        return {
+                            name:    a.file_name,
+                            type:    a.mime_type,
+                            size:    a.size_bytes,
+                            dataUrl: '../uploads/attachments/' + a.storage_key
+                        };
+                    })
                 };
             });
             localStorage.setItem('ptjo_reports', JSON.stringify(reports));
@@ -3603,11 +3611,11 @@ document.addEventListener('keydown', e => {
         if (!last) return;
         try {
             await PTJO.hacker.addCertification({
-                cert_name:      last.name,
-                issuing_org:    last.issuer,
+                name:           last.name,
+                issuer:         last.issuer,
                 issued_on:      last.date ? last.date + '-01' : null,
                 credential_id:  last.credId || null,
-                badge_image_url: last.img || null
+                image_url:      last.img || null
             });
         } catch(e) { console.warn('[Bridge] addCertificate:', e); }
     };

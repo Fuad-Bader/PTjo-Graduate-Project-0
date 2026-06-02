@@ -2592,6 +2592,7 @@
                         hackerReviews:  parseInt(h.review_count) || 0,
                         hackerJobs:     parseInt(h.jobs_done) || 0,
                         hackerCerts:    (h.certifications || []).map(function(c){ return c.name || c; }),
+                        hackerPhone:    h.phone_e164 || '',
                         hackerBio:      h.bio || '',
                         hackerSpecialties: (h.skills || []).map(function(s){ return s.skill_code || s; }),
                         availability:   h.application_id ? 'Applied' : 'Available Now',

@@ -153,12 +153,13 @@ document.addEventListener('DOMContentLoaded', PTjoTheme.init);
         [data-theme="light"] ::-webkit-scrollbar-thumb      { background: #d1d5db !important; }
         [data-theme="light"] ::-webkit-scrollbar-thumb:hover{ background: #9ca3af !important; }
 
-        /* ── Gray-500/600 / Slate-600/700 backgrounds ──────────────── */
+        /* ── Gray-500 / Slate-600/700 backgrounds ──────────────────── */
+        /* (bg-gray-600 is intentionally NOT re-declared here — it is set
+            to #d1d5db above so gray-600 surfaces stay distinct from the
+            #f3f4f6 page background instead of blending into it.) */
         [data-theme="light"] .bg-gray-500                   { background-color: #e5e7eb !important; }
-        [data-theme="light"] .bg-gray-600,
-        [data-theme="light"] [class*="bg-gray-600"]         { background-color: #f3f4f6 !important; }
-        [data-theme="light"] .bg-slate-600                  { background-color: #f3f4f6 !important; }
-        [data-theme="light"] .bg-slate-700                  { background-color: #f3f4f6 !important; }
+        [data-theme="light"] .bg-slate-600                  { background-color: #e5e7eb !important; }
+        [data-theme="light"] .bg-slate-700                  { background-color: #e5e7eb !important; }
 
         /* ── Ad / Sponsor / Banner / Promo cards ───────────────────── */
         [data-theme="light"] .ad-banner-glass               { background: rgba(255,255,255,0.9) !important; background-image: none !important; border-color: rgba(13,148,136,0.2) !important; backdrop-filter: none !important; }

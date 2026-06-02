@@ -31,11 +31,16 @@
         var role = session.user.role;
         var root = _siteRoot();
 
-        /* Hide legacy dual-login buttons (public pages still using them) */
-        ['nav-hacker-btn', 'nav-customer-btn', 'nav-login-btn'].forEach(function(id) {
+        /* Hide login / signup buttons once authenticated
+           (also legacy dual-login buttons on older public pages) */
+        ['nav-hacker-btn', 'nav-customer-btn', 'nav-login-btn', 'nav-signup-btn'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) el.classList.add('hidden');
         });
+
+        /* Settings is only offered to authenticated users on public pages */
+        var sBtn = document.getElementById('nav-settings-btn');
+        if (sBtn) sBtn.classList.remove('hidden');
 
         /* Show / wire profile button */
         var pBtn = document.getElementById('nav-profile-btn');

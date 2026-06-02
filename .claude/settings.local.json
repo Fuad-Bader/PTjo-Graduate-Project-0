@@ -34,7 +34,18 @@
       "Bash(curl -s \"http://localhost:8080/api/hacker/get_reviews.php\" -H \"Cookie: PHPSESSID=a95f84b93f5a67648a0e84e21b3e9996\")",
       "Bash(export MSYS_NO_PATHCONV=1)",
       "Bash(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/__TRACKED_VAR__)",
-      "Bash(node /tmp/checkjs.mjs \"Settings/Settings.html\" \"My_ProfileHacker/MyProfile.html\")"
+      "Bash(node /tmp/checkjs.mjs \"Settings/Settings.html\" \"My_ProfileHacker/MyProfile.html\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\FuadBader\\\\Documents\\\\Github\\\\AAU\\\\PTjo-Graduate-Project-0\" -Recurse -Directory)",
+      "Bash(Select-Object -First 20)",
+      "Bash(Format-Table FullName)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\FuadBader\\\\Documents\\\\Github\\\\AAU\\\\PTjo-Graduate-Project-0\" -Recurse -Include \"*.html\", \"*.php\", \"*.js\" -File)",
+      "Bash(xargs grep -l \"attachments\\\\|frm-files\")",
+      "Bash(php -v)",
+      "Bash(curl -s \"http://localhost:8080/SignUp_Customer/SignupC.html\")",
+      "Bash(curl -s -i -X POST \"http://localhost:8080/LogIn/CheckLogin.php\" --data \"email=test@example.com&password=whatever\")",
+      "Bash(curl -s -I \"http://localhost:8080/SignUp_Customer/SignupC.html\")",
+      "Bash(curl -s \"http://localhost:8080/LogIn/Login.html\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8080/SignUp_Hacker/SignUpH.html\")"
     ]
   }
 }
