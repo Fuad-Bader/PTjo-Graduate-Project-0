@@ -1308,6 +1308,18 @@
         if (_origMarkRead) _origMarkRead();
     };
 
+    /* ── Override passJob (persist the dismissal so it stays hidden) ─────────── */
+    var _origPassJob = window.passJob;
+    window.passJob = async function (jobId) {
+        if (_origPassJob) _origPassJob(jobId);   // local removal + re-render + toast
+        if (/^[0-9a-f]{8}-/.test(String(jobId))) {
+            try {
+                var res = await PTJO.hacker.dismissBounty(jobId);
+                if (!res || !res.ok) PTJO.toast((res && res.error) || 'Could not skip the job.', 'error');
+            } catch(e) { console.warn('[Bridge] passJob:', e); }
+        }
+    };
+
 })();
 </script>
 </body>

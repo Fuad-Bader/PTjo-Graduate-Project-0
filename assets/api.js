@@ -110,6 +110,22 @@
     session() { return _session; },
     csrf()    { return _csrfToken; },
 
+    // ── Account / Settings (role-agnostic) ──────────────────────────────────────
+    /** Change the logged-in user's password. */
+    async changePassword(currentPassword, newPassword) {
+      return post('auth/change_password.php', { current_password: currentPassword, new_password: newPassword });
+    },
+    /** List active login sessions for the Active Sessions panel. */
+    async listSessions()        { return get('auth/list_sessions.php'); },
+    /** Revoke a single session by its user_sessions.id. */
+    async revokeSession(id)     { return post('auth/revoke_session.php', { session_id: id }); },
+    /** Sign out all other devices (keeps the current session). */
+    async signOutAllSessions()  { return post('auth/signout_all.php', {}); },
+    /** Fetch saved preferences (notification toggles, date/time format). */
+    async getPreferences()      { return get('auth/get_preferences.php'); },
+    /** Persist a single preference. */
+    async savePreference(key, value) { return post('auth/save_preference.php', { key: key, value: value }); },
+
     async logout() {
       await post('auth/logout.php', {});
       window.location.href = this.loginUrl();
@@ -175,6 +191,8 @@
       async applyBounty(bountyId, note) {
         return post('hacker/apply_bounty.php', { bounty_id: bountyId, availability_note: note || '' });
       },
+      /** Pass/dismiss a bounty so it stays hidden from the job list. */
+      async dismissBounty(bountyId) { return post('hacker/dismiss_bounty.php', { bounty_id: bountyId }); },
       async getApplications()        { return get('hacker/get_applications.php'); },
       async getMessages(engId)       { return get('hacker/get_messages.php', { engagement_id: engId }); },
       async sendMessage(engId, body) { return post('hacker/send_message.php', { engagement_id: engId, body: body }); },
@@ -193,6 +211,33 @@
       },
       async addCertification(data)   { return post('hacker/add_certification.php', data); },
       async deleteCertification(id)  { return post('hacker/delete_certification.php', { certification_id: id }); },
+      /** Upload a certification image. Returns { ok, image_url } — a short
+       *  web path to store as the certification's image_url. */
+      async uploadCertImage(file) {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res = await fetch(apiBase() + 'hacker/upload_cert_image.php', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': getCSRF() },
+          body: fd,
+        });
+        return res.json();
+      },
+      /** Upload the hacker's Resume / CV. Persists to the profile row. */
+      async uploadCV(file) {
+        const fd = new FormData();
+        fd.append('cv', file);
+        const res = await fetch(apiBase() + 'hacker/upload_cv.php', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': getCSRF() },
+          body: fd,
+        });
+        return res.json();
+      },
+      /** Remove the stored Resume / CV. */
+      async removeCV()               { return post('hacker/remove_cv.php', {}); },
       async uploadAttachments(reportId, files) {
         const results = [];
         for (const file of files) {

@@ -1379,7 +1379,8 @@ function addLangOnEnter(e) { if (e.key === 'Enter') { e.preventDefault(); addLan
 
 // ── Certifications ───────────────────────────────────
 let certs = [];
-let pendingCertImg = null;
+let pendingCertImg = null;      // base64 data URL — for instant local preview
+let pendingCertImgFile = null;  // the actual File — uploaded to the server so it persists
 
 function renderCerts() {
     const grid  = document.getElementById('cert-grid');
@@ -1418,6 +1419,7 @@ function formatDate(ym) {
 function previewCertImage(e) {
     const file = e.target.files[0];
     if (!file) return;
+    pendingCertImgFile = file;
     const reader = new FileReader();
     reader.onload = ev => {
         pendingCertImg = ev.target.result;
@@ -1446,6 +1448,7 @@ function addCertificate() {
     // Reset form
     ['cert-name','cert-issuer','cert-date','cert-id'].forEach(id => document.getElementById(id).value = '');
     pendingCertImg = null;
+    pendingCertImgFile = null;
     document.getElementById('cert-drop-content').classList.remove('hidden');
     document.getElementById('cert-img-preview').classList.add('hidden');
     document.getElementById('add-cert-form').classList.add('hidden');
@@ -1476,6 +1479,7 @@ function handleCertDrop(e) {
     handleDragLeave('cert-drop-zone');
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
+        pendingCertImgFile = file;
         const reader = new FileReader();
         reader.onload = ev => {
             pendingCertImg = ev.target.result;
@@ -1500,6 +1504,21 @@ function handleCVDrop(e) {
     const file = e.dataTransfer.files[0];
     if (file) processCVFile(file);
 }
+/** Show the "current CV" card and wire its Download button.
+ *  downloadUrl may be a server path (persists across reloads) or a local
+ *  object URL (instant, same-session preview while an upload is in flight). */
+function showCVCard(filename, sizeBytes, downloadUrl) {
+    document.getElementById('cv-filename').textContent = filename;
+    document.getElementById('cv-filesize').textContent = (sizeBytes / 1024).toFixed(0) + ' KB';
+    document.getElementById('cv-current').classList.remove('hidden');
+    document.getElementById('cv-drop-zone').classList.add('hidden');
+    const btn = document.getElementById('cv-download-btn');
+    btn.onclick = () => {
+        const a = document.createElement('a');
+        a.href = downloadUrl; a.download = filename;
+        document.body.appendChild(a); a.click(); a.remove();
+    };
+}
 function processCVFile(file) {
     const allowed = ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (!allowed.includes(file.type) && !file.name.match(/\.(pdf|doc|docx)$/i)) {
@@ -1509,22 +1528,47 @@ function processCVFile(file) {
         showToast('File exceeds 10MB limit.', 'warn'); return;
     }
     cvFile = file;
-    document.getElementById('cv-filename').textContent = file.name;
-    document.getElementById('cv-filesize').textContent = (file.size / 1024).toFixed(0) + ' KB';
-    document.getElementById('cv-current').classList.remove('hidden');
-    document.getElementById('cv-drop-zone').classList.add('hidden');
-    // Create a local object URL so "Download" works in the same session
-    const url = URL.createObjectURL(file);
-    const btn = document.getElementById('cv-download-btn');
-    btn.onclick = () => { const a = document.createElement('a'); a.href = url; a.download = file.name; a.click(); };
-    showToast('CV uploaded successfully!');
+    // Instant local preview while the upload runs.
+    showCVCard(file.name, file.size, URL.createObjectURL(file));
+
+    // Upload to the server so it persists in the database (and survives refresh).
+    if (window.PTJO && PTJO.hacker && PTJO.hacker.uploadCV) {
+        PTJO.hacker.uploadCV(file).then(function (res) {
+            if (res && res.ok && res.cv_url) {
+                if (window._hackerProfileData) {
+                    window._hackerProfileData.cv_url        = res.cv_url;
+                    window._hackerProfileData.cv_filename   = res.cv_filename;
+                    window._hackerProfileData.cv_size_bytes = res.cv_size_bytes;
+                }
+                // Repoint Download at the stored file so it works after a reload.
+                showCVCard(res.cv_filename, res.cv_size_bytes, res.cv_url);
+                showToast('CV uploaded successfully!');
+            } else {
+                removeCV(true);
+                showToast((res && res.error) || 'Upload failed. Please try again.', 'warn');
+            }
+        }).catch(function () {
+            removeCV(true);
+            showToast('Upload failed. Please try again.', 'warn');
+        });
+    } else {
+        showToast('CV uploaded successfully!');
+    }
 }
-function removeCV() {
+function removeCV(silent) {
     cvFile = null;
     document.getElementById('cv-current').classList.add('hidden');
     document.getElementById('cv-drop-zone').classList.remove('hidden');
     document.getElementById('cv-file-input').value = '';
-    showToast('CV removed.', 'warn');
+    if (window._hackerProfileData) {
+        window._hackerProfileData.cv_url        = null;
+        window._hackerProfileData.cv_filename   = null;
+        window._hackerProfileData.cv_size_bytes = null;
+    }
+    if (window.PTJO && PTJO.hacker && PTJO.hacker.removeCV) {
+        PTJO.hacker.removeCV().catch(function () {});
+    }
+    if (!silent) showToast('CV removed.', 'warn');
 }
 
 // ── Lightbox ─────────────────────────────────────────
@@ -3364,6 +3408,11 @@ document.addEventListener('keydown', e => {
                 });
                 renderCerts();
             }
+
+            /* Resume / CV — restore the previously-uploaded file, if any */
+            if (p.cv_url && typeof showCVCard === 'function') {
+                showCVCard(p.cv_filename || 'resume.pdf', p.cv_size_bytes || 0, p.cv_url);
+            }
         } catch(e) { console.warn('[Bridge] getProfile:', e); }
     }
 
@@ -3606,18 +3655,57 @@ document.addEventListener('keydown', e => {
     /* ── Override addCertificate to persist to API ───────────────────────────── */
     var _origAddCert = window.addCertificate;
     window.addCertificate = async function () {
+        // Capture the selected image File before _origAddCert resets it. The base64
+        // data URL in `last.img` is only for instant preview — it's far too large to
+        // store in the DB, so we upload the file and persist a short path instead.
+        var imgFile = (typeof pendingCertImgFile !== 'undefined') ? pendingCertImgFile : null;
         if (_origAddCert) _origAddCert();
         var last = certs[certs.length - 1];
         if (!last) return;
         try {
-            await PTJO.hacker.addCertification({
+            var imageUrl = null;
+            if (imgFile && PTJO.hacker.uploadCertImage) {
+                var up = await PTJO.hacker.uploadCertImage(imgFile);
+                if (up && up.ok && up.image_url) {
+                    imageUrl = up.image_url;
+                    // Point the rendered card at the stored file too, so it stays
+                    // consistent if the list re-renders this session.
+                    last.img = imageUrl;
+                    if (typeof renderCerts === 'function') renderCerts();
+                } else {
+                    showToast((up && up.error) || 'Certificate image upload failed.', 'warn');
+                }
+            } else if (last.img && last.img.indexOf('data:') !== 0) {
+                // Already a stored path (e.g. re-added) — keep it.
+                imageUrl = last.img;
+            }
+            var addRes = await PTJO.hacker.addCertification({
                 name:           last.name,
                 issuer:         last.issuer,
                 issued_on:      last.date ? last.date + '-01' : null,
                 credential_id:  last.credId || null,
-                image_url:      last.img || null
+                image_url:      imageUrl
             });
+            // Remember the server id so this cert can be deleted in the same
+            // session (without it, removeCert can't target the DB row).
+            if (addRes && addRes.ok && addRes.certification_id) {
+                last.id = addRes.certification_id;
+            }
         } catch(e) { console.warn('[Bridge] addCertificate:', e); }
+    };
+
+    /* ── Override removeCert to delete from the API ──────────────────────────── */
+    var _origRemoveCert = window.removeCert;
+    window.removeCert = async function (i) {
+        var cert = certs[i];
+        var id   = cert && cert.id;
+        if (_origRemoveCert) _origRemoveCert(i);   // local splice + re-render + toast
+        if (id) {
+            try {
+                var res = await PTJO.hacker.deleteCertification(id);
+                if (!res || !res.ok) showToast((res && res.error) || 'Server delete failed.', 'warn');
+            } catch(e) { console.warn('[Bridge] removeCert:', e); }
+        }
     };
 
     /* ── Override submitReport to also push to API ───────────────────────────── */

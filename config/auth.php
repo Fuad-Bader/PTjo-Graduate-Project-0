@@ -39,9 +39,78 @@ function csrf_verify(): void
     }
 }
 
+// ── Multi-session tracking (Settings → Active Sessions) ────────────────────────
+// All wrapped in try/catch so a missing user_sessions table (migration not yet
+// applied) silently degrades to the previous single-session behaviour.
+
+/** Record the current PHP session for a user (idempotent). */
+function session_track(string $userId): void
+{
+    try {
+        db()->prepare(
+            'INSERT INTO user_sessions (id, user_id, php_session_id, ip_address, user_agent)
+             VALUES (UUID(), ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE last_seen_at = NOW(), revoked_at = NULL, user_id = VALUES(user_id)'
+        )->execute([
+            $userId, session_id(),
+            $_SERVER['REMOTE_ADDR'] ?? null,
+            $_SERVER['HTTP_USER_AGENT'] ?? null,
+        ]);
+    } catch (Throwable) {}
+}
+
+/** Move the tracking row to a new session id after session_regenerate_id(). */
+function session_rekey(string $oldSid, string $newSid): void
+{
+    try {
+        db()->prepare('UPDATE user_sessions SET php_session_id = ? WHERE php_session_id = ?')
+            ->execute([$newSid, $oldSid]);
+    } catch (Throwable) {}
+}
+
+/**
+ * Enforce revocation: if the current session has been revoked from another
+ * device, tear it down. Lazily registers pre-existing sessions so logins that
+ * predate this feature keep working. Runs once per request via current_user().
+ */
+function session_enforce(): void
+{
+    static $done = false;
+    if ($done) return;
+    $done = true;
+
+    $uid = $_SESSION['user']['id'] ?? null;
+    if (!$uid) return;
+
+    try {
+        $pdo = db();
+        $st  = $pdo->prepare('SELECT revoked_at FROM user_sessions WHERE php_session_id = ? AND user_id = ? LIMIT 1');
+        $st->execute([session_id(), $uid]);
+        $row = $st->fetch();
+
+        if ($row === false) {
+            session_track($uid);          // lazy-register an untracked session
+            return;
+        }
+        if ($row['revoked_at'] !== null) {
+            // Revoked elsewhere — destroy this session.
+            $_SESSION = [];
+            if (ini_get('session.use_cookies')) {
+                $p = session_get_cookie_params();
+                setcookie(session_name(), '', time() - 42000, $p['path'] ?: '/', $p['domain'] ?? '', $p['secure'] ?? false, $p['httponly'] ?? true);
+            }
+            @session_destroy();
+            return;
+        }
+        $pdo->prepare('UPDATE user_sessions SET last_seen_at = NOW() WHERE php_session_id = ?')
+            ->execute([session_id()]);
+    } catch (Throwable) {}
+}
+
 // ── Auth guards ────────────────────────────────────────────────────────────────
 function current_user(): ?array
 {
+    session_enforce();
     return $_SESSION['user'] ?? null;
 }
 

@@ -454,39 +454,8 @@
                         </button>
                     </div>
 
-                    <div class="flex flex-col gap-3">
-                        <div class="session-card">
-                            <div class="w-10 h-10 rounded-xl bg-teal-600/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-laptop text-teal-400"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-white font-semibold text-sm">Windows — Chrome</p>
-                                <p class="text-gray-500 text-xs">Amman, Jordan · Current session</p>
-                            </div>
-                            <span class="text-xs bg-teal-500/15 text-teal-400 border border-teal-500/30 px-2.5 py-1 rounded-full font-bold flex-shrink-0">Active now</span>
-                        </div>
-
-                        <div class="session-card">
-                            <div class="w-10 h-10 rounded-xl bg-gray-700/60 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-mobile-screen text-gray-400"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-white font-semibold text-sm">Android — PTjo App</p>
-                                <p class="text-gray-500 text-xs">Riyadh, Saudi Arabia · 2 days ago</p>
-                            </div>
-                            <button onclick="revokeSession(this)" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors flex-shrink-0">Revoke</button>
-                        </div>
-
-                        <div class="session-card">
-                            <div class="w-10 h-10 rounded-xl bg-gray-700/60 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-desktop text-gray-400"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-white font-semibold text-sm">macOS — Safari</p>
-                                <p class="text-gray-500 text-xs">Dubai, UAE · 5 days ago</p>
-                            </div>
-                            <button onclick="revokeSession(this)" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors flex-shrink-0">Revoke</button>
-                        </div>
+                    <div id="sessions-list" class="flex flex-col gap-3">
+                        <p class="text-gray-500 text-sm py-4 text-center">Loading sessions…</p>
                     </div>
                 </div>
 
@@ -594,6 +563,10 @@ function applyFontSize(val) {
 /* ── Generic pref saver ── */
 function savePref(key, value) {
     localStorage.setItem('ptjo_' + key, value);
+    // Persist server-side too (notification toggles + date/time format).
+    if (window.PTJO && PTJO.savePreference) {
+        PTJO.savePreference(key, value).catch(function () {});
+    }
     showToast('Preference saved.');
 }
 
@@ -634,7 +607,7 @@ function checkStrength(pw) {
 }
 
 /* ── Change password ── */
-function changePassword(e) {
+async function changePassword(e) {
     e.preventDefault();
     const oldPw  = document.getElementById('old-pw').value;
     const newPw  = document.getElementById('new-pw').value;
@@ -642,23 +615,97 @@ function changePassword(e) {
     if (!oldPw || !newPw || !confPw) { showToast('Please fill in all fields.', true); return; }
     if (newPw !== confPw) { showToast('New passwords do not match.', true); return; }
     if (newPw.length < 8)  { showToast('Password must be at least 8 characters.', true); return; }
-    showToast('Password updated successfully!');
-    e.target.reset();
-    document.getElementById('strength-fill').style.width = '0%';
-    document.getElementById('strength-text').textContent = '';
+    if (!window.PTJO || !PTJO.changePassword) { showToast('Not signed in.', true); return; }
+    try {
+        const res = await PTJO.changePassword(oldPw, newPw);
+        if (res && res.ok) {
+            showToast('Password updated successfully!');
+            e.target.reset();
+            document.getElementById('strength-fill').style.width = '0%';
+            document.getElementById('strength-text').textContent = '';
+        } else {
+            showToast((res && res.error) || 'Could not update password.', true);
+        }
+    } catch (err) {
+        showToast('Network error. Please try again.', true);
+    }
 }
 
-/* ── Sessions ── */
-function revokeSession(btn) {
-    const card = btn.closest('.session-card');
-    card.style.opacity = '0';
-    card.style.transform = 'translateX(20px)';
-    card.style.transition = 'all .3s';
-    setTimeout(() => card.remove(), 300);
-    showToast('Session revoked.');
+/* ── Active sessions ── */
+function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
 }
-function signOutAll() {
-    showToast('Signed out from all devices.');
+function relTime(ts) {
+    if (!ts) return '';
+    var then = new Date(String(ts).replace(' ', 'T'));
+    if (isNaN(then)) return '';
+    var secs = Math.max(0, (Date.now() - then.getTime()) / 1000);
+    if (secs < 60)    return 'Just now';
+    if (secs < 3600)  return Math.floor(secs / 60) + ' min ago';
+    if (secs < 86400) return Math.floor(secs / 3600) + ' hr ago';
+    return Math.floor(secs / 86400) + ' days ago';
+}
+function deviceIcon(device) {
+    var d = String(device || '').toLowerCase();
+    if (d.indexOf('android') > -1 || d.indexOf('ios') > -1) return 'fa-mobile-screen';
+    if (d.indexOf('macos') > -1)   return 'fa-desktop';
+    return 'fa-laptop';
+}
+async function loadSessions() {
+    var list = document.getElementById('sessions-list');
+    if (!list || !window.PTJO || !PTJO.listSessions) return;
+    try {
+        var res = await PTJO.listSessions();
+        if (!res || !res.ok) { list.innerHTML = '<p class="text-gray-500 text-sm py-4 text-center">Could not load sessions.</p>'; return; }
+        var sessions = res.sessions || [];
+        if (!sessions.length) { list.innerHTML = '<p class="text-gray-500 text-sm py-4 text-center">No active sessions.</p>'; return; }
+        list.innerHTML = sessions.map(function (s) {
+            var iconWrap = s.current ? 'bg-teal-600/20' : 'bg-gray-700/60';
+            var iconColor = s.current ? 'text-teal-400' : 'text-gray-400';
+            var meta = escapeHtml(s.ip) + ' · ' + (s.current ? 'Current session' : relTime(s.last_seen));
+            var action = s.current
+                ? '<span class="text-xs bg-teal-500/15 text-teal-400 border border-teal-500/30 px-2.5 py-1 rounded-full font-bold flex-shrink-0">Active now</span>'
+                : '<button onclick="revokeSession(\'' + escapeHtml(s.id) + '\')" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors flex-shrink-0">Revoke</button>';
+            return '<div class="session-card" data-session-id="' + escapeHtml(s.id) + '">' +
+                '<div class="w-10 h-10 rounded-xl ' + iconWrap + ' flex items-center justify-center flex-shrink-0">' +
+                '<i class="fas ' + deviceIcon(s.device) + ' ' + iconColor + '"></i></div>' +
+                '<div class="flex-1 min-w-0"><p class="text-white font-semibold text-sm">' + escapeHtml(s.device) + '</p>' +
+                '<p class="text-gray-500 text-xs">' + meta + '</p></div>' + action + '</div>';
+        }).join('');
+    } catch (err) {
+        list.innerHTML = '<p class="text-gray-500 text-sm py-4 text-center">Could not load sessions.</p>';
+    }
+}
+async function revokeSession(id) {
+    if (!window.PTJO || !PTJO.revokeSession) return;
+    try {
+        var res = await PTJO.revokeSession(id);
+        if (res && res.ok) {
+            if (res.current_revoked) {
+                showToast('Signed out of this device.');
+                setTimeout(function () { window.location.href = PTJO.loginUrl(); }, 800);
+                return;
+            }
+            showToast('Session revoked.');
+            loadSessions();
+        } else {
+            showToast((res && res.error) || 'Could not revoke session.', true);
+        }
+    } catch (err) { showToast('Network error. Please try again.', true); }
+}
+async function signOutAll() {
+    if (!window.PTJO || !PTJO.signOutAllSessions) return;
+    try {
+        var res = await PTJO.signOutAllSessions();
+        if (res && res.ok) {
+            showToast(res.revoked ? ('Signed out from ' + res.revoked + ' other device(s).') : 'No other active sessions.');
+            loadSessions();
+        } else {
+            showToast((res && res.error) || 'Could not sign out other devices.', true);
+        }
+    } catch (err) { showToast('Network error. Please try again.', true); }
 }
 
 /* ── Toast ── */
@@ -735,7 +782,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/* ── Apply server-stored preferences over the local snapshot ── */
+async function loadPreferences() {
+    if (!window.PTJO || !PTJO.getPreferences) return;
+    try {
+        const res = await PTJO.getPreferences();
+        if (!res || !res.ok) return;
+        const p = res.preferences || {};
+        ['new_job','engagement','messages','security','marketing'].forEach(function (k) {
+            const key = 'notif_' + k;
+            if (key in p) {
+                localStorage.setItem('ptjo_' + key, p[key]);
+                document.querySelectorAll('input[onchange*="' + key + '"]').forEach(function (i) { i.checked = !!p[key]; });
+            }
+        });
+        if (p.date_format) {
+            localStorage.setItem('ptjo_date_format', p.date_format);
+            const el = document.getElementById('date-format'); if (el) el.value = p.date_format;
+        }
+        if (p.time_format) {
+            localStorage.setItem('ptjo_time_format', String(p.time_format));
+            document.querySelectorAll('input[name="time-format"]').forEach(function (r) { r.checked = r.value === String(p.time_format); });
+        }
+    } catch (e) {}
+}
+
+/* ── Bootstrap PTJO: auth (for csrf), preferences, and active sessions ── */
+document.addEventListener('DOMContentLoaded', function () {
+    if (!window.PTJO || !PTJO.init) return;
+    PTJO.init().then(function (session) {
+        if (!session) return;   // PTJO.init redirects to login when unauthenticated
+        if (window.ptjoUpdateNav) try { ptjoUpdateNav(session); } catch (e) {}
+        loadPreferences();
+        loadSessions();
+    });
+});
+
 </script>
+<script>window.PTJO_API_BASE = '../api/';</script>
+<script src="../assets/api.js"></script>
 <script src="../assets/nav-auth.js"></script>
 <script src="../assets/lang.js"></script>
 <script src="../assets/settings-panel.js"></script>

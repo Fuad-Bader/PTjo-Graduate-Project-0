@@ -1541,6 +1541,12 @@
                 });
                 localStorage.setItem('ptjo_notifications_customer', JSON.stringify(notifs));
                 loadCustomerNotifs();
+                // Persist read-state server-side. (The bridge override at the bottom was
+                // attached to markNotificationsRead, which no button calls — so the API
+                // was never actually hit from this, the real, button handler.)
+                if (window.PTJO && PTJO.customer && PTJO.customer.markNotificationRead) {
+                    PTJO.customer.markNotificationRead(null, true).catch(function () {});
+                }
             };
 
             var currentReviewReportId = '';
@@ -1855,6 +1861,13 @@
                 });
                 localStorage.setItem('ptjo_notifications_hacker', JSON.stringify(hackerNotifs));
 
+                // Persist the edit request server-side (money-free status change).
+                if (/^[0-9a-f]{8}-/.test(String(currentReviewReportId)) && window.PTJO && PTJO.customer) {
+                    PTJO.customer.approveReport({ report_id: currentReviewReportId, approved: false, edit_note: note })
+                        .then(function () { if (typeof loadReportsReal === 'function') loadReportsReal(); })
+                        .catch(function () {});
+                }
+
                 closeReportReviewModal();
                 renderCustomerReports();
                 showToast('Edit request sent to hacker.');
@@ -2005,6 +2018,19 @@
                 reports[idx].paymentCard = card ? card.label : (method === 'wallet' ? 'Wallet' : '');
                 reports[idx].awaitingReviewAfterPayment = true;
                 localStorage.setItem('ptjo_reports', JSON.stringify(reports));
+
+                // Persist the report APPROVAL server-side (money-free: approve_report.php
+                // records approval + payment label only — it does NOT move funds). Actual
+                // payment/engagement-completion is a separate flow and is intentionally NOT
+                // triggered here to avoid debiting the real wallet from this legacy path.
+                if (/^[0-9a-f]{8}-/.test(String(currentReviewReportId)) && window.PTJO && PTJO.customer) {
+                    PTJO.customer.approveReport({
+                        report_id: currentReviewReportId,
+                        approved: true,
+                        payment_method: method,
+                        payment_card_label: reports[idx].paymentCard
+                    }).catch(function () {});
+                }
 
                 closePaymentModal();
                 openReviewModal(currentReviewReportId);

@@ -1811,6 +1811,18 @@
             }
         };
 
+        /* ── Override cancelOrder to persist the cancellation to the API ──────── */
+        var _origCancelOrder = window.cancelOrder;
+        window.cancelOrder = async function (id) {
+            if (_origCancelOrder) _origCancelOrder(id);   // local status flip + re-render + toast
+            if (/^[0-9a-f]{8}-/i.test(String(id))) {
+                try {
+                    var res = await PTJO.customer.cancelEngagement(id);
+                    if (!res || !res.ok) showToast((res && res.error) || 'Server cancel failed.', 'warn');
+                } catch(e) { console.warn('[Bridge] cancelOrder:', e); }
+            }
+        };
+
     })();
     </script>
 </body>

@@ -22,8 +22,10 @@ $sql = '
     FROM bounty_requests br
     LEFT JOIN customer_profiles cp ON cp.user_id = br.customer_id
     WHERE br.status = "open"
+      AND NOT EXISTS(SELECT 1 FROM hacker_dismissed_bounties hd
+                     WHERE hd.bounty_id = br.id AND hd.hacker_id = ?)
 ';
-$params = [$user['id']];
+$params = [$user['id'], $user['id']];
 
 if ($skill) {
     $sql     .= ' AND br.service_key = ?';

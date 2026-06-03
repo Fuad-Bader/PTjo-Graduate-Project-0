@@ -45,7 +45,12 @@
       "Bash(curl -s -i -X POST \"http://localhost:8080/LogIn/CheckLogin.php\" --data \"email=test@example.com&password=whatever\")",
       "Bash(curl -s -I \"http://localhost:8080/SignUp_Customer/SignupC.html\")",
       "Bash(curl -s \"http://localhost:8080/LogIn/Login.html\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8080/SignUp_Hacker/SignUpH.html\")"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8080/SignUp_Hacker/SignUpH.html\")",
+      "Bash(MSYS_NO_PATHCONV=1 docker compose exec -T web php -l /var/www/html/api/hacker/upload_cv.php)",
+      "Bash(MSYS_NO_PATHCONV=1 docker compose exec -T web php -l /var/www/html/api/hacker/upload_cert_image.php)",
+      "Bash(xargs wc -l)",
+      "Bash(grep -rn 'password_verify\\\\|password_hash\\\\|password_hash\\\\|$_SESSION\\\\|session_start\\\\|setcookie' config LogIn api/auth)",
+      "Bash(MSYS_NO_PATHCONV=1 docker compose exec -T web bash -c 'for f in config/auth.php LogIn/CheckLogin.php api/auth/logout.php api/auth/change_password.php api/auth/list_sessions.php api/auth/revoke_session.php api/auth/signout_all.php api/auth/get_preferences.php api/auth/save_preference.php api/hacker/dismiss_bounty.php api/hacker/get_bounties.php; do php -l /var/www/html/$f; done')"
     ]
   }
 }

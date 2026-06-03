@@ -60,6 +60,9 @@ $_SESSION['user'] = [
 ];
 $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
+// Track this device as an active session (for Settings → Active Sessions).
+session_track($user['id']);
+
 audit('login', 'users', $user['id']);
 
 // ── Redirect to dashboard ─────────────────────────────────────────────────────
